@@ -344,5 +344,56 @@
         "galicia": "All of Galicia"
       }
     }
+  },
+  "exceptions": {
+    "forecast_update_failed": {
+      "message": "Could not update the forecast for {location}: {error}"
+    },
+    "meteosix_invalid_key": {
+      "message": "MeteoSIX does not accept the saved key."
+    },
+    "meteosix_update_failed": {
+      "message": "Could not update MeteoSIX: {error}"
+    },
+    "radar_update_failed": {
+      "message": "Could not query the radar: {error}"
+    },
+    "radar_no_scans": {
+      "message": "The radar has no published scans."
+    },
+    "radar_no_frames": {
+      "message": "Could not download any radar scan."
+    },
+    "station_update_failed": {
+      "message": "Could not read the station {station}: {error}"
+    },
+    "cameras_update_failed": {
+      "message": "Could not query the cameras: {error}"
+    }
+  },
+  "issues": {
+    "station_stale": {
+      "title": "The station for {location} is not sending data",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Choose another station",
+            "description": "The station {station}, for the location **{location}**, has not sent data since {since}. Its sensors stay «Unknown» and the current weather comes from the forecast.\n\nChoose another station, or leave the field empty to use none. You can ignore this notice if you prefer to wait for it to come back: it goes away by itself when the station sends data again.",
+            "data": {
+              "station_id": "Weather station"
+            },
+            "data_description": {
+              "station_id": "From nearest to farthest. Each one shows whether it lacks wind or pressure, or is not sending data now."
+            }
+          }
+        },
+        "error": {
+          "cannot_connect": "Could not connect to MeteoGalicia to get the list of stations. Try again in a few minutes."
+        },
+        "abort": {
+          "location_removed": "That location no longer exists."
+        }
+      }
+    }
   }
 }

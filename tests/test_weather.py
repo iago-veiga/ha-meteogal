@@ -189,6 +189,9 @@ async def test_forecast_unavailable_retries_setup(
 
     assert entry.state is ConfigEntryState.SETUP_RETRY
     assert hass.states.get(ENTITY_ID) is None
+    # El motivo, traducido (exception-translations).
+    assert entry.reason is not None
+    assert entry.reason.startswith("Could not update the forecast for Santiago de")
 
 
 async def test_unavailable_after_failed_update(

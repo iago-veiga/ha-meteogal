@@ -11,11 +11,11 @@ Funciona **sin clave**, con los servicios públicos de MeteoGalicia. Si quieres 
 ## Contenido
 
 - [Qué ofrece](#qué-ofrece)
-- [Instalación](#instalación) y [configuración](#configuración)
+- [Instalación](#instalación), [configuración](#configuración) y [cómo quitarlo](#quitar-meteogal)
 - Funciones: [el tiempo](#el-tiempo), [avisos](#avisos), [radar](#radar), [estación](#estación), [cámara](#cámara), [MeteoSIX](#clave-de-meteosix-opcional)
-- [Todas las opciones](#todas-las-opciones)
+- [Todas las opciones](#todas-las-opciones) y [cada cuánto se actualiza](#cada-cuánto-se-actualiza)
 - [Ejemplos](#ejemplos)
-- [Limitaciones](#limitaciones) e [informar de un problema](#informar-de-un-problema)
+- [Limitaciones](#limitaciones), [problemas frecuentes](#problemas-frecuentes) e [informar de un problema](#informar-de-un-problema)
 
 ## Qué ofrece
 
@@ -83,6 +83,14 @@ Estación meteorológica
 La más cercana sigue siendo la propuesta: suele parecerse más en temperatura y lluvia. Si quieres también el viento y la presión, elige otra; o quédate con ella: la entidad del tiempo tomará viento y presión de MeteoSIX, si tienes clave. Las marcas salen de la última lectura de cada estación: una que tenga ese día el anemómetro averiado saldrá «sin viento».
 
 Para añadir más ubicaciones o cambiar una, entra en la integración y usa **Añadir ubicación** o **Cambiar ubicación** (con los mismos dos pasos; si no cambias de concello, se respeta lo que tenías elegido). Las opciones del radar están en **Configurar** y la clave de MeteoSIX en **Reconfigurar**: resumen en [todas las opciones](#todas-las-opciones).
+
+## Quitar MeteoGal
+
+- **Una ubicación:** Ajustes → Dispositivos y servicios → **MeteoGal** → en la ubicación, menú ⋮ → **Eliminar**. Se borran su dispositivo y sus entidades; las demás ubicaciones siguen igual.
+- **Toda la integración:** en la misma pantalla, menú ⋮ de la entrada MeteoGal → **Eliminar**. Se borran todas las ubicaciones, sus entidades y la clave de MeteoSIX.
+- **Los ficheros:** con HACS, busca MeteoGal, menú ⋮ → **Eliminar** y reinicia Home Assistant. Instalado a mano, borra la carpeta `/config/custom_components/meteogal` y reinicia.
+
+Las automatizaciones y tarjetas que usaban entidades de MeteoGal no se borran solas: revísalas.
 
 ## El tiempo
 
@@ -156,6 +164,7 @@ Si eliges una estación, sus medidas aparecen como sensores en el dispositivo de
 - Justo después de medianoche, MeteoGalicia publica el día nuevo sin valores todavía: los sensores «de hoy» quedan en «Desconocido» un rato, hasta que llegan los primeros datos del día.
 - Una lectura con el viento exactamente a cero en todo (velocidad, racha y variación) se toma como dato ausente, no como calma: pasa a veces en estaciones que el resto del día miden bien.
 - La estación también puede alimentar el [tiempo actual](#el-tiempo) (opción de la ubicación).
+- **Si la estación deja de enviar datos durante más de un día**, Home Assistant lo avisa en **Ajustes → Reparaciones**: «La estación de A Coruña no envía datos». Al abrir el aviso puedes elegir otra estación, de la más cercana a la más lejana y con lo que le falta a cada una, o dejarla vacía para no usar ninguna. Si prefieres esperar, no hagas nada: el aviso desaparece solo cuando la estación vuelve a enviar.
 
 Detalle en [docs/estaciones.md](docs/estaciones.md).
 
@@ -219,6 +228,20 @@ Home Assistant te avisa arriba del todo en **Ajustes**, como una reparación: «
 | Entrada MeteoGal → **Reconfigurar** | Clave de MeteoSIX | Clave o vacío | Sin clave |
 
 Además, en cada entidad puedes activar las que vienen desactivadas (Ajustes → Entidades).
+
+## Cada cuánto se actualiza
+
+MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
+
+| Fuente | Cada cuánto | Qué trae | Si falla |
+|---|---|---|---|
+| Previsión, observación y avisos del concello | 30 minutos | Previsión diaria y por horas, estado actual del concello, avisos | La entidad del tiempo queda «No disponible» hasta que responda. Si fallan solo los avisos, la observación o el medio plazo, se mantiene lo último bueno |
+| Estación | 10 minutos (publica cada 10, con ~5 de retraso) | Lectura de 10 minutos y datos de hoy | Sus sensores quedan «No disponible»; el tiempo actual usa MeteoSIX o la observación del concello |
+| MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
+| Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
+| Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
+
+Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguiente consulta. Al arrancar Home Assistant, si MeteoGalicia no responde, Home Assistant reintenta la configuración él solo.
 
 ## Ejemplos
 
@@ -304,6 +327,21 @@ value_template: >
 - **Con clave, la previsión diaria solo gana lluvia y viento:** MeteoSIX llega a 4 días y no trae probabilidad de lluvia ni índice UV.
 - **La estación no está en tu casa:** mide donde está (a 6 km de mediana del centro de cada concello, hasta 18 km). Por eso su uso en el tiempo actual es opcional.
 - **Radar:** muestra lo observado, no lo que va a llover; lejos del radar (el este de Ourense y Lugo) puede no ver la lluvia débil.
+
+## Problemas frecuentes
+
+| Qué ves | Por qué | Qué hacer |
+|---|---|---|
+| No aparecen los sensores de viento o de presión de la estación | Solo se crean los de lo que mide tu estación, y muchas no miden viento ni presión | Reconfigura la ubicación (**Cambiar ubicación**) y elige otra: la lista indica «sin viento» o «sin presión» |
+| Los sensores de la estación están en «Desconocido» | La última lectura tiene más de 1 hora: la estación ha dejado de enviar | Espera. Si pasa de un día, aparecerá un aviso en **Reparaciones** para elegir otra |
+| Los sensores «de hoy» están en «Desconocido» justo después de medianoche | MeteoGalicia publica el día nuevo antes de tener datos | Nada: se rellenan con la primera lectura del día |
+| No tengo «Lluvia esta hora» ni «Próxima lluvia» | Necesitan la clave de MeteoSIX | [Añade la clave](#clave-de-meteosix-opcional) |
+| «Autenticación caducada para MeteoGal» en Ajustes | MeteoSIX ya no acepta tu clave | [Cambia la clave o quítala](#si-la-clave-deja-de-valer) |
+| El radar está «No disponible» | El servidor del radar de MeteoGalicia no responde | Nada: vuelve solo; el resto de MeteoGal funciona |
+| En el radar no se ve la lluvia en el este de Ourense o Lugo | Está lejos del radar y la lluvia débil no llega a verse | Es una [limitación](#limitaciones) del radar |
+| La entidad del tiempo está «No disponible» | MeteoGalicia no responde | Nada: se reintenta cada 30 minutos |
+
+Para ver qué pasa por dentro, activa el registro de depuración: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Habilitar el registro de depuración**. Al desactivarlo, Home Assistant te descarga el registro.
 
 ## Informar de un problema
 

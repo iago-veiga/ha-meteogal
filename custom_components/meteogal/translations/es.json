@@ -344,5 +344,56 @@
         "galicia": "Toda Galicia"
       }
     }
+  },
+  "exceptions": {
+    "forecast_update_failed": {
+      "message": "No se pudo actualizar la previsión de {location}: {error}"
+    },
+    "meteosix_invalid_key": {
+      "message": "MeteoSIX no acepta la clave guardada."
+    },
+    "meteosix_update_failed": {
+      "message": "No se pudo actualizar MeteoSIX: {error}"
+    },
+    "radar_update_failed": {
+      "message": "No se pudo consultar el radar: {error}"
+    },
+    "radar_no_scans": {
+      "message": "El radar no tiene pasadas publicadas."
+    },
+    "radar_no_frames": {
+      "message": "No se pudo descargar ninguna pasada del radar."
+    },
+    "station_update_failed": {
+      "message": "No se pudo leer la estación {station}: {error}"
+    },
+    "cameras_update_failed": {
+      "message": "No se pudo consultar las cámaras: {error}"
+    }
+  },
+  "issues": {
+    "station_stale": {
+      "title": "La estación de {location} no envía datos",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Elegir otra estación",
+            "description": "La estación {station}, de la ubicación **{location}**, no envía datos desde el {since}. Sus sensores quedan «Desconocido» y el tiempo actual sale de la previsión.\n\nElige otra estación, o deja el campo vacío para no usar ninguna. Puedes cerrar este aviso si prefieres esperar a que vuelva: desaparece solo cuando la estación envía datos de nuevo.",
+            "data": {
+              "station_id": "Estación meteorológica"
+            },
+            "data_description": {
+              "station_id": "De la más cercana a la más lejana. Junto a cada una se indica si no mide viento o presión, o si no envía datos ahora."
+            }
+          }
+        },
+        "error": {
+          "cannot_connect": "No se pudo conectar con MeteoGalicia para obtener la lista de estaciones. Inténtalo de nuevo en unos minutos."
+        },
+        "abort": {
+          "location_removed": "Esa ubicación ya no existe."
+        }
+      }
+    }
   }
 }

@@ -7,6 +7,7 @@ sin nada más. El estado de la entidad es la hora de la última pasada.
 from __future__ import annotations
 
 from homeassistant.components.image import ImageEntity
+from homeassistant.config_entries import ConfigSubentry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -47,7 +48,9 @@ class RadarImage(CoordinatorEntity[RadarCoordinator], ImageEntity):
     _attr_has_entity_name = True
     _attr_attribution = ATTRIBUTION
 
-    def __init__(self, coordinator: RadarCoordinator, subentry, key: str) -> None:
+    def __init__(
+        self, coordinator: RadarCoordinator, subentry: ConfigSubentry, key: str
+    ) -> None:
         CoordinatorEntity.__init__(self, coordinator)
         ImageEntity.__init__(self, coordinator.hass)
         self._subentry_id = subentry.subentry_id
@@ -82,7 +85,7 @@ class RadarAnimation(RadarImage):
 
     _attr_content_type = "image/webp"
 
-    def __init__(self, coordinator: RadarCoordinator, subentry) -> None:
+    def __init__(self, coordinator: RadarCoordinator, subentry: ConfigSubentry) -> None:
         super().__init__(coordinator, subentry, "radar")
 
     async def async_image(self) -> bytes | None:
@@ -96,7 +99,7 @@ class RadarLatest(RadarImage):
     _attr_content_type = "image/png"
     _attr_entity_registry_enabled_default = False
 
-    def __init__(self, coordinator: RadarCoordinator, subentry) -> None:
+    def __init__(self, coordinator: RadarCoordinator, subentry: ConfigSubentry) -> None:
         super().__init__(coordinator, subentry, "radar_latest")
 
     async def async_image(self) -> bytes | None:
@@ -115,7 +118,10 @@ class CameraImage(CoordinatorEntity[CameraCoordinator], ImageEntity):
     _attr_translation_key = "camera"
 
     def __init__(
-        self, coordinator: CameraCoordinator, subentry, camera_id: str | int
+        self,
+        coordinator: CameraCoordinator,
+        subentry: ConfigSubentry,
+        camera_id: str | int,
     ) -> None:
         CoordinatorEntity.__init__(self, coordinator)
         ImageEntity.__init__(self, coordinator.hass)

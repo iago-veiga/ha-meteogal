@@ -65,6 +65,15 @@ Si la lectura de todas falla, la lista queda sin marcas y sin aviso: es una ayud
 
 Con **Usar la estación para el tiempo actual** (dato de la ubicación `station_weather`, por defecto sí), la entidad `weather` toma de la estación, si su lectura es reciente: temperatura, humedad, presión, punto de rocío, racha y viento (velocidad y rumbo solo si están los dos). Si falta algo, sigue con MeteoSIX o con la observación del concello (orden completo en el README). El cielo nunca sale de la estación. Es lo mismo que hace AEMET en el núcleo de HA (allí sin opción).
 
+## Estación que deja de enviar (reparación)
+
+Si la última lectura de la estación tiene **más de un día**, se abre un aviso en Ajustes → Reparaciones (`repairs.py`): «La estación de A Coruña no envía datos», con la estación y desde cuándo. Pasa de verdad: el 2026-09-28, Marroxo llevaba sin enviar desde el 19 y Serra do Faro desde el 23; el servicio sigue devolviendo esa última lectura vieja, con su hora.
+
+- Al arreglarlo se ofrece la lista de estaciones con sus marcas; la propuesta es la más cercana que envía datos, sin contar la actual. Vacía, la ubicación se queda sin estación. Se guarda en la ubicación y MeteoGal se recarga.
+- El aviso se cierra solo cuando la estación vuelve a enviar, al quitar la estación o la ubicación, y al borrar MeteoGal.
+- Un día y no una hora: una estación puede pasar horas sin enviar (mantenimiento) y no hace falta molestar. Mientras tanto, los sensores ya quedan «Desconocido» a la hora.
+- Si el servicio no devuelve ninguna lectura, no se avisa: no se sabe desde cuándo.
+
 ## Cámara
 
 Dato de la ubicación `camera_id` (o ninguno): la **carpeta de la foto** (`Corunha`, `Onsplaya`…), no el identificador, porque Ons (playa y puerto) y Cíes (faro norte y sur) tienen dos cámaras con el mismo identificador. En la configuración se ofrecen las 33 cámaras de la más cercana a la más lejana; por defecto, la de la estación elegida si comparten identificador (si tiene dos, la primera) (19 de las 33 cámaras están en una estación). Entidad `image` con `image_url` de la foto grande y `image_last_updated` con su hora: cuando cambia la hora, se vacía la caché y HA descarga la foto nueva.

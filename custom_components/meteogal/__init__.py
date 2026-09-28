@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_API_KEY, Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import config_validation as cv, issue_registry as ir
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
@@ -21,6 +21,7 @@ from .coordinator import (
     RadarCoordinator,
     StationCoordinator,
 )
+from .repairs import ISSUE_PREFIX, async_clean_issues
 from .services import async_setup_services
 
 PLATFORMS = [Platform.IMAGE, Platform.SENSOR, Platform.WEATHER]
@@ -91,6 +92,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
     if any(subentry.data.get(CONF_CAMERA_ID) for subentry in locations):
         cameras = CameraCoordinator(hass, entry, client)
         await cameras.async_refresh()
+    async_clean_issues(hass, entry)
     entry.runtime_data = MeteoGalData(
         locations=coordinators,
         meteosix=meteosix,
@@ -107,6 +109,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
 async def async_unload_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> bool:
     """Descarga MeteoGal."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
+
+async def async_remove_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> None:
+    """Al borrar MeteoGal, sus avisos de reparación también."""
+    for subentry_id in entry.subentries:
+        ir.async_delete_issue(hass, DOMAIN, f"{ISSUE_PREFIX}{subentry_id}")
 
 
 async def _async_reload(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> None:

@@ -13,3 +13,10 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
 force-sort-within-sections = true
 known-first-party = ["custom_components"]
 combine-as-imports = true
+
+# Tipado estricto, como el de las integraciones del núcleo (strict-typing).
+[tool.mypy]
+python_version = "3.14"
+strict = true
+warn_unreachable = true
+disallow_any_generics = true

@@ -12,8 +12,8 @@ from datetime import UTC, date, datetime, time, timedelta
 from homeassistant.components.weather import (
     Forecast,
     SingleCoordinatorWeatherEntity,
-    WeatherEntityFeature,
 )
+from homeassistant.components.weather.const import WeatherEntityFeature
 from homeassistant.const import (
     UnitOfPrecipitationDepth,
     UnitOfPressure,
@@ -203,7 +203,7 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
         bearing = measured.get(station.WIND_BEARING)
         if speed is None or bearing is None:
             return None
-        return _round(speed * MS_TO_KMH), bearing
+        return round(speed * MS_TO_KMH, 1), bearing
 
     @property
     def humidity(self) -> float | None:
@@ -310,7 +310,7 @@ def _from_meteosix(hours: list[MeteoSixHour], start: datetime) -> list[Forecast]
                 native_wind_speed=_round(hour.wind_speed),
                 wind_bearing=hour.wind_bearing,
                 humidity=hour.humidity,
-                cloud_coverage=following.cloud_coverage,
+                cloud_coverage=_percent(following.cloud_coverage),
                 native_pressure=hour.pressure,
             )
         )
@@ -333,22 +333,32 @@ def _add_meteosix_day(
     first = max(midnight, start).astimezone(UTC)
     periods = [first + timedelta(hours=n) for n in range(int((end - first) / ONE_HOUR))]
     by_time = {hour.time: hour for hour in hours}
-    rain = [by_time.get(period + ONE_HOUR) for period in periods]
-    if not periods or any(hour is None or hour.precipitation is None for hour in rain):
+    rain = [
+        hour.precipitation if (hour := by_time.get(period + ONE_HOUR)) else None
+        for period in periods
+    ]
+    if not periods or any(amount is None for amount in rain):
         return
-    day["native_precipitation"] = round(sum(hour.precipitation for hour in rain), 1)
+    day["native_precipitation"] = round(
+        sum(amount for amount in rain if amount is not None), 1
+    )
     windy = max(
         (
             by_time[period]
             for period in periods
             if period in by_time and by_time[period].wind_speed is not None
         ),
-        key=lambda hour: hour.wind_speed,
+        key=lambda hour: hour.wind_speed or 0.0,
         default=None,
     )
     if windy:
         day["native_wind_speed"] = _round(windy.wind_speed)
         day["wind_bearing"] = windy.wind_bearing
+
+
+def _percent(value: float | None) -> int | None:
+    """Nubosidad entera, como la pide la previsión de HA (MeteoSIX da 43,75)."""
+    return None if value is None else round(value)
 
 
 def _round(value: float | None) -> float | None:
@@ -389,7 +399,9 @@ def _precipitation_probability(day: MediumTermForecast) -> int | None:
     return min(
         100,
         sum(
-            s.probability for s in known if condition(s.sky) in PRECIPITATION_CONDITIONS
+            s.probability or 0
+            for s in known
+            if condition(s.sky) in PRECIPITATION_CONDITIONS
         ),
     )
 

@@ -7,6 +7,7 @@ necesario para ver qué fuente falla y con qué datos está trabajando cada una.
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any
 
 from homeassistant.components.diagnostics import async_redact_data
@@ -104,7 +105,7 @@ def _location(entry: MeteoGalConfigEntry, subentry_id: str) -> dict[str, Any]:
     return result
 
 
-def _status(coordinator: DataUpdateCoordinator) -> dict[str, Any]:
+def _status(coordinator: DataUpdateCoordinator[Any]) -> dict[str, Any]:
     return {
         "last_update_success": coordinator.last_update_success,
         "last_update": str(getattr(coordinator, "last_update_success_time", None)),
@@ -115,7 +116,7 @@ def _status(coordinator: DataUpdateCoordinator) -> dict[str, Any]:
     }
 
 
-def _range(times: list) -> dict[str, Any]:
+def _range(times: list[datetime]) -> dict[str, Any]:
     return {
         "count": len(times),
         "first": str(times[0]) if times else None,

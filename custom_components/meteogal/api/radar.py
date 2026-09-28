@@ -80,7 +80,7 @@ class RadarClient:
     ) -> bytes:
         """PNG en grises y con transparencia de una pasada, para el recuadro."""
         when = when.astimezone(UTC)
-        return await self._get(
+        frame = await self._get(
             when.date(),
             "png",
             service="WMS",
@@ -101,6 +101,7 @@ class RadarClient:
             belowmincolor="transparent",
             abovemaxcolor="extend",
         )
+        return bytes(frame)
 
     async def _get(self, file_day: date, kind: str, **params: Any) -> Any:
         url = f"{self._base_url}/PPI_{file_day:%Y%m%d}_10m.nc"

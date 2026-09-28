@@ -19,7 +19,7 @@ from homeassistant.const import (
     UnitOfLength,
     UnitOfPrecipitationDepth,
 )
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
@@ -27,7 +27,7 @@ from homeassistant.util import dt as dt_util
 from . import MeteoGalConfigEntry
 from .api import MeteoSixHour, WeatherWarning
 from .const import ATTRIBUTION
-from .coordinator import StationCoordinator
+from .coordinator import LocationCoordinator, StationCoordinator, StationData
 from .entity import ONE_HOUR, MeteoSixEntity, WarningsEntity, location_device, rain
 from .geo import distance_km
 from .station import SENSORS, TODAY, StationSensor, clean, sensor_keys
@@ -86,7 +86,7 @@ def _add_station_sensors(
 
     @callback
     def add() -> bool:
-        data = station.data
+        data: StationData | None = station.data
         if data is None:
             return False
         # Lo que mide la estación. Sin datos de hoy todavía (justo después de
@@ -106,7 +106,7 @@ def _add_station_sensors(
 
     if add():
         return
-    remove = None
+    remove: CALLBACK_TYPE | None = None
 
     @callback
     def on_update() -> None:
@@ -147,7 +147,7 @@ class StationValueSensor(StationEntity, SensorEntity):
 
     @property
     def native_value(self) -> float | None:
-        data = self.coordinator.data
+        data: StationData | None = self.coordinator.data
         if data is None:
             return None
         description = self._description
@@ -212,7 +212,9 @@ class WarningLevelSensor(WarningsEntity, SensorEntity):
     _attr_options = LEVEL_OPTIONS
     _unrecorded_attributes = frozenset({MATCH_ALL})
 
-    def __init__(self, coordinator, key: str, select: WarningSelector) -> None:
+    def __init__(
+        self, coordinator: LocationCoordinator, key: str, select: WarningSelector
+    ) -> None:
         super().__init__(coordinator, key)
         self._select = select
 
@@ -245,7 +247,9 @@ class WarningCountSensor(WarningsEntity, SensorEntity):
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_registry_enabled_default = False
 
-    def __init__(self, coordinator, key: str, select: WarningSelector) -> None:
+    def __init__(
+        self, coordinator: LocationCoordinator, key: str, select: WarningSelector
+    ) -> None:
         super().__init__(coordinator, key)
         self._select = select
 

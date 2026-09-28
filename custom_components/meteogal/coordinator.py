@@ -48,6 +48,7 @@ from .const import (
 )
 from .geo import load_polygons
 from .radar import Marker, RadarRenderer, animation, area_around, galicia_area, still
+from .repairs import async_check_station
 from .station import MAX_AGE
 
 if TYPE_CHECKING:
@@ -109,23 +110,22 @@ class LocationCoordinator(TimestampDataUpdateCoordinator[LocationData]):
             return_exceptions=True,
         )
         # Sin previsión diaria u horaria no hay nada que mostrar.
-        for result in (daily, hourly):
-            if isinstance(result, BaseException):
-                raise UpdateFailed(f"MeteoGalicia: {result}") from result
+        if isinstance(daily, BaseException):
+            raise self._failed(daily) from daily
+        if isinstance(hourly, BaseException):
+            raise self._failed(hourly) from hourly
 
+        # Lo demás es complemento: si falla, se sigue con lo último bueno.
         previous = self.data
-        if isinstance(medium_term, MeteoGalError):
-            _LOGGER.debug("Sin medio plazo para %s: %s", concello, medium_term)
+        if isinstance(medium_term, BaseException):
+            self._keep(medium_term, "medio plazo")
             medium_term = previous.medium_term if previous else []
-        if isinstance(observation, MeteoGalError):
-            _LOGGER.debug("Sin observación para %s: %s", concello, observation)
+        if isinstance(observation, BaseException):
+            self._keep(observation, "observación")
             observation = previous.observation if previous else None
-        if isinstance(warnings, MeteoGalError):
-            _LOGGER.debug("Sin avisos para %s: %s", concello, warnings)
+        if isinstance(warnings, BaseException):
+            self._keep(warnings, "avisos")
             warnings = previous.warnings if previous else []
-        for result in (medium_term, observation, warnings):
-            if isinstance(result, BaseException):
-                raise result
 
         return LocationData(
             observation=observation,
@@ -134,6 +134,22 @@ class LocationCoordinator(TimestampDataUpdateCoordinator[LocationData]):
             medium_term=medium_term,
             warnings=warnings,
         )
+
+    def _failed(self, err: BaseException) -> UpdateFailed:
+        return UpdateFailed(
+            translation_domain=DOMAIN,
+            translation_key="forecast_update_failed",
+            translation_placeholders={
+                "location": self.subentry.title,
+                "error": str(err),
+            },
+        )
+
+    def _keep(self, err: BaseException, what: str) -> None:
+        """Un error de la API se registra y se sigue; cualquier otro, se lanza."""
+        if not isinstance(err, MeteoGalError):
+            raise err
+        _LOGGER.debug("Sin %s para %s: %s", what, self.concello_id, err)
 
 
 class MeteoSixCoordinator(
@@ -185,9 +201,15 @@ class MeteoSixCoordinator(
                     if hours
                 )
         except MeteoSixAuthError as err:
-            raise ConfigEntryAuthFailed(str(err)) from err
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN, translation_key="meteosix_invalid_key"
+            ) from err
         except MeteoGalError as err:
-            raise UpdateFailed(f"MeteoSIX: {err}") from err
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="meteosix_update_failed",
+                translation_placeholders={"error": str(err)},
+            ) from err
 
         for subentry_id, hours in data.items():
             _LOGGER.debug(
@@ -287,10 +309,16 @@ class RadarCoordinator(TimestampDataUpdateCoordinator[dict[str, RadarImages]]):
                 times += await self._client.get_times(day)
             except MeteoGalError as err:
                 if day != now.date() or len(days) == 1:
-                    raise UpdateFailed(f"Radar: {err}") from err
+                    raise UpdateFailed(
+                        translation_domain=DOMAIN,
+                        translation_key="radar_update_failed",
+                        translation_placeholders={"error": str(err)},
+                    ) from err
                 _LOGGER.debug("Aún no hay radar de hoy: %s", err)
         if not times:
-            raise UpdateFailed("Radar: sin pasadas publicadas")
+            raise UpdateFailed(
+                translation_domain=DOMAIN, translation_key="radar_no_scans"
+            )
         return times
 
     def select_times(self, times: list[datetime]) -> list[datetime]:
@@ -341,7 +369,9 @@ class RadarCoordinator(TimestampDataUpdateCoordinator[dict[str, RadarImages]]):
                 animation=animation(frames), latest=still(frames[-1]), time=last
             )
         if not result:
-            raise UpdateFailed("Radar: no se pudo descargar ninguna pasada")
+            raise UpdateFailed(
+                translation_domain=DOMAIN, translation_key="radar_no_frames"
+            )
         return result
 
 
@@ -388,6 +418,10 @@ class StationCoordinator(TimestampDataUpdateCoordinator[StationData]):
         self.station: Station | None = None
         self._client = client
 
+    @property
+    def station_name(self) -> str:
+        return self.station.name if self.station else str(self.station_id)
+
     async def _async_update_data(self) -> StationData:
         if self.station is None:
             try:
@@ -404,12 +438,29 @@ class StationCoordinator(TimestampDataUpdateCoordinator[StationData]):
             return_exceptions=True,
         )
         if isinstance(reading, BaseException):
-            raise UpdateFailed(f"Estación {self.station_id}: {reading}") from reading
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="station_update_failed",
+                translation_placeholders={
+                    "station": self.station.name
+                    if self.station
+                    else str(self.station_id),
+                    "error": str(reading),
+                },
+            ) from reading
         if isinstance(day, MeteoGalError):
             _LOGGER.debug("Sin datos de hoy de %s: %s", self.station_id, day)
             day = self.data.day if self.data else None
         elif isinstance(day, BaseException):
             raise day
+        async_check_station(
+            self.hass,
+            self.config_entry,
+            self.subentry,
+            self.station_name,
+            reading,
+            dt_util.utcnow(),
+        )
         return StationData(reading=reading, day=day)
 
 
@@ -438,7 +489,11 @@ class CameraCoordinator(TimestampDataUpdateCoordinator[dict[str, Camera]]):
         try:
             cameras = await self._client.get_cameras()
         except MeteoGalError as err:
-            raise UpdateFailed(f"Cámaras: {err}") from err
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="cameras_update_failed",
+                translation_placeholders={"error": str(err)},
+            ) from err
         return {camera.key: camera for camera in cameras}
 
     def find(self, camera_id: str | int | None) -> Camera | None:

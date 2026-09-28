@@ -123,7 +123,7 @@ _GAP_TEXTS: Final = {
 
 
 @dataclass(slots=True)
-class _Candidate:
+class Candidate:
     """Lo deducido de un punto, para rellenar el paso de confirmación."""
 
     latitude: float
@@ -139,9 +139,9 @@ class _Candidate:
     gaps: dict[int, frozenset[str]]
 
 
-async def _async_candidate(
+async def async_candidate(
     hass: HomeAssistant, latitude: float, longitude: float, errors: dict[str, str]
-) -> _Candidate | None:
+) -> Candidate | None:
     """Deduce concello y estaciones de un punto, o rellena `errors`."""
     locator, toponyms = await hass.async_add_executor_job(_load_data)
     concello_id = locator.locate(latitude, longitude)
@@ -189,7 +189,7 @@ async def _async_candidate(
         _LOGGER.debug("No se pudo obtener la lectura de las estaciones: %s", err)
         readings = []
     gaps = station_gaps(readings, (station.id for station in stations))
-    return _Candidate(
+    return Candidate(
         latitude, longitude, concello_id, toponyms, ranked, ranked_cameras, gaps
     )
 
@@ -241,13 +241,22 @@ def _gap_what(texts: Mapping[str, str], gaps: frozenset[str]) -> str | None:
     return names[0] if names else None
 
 
-def _confirm_schema(hass: HomeAssistant, candidate: _Candidate) -> vol.Schema:
+def _toponym(candidate: Candidate, concello_id: int | None) -> str:
+    """Concello de una estación; las de fuera de los contornos, «?»."""
+    if concello_id is None:
+        return "?"
+    return candidate.toponyms.get(concello_id, "?")
+
+
+def station_options(
+    hass: HomeAssistant, candidate: Candidate
+) -> list[SelectOptionDict]:
+    """Estaciones de la más cercana a la más lejana, con lo que le falta a cada una."""
     texts = _GAP_TEXTS[_language(hass)]
-    concellos = sorted(candidate.toponyms.items(), key=lambda item: _sort_key(item[1]))
     stations = []
     for station, concello_id, distance in candidate.stations:
         label = (
-            f"{station.name} ({candidate.toponyms.get(concello_id, '?')}) · "
+            f"{station.name} ({_toponym(candidate, concello_id)}) · "
             f"{_km(hass, distance)} km"
         )
         gap = _gap_text(texts, candidate.gaps.get(station.id, frozenset()))
@@ -256,6 +265,12 @@ def _confirm_schema(hass: HomeAssistant, candidate: _Candidate) -> vol.Schema:
                 value=str(station.id), label=f"{label} · {gap}" if gap else label
             )
         )
+    return stations
+
+
+def _confirm_schema(hass: HomeAssistant, candidate: Candidate) -> vol.Schema:
+    concellos = sorted(candidate.toponyms.items(), key=lambda item: _sort_key(item[1]))
+    stations = station_options(hass, candidate)
     cameras = [
         SelectOptionDict(
             value=camera.key,
@@ -294,7 +309,7 @@ def _confirm_schema(hass: HomeAssistant, candidate: _Candidate) -> vol.Schema:
 
 
 def _confirm_placeholders(
-    hass: HomeAssistant, candidate: _Candidate, suggested: Mapping[str, Any]
+    hass: HomeAssistant, candidate: Candidate, suggested: Mapping[str, Any]
 ) -> dict[str, str]:
     return {
         "concello": candidate.toponyms[candidate.concello_id],
@@ -303,7 +318,7 @@ def _confirm_placeholders(
 
 
 def _station_note(
-    hass: HomeAssistant, candidate: _Candidate, suggested: Mapping[str, Any]
+    hass: HomeAssistant, candidate: Candidate, suggested: Mapping[str, Any]
 ) -> str:
     """Aviso si la estación propuesta es la más cercana y le falta algo que otra
     cercana sí da: «La estación más cercana, Torre de Hércules, no mide viento ni
@@ -364,7 +379,7 @@ def _sort_key(name: str) -> str:
     return name.casefold()
 
 
-def _location_data(candidate: _Candidate, user_input: dict[str, Any]) -> dict:
+def _location_data(candidate: Candidate, user_input: dict[str, Any]) -> dict[str, Any]:
     station = user_input.get(CONF_STATION_ID)
     camera = user_input.get(CONF_CAMERA_ID)
     return {
@@ -397,7 +412,7 @@ class MeteoGalConfigFlow(ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
-    _candidate: _Candidate
+    _candidate: Candidate
 
     @override
     async def async_step_user(
@@ -407,7 +422,7 @@ class MeteoGalConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         if user_input is not None:
             location = user_input[CONF_LOCATION]
-            candidate = await _async_candidate(
+            candidate = await async_candidate(
                 self.hass, location[CONF_LATITUDE], location[CONF_LONGITUDE], errors
             )
             if candidate:
@@ -565,7 +580,7 @@ class MeteoGalOptionsFlow(OptionsFlow):
 class LocationSubentryFlow(ConfigSubentryFlow):
     """Añadir o reconfigurar una ubicación."""
 
-    _candidate: _Candidate
+    _candidate: Candidate
 
     @property
     def _is_new(self) -> bool:
@@ -589,7 +604,7 @@ class LocationSubentryFlow(ConfigSubentryFlow):
                 exclude.subentry_id if exclude else None,
             ):
                 return self.async_abort(reason="already_configured")
-            candidate = await _async_candidate(
+            candidate = await async_candidate(
                 self.hass, location[CONF_LATITUDE], location[CONF_LONGITUDE], errors
             )
             if candidate:
@@ -661,7 +676,7 @@ class LocationSubentryFlow(ConfigSubentryFlow):
     async_step_reconfigure = async_step_location
 
 
-def _camera_key(candidate: _Candidate, camera_id: str | int) -> str:
+def _camera_key(candidate: Candidate, camera_id: str | int) -> str:
     """Clave de la cámara guardada; antes se guardaba el identificador numérico."""
     if any(camera.key == camera_id for camera, _ in candidate.cameras):
         return str(camera_id)
@@ -671,7 +686,7 @@ def _camera_key(candidate: _Candidate, camera_id: str | int) -> str:
     )
 
 
-def _suggested(candidate: _Candidate) -> dict[str, Any]:
+def _suggested(candidate: Candidate) -> dict[str, Any]:
     """Concello del punto, estación más cercana usada para el tiempo actual y, si
     esa estación tiene cámara (comparten identificador), su cámara."""
     suggested: dict[str, Any] = {

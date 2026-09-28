@@ -213,7 +213,9 @@ def _colorize(gray: Image.Image) -> Image.Image:
     )
 
 
-def _draw_marker(draw: ImageDraw.ImageDraw, xy: tuple[float, float], main: bool):
+def _draw_marker(
+    draw: ImageDraw.ImageDraw, xy: tuple[float, float], main: bool
+) -> None:
     x, y = xy
     if main:
         draw.ellipse(

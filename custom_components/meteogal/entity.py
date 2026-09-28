@@ -49,7 +49,7 @@ def rain(hours: list[MeteoSixHour], start: datetime, count: int) -> float | None
         return None
     # Dos decimales, como MeteoSIX: la suma no arrastra restos de coma flotante y
     # el umbral de lluvia compara con el valor real (la pantalla muestra uno).
-    return round(sum(values), 2)
+    return round(sum(value for value in values if value is not None), 2)
 
 
 class MeteoSixEntity(CoordinatorEntity[MeteoSixCoordinator]):

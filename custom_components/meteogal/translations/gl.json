@@ -344,5 +344,56 @@
         "galicia": "Toda Galicia"
       }
     }
+  },
+  "exceptions": {
+    "forecast_update_failed": {
+      "message": "Non se puido actualizar a predición de {location}: {error}"
+    },
+    "meteosix_invalid_key": {
+      "message": "MeteoSIX non acepta a clave gardada."
+    },
+    "meteosix_update_failed": {
+      "message": "Non se puido actualizar MeteoSIX: {error}"
+    },
+    "radar_update_failed": {
+      "message": "Non se puido consultar o radar: {error}"
+    },
+    "radar_no_scans": {
+      "message": "O radar non ten pasadas publicadas."
+    },
+    "radar_no_frames": {
+      "message": "Non se puido descargar ningunha pasada do radar."
+    },
+    "station_update_failed": {
+      "message": "Non se puido ler a estación {station}: {error}"
+    },
+    "cameras_update_failed": {
+      "message": "Non se puideron consultar as cámaras: {error}"
+    }
+  },
+  "issues": {
+    "station_stale": {
+      "title": "A estación de {location} non envía datos",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Escoller outra estación",
+            "description": "A estación {station}, da localización **{location}**, non envía datos dende o {since}. Os seus sensores quedan «Descoñecido» e o tempo actual sae da predición.\n\nEscolle outra estación, ou deixa o campo baleiro para non usar ningunha. Podes pechar este aviso se prefires agardar a que volva: desaparece só cando a estación envía datos de novo.",
+            "data": {
+              "station_id": "Estación meteorolóxica"
+            },
+            "data_description": {
+              "station_id": "Da máis próxima á máis afastada. Xunto a cada unha indícase se non mide vento ou presión, ou se non envía datos agora."
+            }
+          }
+        },
+        "error": {
+          "cannot_connect": "Non se puido conectar con MeteoGalicia para obter a lista de estacións. Téntao de novo nuns minutos."
+        },
+        "abort": {
+          "location_removed": "Esa localización xa non existe."
+        }
+      }
+    }
   }
 }

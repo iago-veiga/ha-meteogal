@@ -11,6 +11,7 @@ from homeassistant.config_entries import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -208,6 +209,22 @@ async def test_add_location(hass: HomeAssistant, entry: MockConfigEntry) -> None
     assert result["title"] == "Vigo"
     assert result["data"]["concello_id"] == 36057
     assert len(entry.subentries) == 2
+
+
+async def test_remove_location_removes_device(
+    hass: HomeAssistant, entry: MockConfigEntry
+) -> None:
+    """stale-devices: cada ubicación es una subentrada con su dispositivo."""
+    devices = dr.async_get(hass)
+    entities = er.async_get(hass)
+    assert dr.async_entries_for_config_entry(devices, entry.entry_id)
+    (subentry_id,) = entry.subentries
+
+    hass.config_entries.async_remove_subentry(entry, subentry_id)
+    await hass.async_block_till_done()
+
+    assert not dr.async_entries_for_config_entry(devices, entry.entry_id)
+    assert not er.async_entries_for_config_entry(entities, entry.entry_id)
 
 
 async def test_add_same_location(hass: HomeAssistant, entry: MockConfigEntry) -> None:
