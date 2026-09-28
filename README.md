@@ -4,7 +4,7 @@ Integración personalizada de Home Assistant con los datos de [MeteoGalicia](htt
 
 Funciona **sin clave**, con los servicios públicos de MeteoGalicia. Si quieres más detalle, como la lluvia y el viento por hora, puedes añadir una [clave de MeteoSIX](#clave-de-meteosix-opcional), gratuita y opcional.
 
-> **Estado:** primera versión en preparación. Todavía no está publicada en HACS.
+> Aún no está en la lista por defecto de HACS: se instala como [repositorio personalizado](#con-hacs).
 
 ![Radar de MeteoGalicia en MeteoGal: las últimas 2 horas alrededor de A Coruña](docs/images/radar.webp)
 
@@ -16,6 +16,7 @@ Funciona **sin clave**, con los servicios públicos de MeteoGalicia. Si quieres 
 - [Todas las opciones](#todas-las-opciones) y [cada cuánto se actualiza](#cada-cuánto-se-actualiza)
 - [Ejemplos](#ejemplos)
 - [Limitaciones](#limitaciones), [problemas frecuentes](#problemas-frecuentes) e [informar de un problema](#informar-de-un-problema)
+- [Documentación técnica](#documentación-técnica)
 
 ## Qué ofrece
 
@@ -348,6 +349,27 @@ Para ver qué pasa por dentro, activa el registro de depuración: Ajustes → Di
 Abre una incidencia en [GitHub](https://github.com/iago-veiga/ha-meteogal/issues) y adjunta los **diagnósticos**: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Descargar diagnósticos**.
 
 El fichero dice, para cada fuente (previsión y avisos, estación, MeteoSIX, radar y cámara), si su última actualización fue bien, cuándo y con qué datos está trabajando (por ejemplo, la última lectura de la estación o cuántas horas da MeteoSIX). **No incluye tu clave de MeteoSIX ni las coordenadas de tus ubicaciones**, que suelen ser tu casa: aparecen como `**REDACTED**`. Tampoco lleva imágenes.
+
+## Documentación técnica
+
+Cómo funciona cada parte, con las decisiones tomadas y los datos con que se validaron:
+
+- [Diseño](docs/diseno.md): principios, estructura y decisiones.
+- [El tiempo](docs/weather.md), [avisos](docs/avisos.md), [radar](docs/radar.md), [estación y cámara](docs/estaciones.md).
+- [Servicios de MeteoGalicia](docs/api.md) que usa MeteoGal.
+- [Concello a partir de coordenadas](docs/concello-por-coordenadas.md) y [nombres de concello](docs/toponimos.md).
+
+Para trabajar en el código (Python 3.14):
+
+```sh
+python -m venv .venv && . .venv/bin/activate
+pip install -r requirements_test.txt
+ruff check . && ruff format --check .
+mypy custom_components/meteogal
+pytest
+```
+
+Los tests usan respuestas reales de MeteoGalicia guardadas en `tests/api/fixtures/`: no necesitan red ni clave.
 
 ## Versiones
 

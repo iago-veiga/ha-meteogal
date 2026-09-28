@@ -20,6 +20,6 @@ El CSV no trae código INE y da los nombres en mayúsculas con el artículo detr
 
 Resultado: `custom_components/meteogal/data/toponimos.json`, cargado con `load_toponyms()`. Por la licencia CC BY-SA, ese fichero se distribuye con la misma licencia (ver `NOTICE`); el código sigue en Apache 2.0.
 
-## Pendiente
+## Nombres de estación y de cámara
 
-- Nombres de estación: los da MeteoGalicia ("Coruña-Torre de Hércules") y no hay fuente oficial alternativa. Revisarlos cuando se muestren.
+Los da MeteoGalicia («Coruña-Torre de Hércules», «Porto de Vigo») y no hay otra fuente oficial: se muestran tal cual en la configuración, en los atributos y en las reparaciones. El concello que acompaña a cada estación o cámara en las listas sí sale del Nomenclátor, por su código.

@@ -1,6 +1,6 @@
 # Estación y cámara de cada ubicación
 
-Fecha: 2026-09-27. Uso para el usuario en el README (secciones «Estación», «Cámara» y «El tiempo»).
+Fechas: 2026-09-27 y 28. Uso para el usuario en el README (secciones «Estación», «Cámara» y «El tiempo»).
 
 ## Fuentes (sin clave)
 
@@ -9,7 +9,7 @@ Fecha: 2026-09-27. Uso para el usuario en el README (secciones «Estación», «
 | `observacion/ultimos10minEstacionsMeteo.action?idEst=` | Última lectura de 10 min (hora en UTC) | Cada 10 min, ~5 min de retraso |
 | `observacion/ultimos10minEstacionsMeteo.action` (sin `idEst`) | La última lectura de las 166 estaciones (~320 KB, 0,2 s), solo al elegir la estación | Al abrir el formulario |
 | `observacion/datosDiariosEstacionsMeteo.action?idEst=` | Acumulados y extremos de hoy hasta ahora | Con cada lectura |
-| `observacion/listaEstacionsMeteo.action` | Nombre y coordenadas (una vez, para el diagnóstico) | — |
+| `observacion/listaEstacionsMeteo.action` | Nombre y coordenadas: para la lista de la configuración y de la reparación, y una vez al arrancar para el diagnóstico | Al abrir el formulario y al arrancar |
 | `observacion/jsonCamaras.action` | Las 33 cámaras con la URL y la hora de su última foto | Cada ~5 min |
 
 Cada medida trae un código de validación: se aceptan **0** (sin validar, lo más reciente), **1** (válido) y **5** (interpolado); se descartan 2 (sospechoso), 3 (erróneo) y 9 (no registrado). Una estación inexistente o sin datos devuelve listas vacías.
@@ -76,7 +76,7 @@ Si la última lectura de la estación tiene **más de un día**, se abre un avis
 
 ## Cámara
 
-Dato de la ubicación `camera_id` (o ninguno): la **carpeta de la foto** (`Corunha`, `Onsplaya`…), no el identificador, porque Ons (playa y puerto) y Cíes (faro norte y sur) tienen dos cámaras con el mismo identificador. En la configuración se ofrecen las 33 cámaras de la más cercana a la más lejana; por defecto, la de la estación elegida si comparten identificador (si tiene dos, la primera) (19 de las 33 cámaras están en una estación). Entidad `image` con `image_url` de la foto grande y `image_last_updated` con su hora: cuando cambia la hora, se vacía la caché y HA descarga la foto nueva.
+Dato de la ubicación `camera_id` (o ninguno): la **carpeta de la foto** (`Corunha`, `Onsplaya`…), no el identificador, porque Ons (playa y puerto) y Cíes (faro norte y sur) tienen dos cámaras con el mismo identificador. En la configuración se ofrecen las 33 cámaras de la más cercana a la más lejana; por defecto, la de la estación elegida si comparten identificador; si tiene dos, la primera. 19 de las 33 cámaras están en una estación. Entidad `image` con `image_url` de la foto grande y `image_last_updated` con su hora: cuando cambia la hora, se vacía la caché y HA descarga la foto nueva.
 
 ## Pendiente
 

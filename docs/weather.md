@@ -39,8 +39,8 @@ La clave suma, no sustituye: las mismas entidades y `unique_id`, solo se rellena
 | Dato | Con clave |
 |---|---|
 | Estado actual: cielo y temperatura | Igual que sin clave (lo medido en el concello) |
-| Estado actual: humedad, presión, nubosidad | Hora de MeteoSIX más cercana a ahora (a menos de una hora) |
-| Estado actual: viento | Velocidad **y** rumbo de MeteoSIX, para no mezclar fuentes en el mismo dato |
+| Estado actual: humedad, presión, nubosidad | Hora de MeteoSIX más cercana a ahora (a menos de una hora), si la estación no los mide |
+| Estado actual: viento | Velocidad **y** rumbo de MeteoSIX si la estación no da los dos, para no mezclar fuentes en el mismo dato |
 | Previsión por horas | Entera de MeteoSIX desde su primera hora útil; antes (a veces la hora en curso), de la pública. Hasta una hora antes del final de MeteoSIX (ver abajo): hoy, el día +4 a la 01:00 |
 | Previsión diaria | Igual que sin clave, y en los días que MeteoSIX cubre enteros (hoy desde la hora en curso, y hasta el día +3) se añaden la **lluvia total** (mm) y el **viento máximo** con el rumbo de esa misma hora |
 
@@ -55,7 +55,7 @@ Home Assistant (como met.no) espera en cada hora lo de la hora que empieza, así
 
 **Hasta dónde llega MeteoSIX.** El modelo de 1 km sale de la pasada de las 00:00 UTC (lista hacia las 09:30 hora local) y prevé 96 horas: termina a las 00:00 UTC del día +4, que son las 02:00 en horario de verano y la 01:00 en invierno. Como la última hora se descarta, la previsión por horas acaba a la 01:00 (verano) o a las 00:00 (invierno) del día +4. El día +3 queda completo en los dos casos. Comprobado con las capturas del 2026-09-27 (pasada 00:00Z, última hora 00:00Z del 1 de octubre, 96 h). Antes de que salga la pasada del día (hasta ~09:30), MeteoSIX da la del día anterior y el alcance es un día menos.
 
-**Velocidades con un decimal.** MeteoSIX da dos, que no aportan nada.
+**Velocidades con un decimal y nubosidad entera.** MeteoSIX da dos decimales en la velocidad, que no aportan nada, y la nubosidad con decimales (43,75 %); la previsión de HA la pide entera. En el estado actual se deja tal cual.
 
 **Estados del cielo de MeteoSIX** → los mismos criterios que el código público equivalente (el nombre del icono lo dice: `nubes75` → x04, `cuberto` → x05…), en `codes.py`. Día o noche, del icono (`.../night/...`). `STORM_THEN_CLOUDY` → `lightning`, como "tormenta con pocas nubes".
 
