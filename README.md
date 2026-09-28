@@ -1,49 +1,53 @@
 # MeteoGal
 
+[![HACS personalizado](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz)
+[![Versión](https://img.shields.io/github/v/release/iago-veiga/ha-meteogal)](https://github.com/iago-veiga/ha-meteogal/releases)
+[![Tests](https://github.com/iago-veiga/ha-meteogal/actions/workflows/tests.yml/badge.svg)](https://github.com/iago-veiga/ha-meteogal/actions/workflows/tests.yml)
+[![Validación HACS](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hacs.yml/badge.svg)](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hacs.yml)
+[![Hassfest](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hassfest.yml/badge.svg)](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hassfest.yml)
+[![Licencia](https://img.shields.io/github/license/iago-veiga/ha-meteogal)](LICENSE)
+
 Integración personalizada de Home Assistant con los datos de [MeteoGalicia](https://www.meteogalicia.gal) para cualquier concello de Galicia: previsión, avisos, radar, estaciones y cámaras.
 
 Funciona **sin clave**, con los servicios públicos de MeteoGalicia. Si quieres más detalle, como la lluvia y el viento por hora, puedes añadir una [clave de MeteoSIX](#clave-de-meteosix-opcional), gratuita y opcional.
 
-> Aún no está en la lista por defecto de HACS: se instala como [repositorio personalizado](#con-hacs).
+[![Abrir MeteoGal en HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iago-veiga&repository=ha-meteogal&category=integration)
 
 ![Radar de MeteoGalicia en MeteoGal: las últimas 2 horas alrededor de A Coruña](docs/images/radar.webp)
 
+## Para qué sirve
+
+- Ver el tiempo de tu concello con la previsión oficial de MeteoGalicia, hecha concello a concello.
+- Enterarte de los avisos de MeteoGalicia (amarillo, naranja, rojo) en cuanto se emiten y automatizar con ellos: cerrar toldos con viento, avisar al móvil.
+- Ver llegar la lluvia en el radar, sin salir de Home Assistant.
+- Usar lo medido en la estación más cercana: no regar si ya llovió, temperatura del agua en el puerto, heladas.
+- Con clave de MeteoSIX, saber cuántos litros van a caer esta hora y cuándo empieza a llover.
+
 ## Contenido
 
-- [Qué ofrece](#qué-ofrece)
-- [Instalación](#instalación), [configuración](#configuración) y [cómo quitarlo](#quitar-meteogal)
-- Funciones: [el tiempo](#el-tiempo), [avisos](#avisos), [radar](#radar), [estación](#estación), [cámara](#cámara), [MeteoSIX](#clave-de-meteosix-opcional)
-- [Todas las opciones](#todas-las-opciones) y [cada cuánto se actualiza](#cada-cuánto-se-actualiza)
-- [Ejemplos](#ejemplos)
+- [Requisitos](#requisitos), [instalación](#instalación) y [configuración](#configuración), con [todas las opciones](#todas-las-opciones)
+- [Qué ofrece](#qué-ofrece): [el tiempo](#el-tiempo), [avisos](#avisos), [radar](#radar), [estación](#estación), [cámara](#cámara), [MeteoSIX](#clave-de-meteosix-opcional) y [acciones](#acciones)
+- [Ejemplos](#ejemplos) y [cada cuánto se actualiza](#cada-cuánto-se-actualiza)
 - [Limitaciones](#limitaciones), [problemas frecuentes](#problemas-frecuentes) e [informar de un problema](#informar-de-un-problema)
+- [Quitar MeteoGal](#quitar-meteogal)
 - [Documentación técnica](#documentación-técnica)
 
-## Qué ofrece
+## Requisitos
 
-Cada ubicación que configures es un dispositivo con el nombre oficial de su concello. Estas son sus entidades (en el ejemplo, una ubicación en A Coruña con Home Assistant en castellano):
-
-| Entidad | Qué es | Necesita | Por defecto |
-|---|---|---|---|
-| `weather.a_coruna` | Tiempo actual y previsión diaria (8–9 días) y por horas | — | Activada |
-| `sensor.a_coruna_nivel_de_aviso` | Nivel de los avisos vigentes ahora | — | Activada |
-| `sensor.a_coruna_nivel_de_aviso_proximo` | Nivel de los avisos emitidos que aún no han empezado | — | Activada |
-| `sensor.a_coruna_avisos_vigentes`, `…_avisos_proximos` | Número de avisos | — | Desactivadas |
-| `image.a_coruna_radar` | Radar animado de las últimas horas | — | Activada |
-| `image.a_coruna_radar_ultima_pasada` | Última pasada del radar, fija | — | Desactivada |
-| `sensor.a_coruna_temperatura`, `…_lluvia_hoy`… | Lo medido en la estación elegida ([lista](#estación)) | Estación | Según el sensor |
-| `image.a_coruna_camara` | Última foto de la cámara elegida | Cámara | Activada |
-| `sensor.a_coruna_lluvia_esta_hora`, `…_proxima_lluvia` | Lluvia prevista | Clave de MeteoSIX | Activadas |
-| `sensor.a_coruna_cota_de_nieve` | Cota de nieve prevista | Clave de MeteoSIX | Desactivada |
-
-<img src="docs/images/sensores.png" width="320" alt="Dispositivo A Coruña en Home Assistant: tiempo, cámara, sensores de la estación, avisos, lluvia prevista y radar">
-
-Los `entity_id` salen del nombre en el idioma de tu Home Assistant: en gallego serían, por ejemplo, `sensor.a_coruna_nivel_de_aviso_proximo` o `sensor.a_coruna_choiva_hoxe`.
-
-Todo lo que viene de MeteoGalicia lleva la atribución «MeteoGalicia · Xunta de Galicia».
+- Home Assistant 2025.11 o posterior.
+- Una ubicación en Galicia: MeteoGalicia no da datos de otros lugares.
+- Conexión a internet: los datos se consultan a MeteoGalicia.
+- Opcional: una [clave de MeteoSIX](#clave-de-meteosix-opcional), gratuita, para la lluvia y el viento por hora.
 
 ## Instalación
 
 ### Con HACS
+
+Pulsa este botón para abrir MeteoGal en el HACS de tu Home Assistant:
+
+[![Abrir MeteoGal en HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iago-veiga&repository=ha-meteogal&category=integration)
+
+MeteoGal aún no está en la lista por defecto de HACS. Si el botón no lo encuentra, añádelo como repositorio personalizado:
 
 1. En HACS, menú ⋮ → **Repositorios personalizados**.
 2. Añade `https://github.com/iago-veiga/ha-meteogal` con el tipo **Integración**.
@@ -54,11 +58,11 @@ Todo lo que viene de MeteoGalicia lleva la atribución «MeteoGalicia · Xunta d
 1. Copia la carpeta `custom_components/meteogal` en `/config/custom_components/` de tu Home Assistant.
 2. Reinicia Home Assistant.
 
-Requiere Home Assistant 2025.11 o posterior.
-
 ## Configuración
 
-Ajustes → Dispositivos y servicios → **Añadir integración** → **MeteoGal**.
+[![Añadir MeteoGal a Home Assistant](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=meteogal)
+
+O desde Ajustes → Dispositivos y servicios → **Añadir integración** → **MeteoGal**.
 
 1. **Ubicación:** elige un punto en el mapa. Por defecto es tu casa en Home Assistant.
 2. **Confirmación:** MeteoGal deduce lo demás del punto; solo tienes que aceptar o corregir:
@@ -87,13 +91,42 @@ La más cercana sigue siendo la propuesta: suele parecerse más en temperatura y
 
 Para añadir más ubicaciones o cambiar una, entra en la integración y usa **Añadir ubicación** o **Cambiar ubicación** (con los mismos dos pasos; si no cambias de concello, se respeta lo que tenías elegido). Las opciones del radar están en **Configurar** y la clave de MeteoSIX en **Reconfigurar**: resumen en [todas las opciones](#todas-las-opciones).
 
-## Quitar MeteoGal
+## Todas las opciones
 
-- **Una ubicación:** Ajustes → Dispositivos y servicios → **MeteoGal** → en la ubicación, menú ⋮ → **Eliminar**. Se borran su dispositivo y sus entidades; las demás ubicaciones siguen igual.
-- **Toda la integración:** en la misma pantalla, menú ⋮ de la entrada MeteoGal → **Eliminar**. Se borran todas las ubicaciones, sus entidades y la clave de MeteoSIX.
-- **Los ficheros:** con HACS, busca MeteoGal, menú ⋮ → **Eliminar** y reinicia Home Assistant. Instalado a mano, borra la carpeta `/config/custom_components/meteogal` y reinicia.
+| Dónde | Opción | Valores | Por defecto |
+|---|---|---|---|
+| Ubicación (al añadirla o **Cambiar ubicación**) | Punto, concello | Mapa, lista de concellos | Tu casa y su concello |
+| Ubicación | Estación | Estaciones de la más cercana a la más lejana, o ninguna | La más cercana |
+| Ubicación | Usar la estación para el tiempo actual | Sí / No | Sí |
+| Ubicación | Cámara | Cámaras de la más cercana a la más lejana, o ninguna | La de la estación, si tiene |
+| Entrada MeteoGal → **Configurar** | Periodo de la animación del radar | 1, 2, 3 o 6 horas | 2 horas |
+| Entrada MeteoGal → **Configurar** | Encuadre del radar | 50 km, 100 km, toda Galicia | 100 km |
+| Entrada MeteoGal → **Reconfigurar** | Clave de MeteoSIX | Clave o vacío | Sin clave |
 
-Las automatizaciones y tarjetas que usaban entidades de MeteoGal no se borran solas: revísalas.
+Además, en cada entidad puedes activar las que vienen desactivadas (Ajustes → Entidades).
+
+## Qué ofrece
+
+Cada ubicación que configures es un dispositivo con el nombre oficial de su concello. Estas son sus entidades (en el ejemplo, una ubicación en A Coruña con Home Assistant en castellano):
+
+| Entidad | Qué es | Necesita | Por defecto |
+|---|---|---|---|
+| `weather.a_coruna` | Tiempo actual y previsión diaria (8–9 días) y por horas | — | Activada |
+| `sensor.a_coruna_nivel_de_aviso` | Nivel de los avisos vigentes ahora | — | Activada |
+| `sensor.a_coruna_nivel_de_aviso_proximo` | Nivel de los avisos emitidos que aún no han empezado | — | Activada |
+| `sensor.a_coruna_avisos_vigentes`, `…_avisos_proximos` | Número de avisos | — | Desactivadas |
+| `image.a_coruna_radar` | Radar animado de las últimas horas | — | Activada |
+| `image.a_coruna_radar_ultima_pasada` | Última pasada del radar, fija | — | Desactivada |
+| `sensor.a_coruna_temperatura`, `…_lluvia_hoy`… | Lo medido en la estación elegida ([lista](#estación)) | Estación | Según el sensor |
+| `image.a_coruna_camara` | Última foto de la cámara elegida | Cámara | Activada |
+| `sensor.a_coruna_lluvia_esta_hora`, `…_proxima_lluvia` | Lluvia prevista | Clave de MeteoSIX | Activadas |
+| `sensor.a_coruna_cota_de_nieve` | Cota de nieve prevista | Clave de MeteoSIX | Desactivada |
+
+<img src="docs/images/sensores.png" width="320" alt="Dispositivo A Coruña en Home Assistant: tiempo, cámara, sensores de la estación, avisos, lluvia prevista y radar">
+
+Los `entity_id` salen del nombre en el idioma de tu Home Assistant: en gallego serían, por ejemplo, `sensor.a_coruna_nivel_de_aviso_proximo` o `sensor.a_coruna_choiva_hoxe`.
+
+Todo lo que viene de MeteoGalicia lleva la atribución «MeteoGalicia · Xunta de Galicia».
 
 ## El tiempo
 
@@ -220,33 +253,11 @@ La clave se guarda una sola vez para todas tus ubicaciones. Añadirla o quitarla
 
 Home Assistant te avisa arriba del todo en **Ajustes**, como una reparación: «Autenticación caducada para MeteoGal». Al pulsarla se abre «La clave de MeteoSIX ya no vale», donde puedes escribir una clave nueva o dejar el campo vacío para seguir sin clave. Mientras tanto, MeteoGal sigue funcionando con los datos públicos. Si MeteoSIX no responde un rato, también se usan los datos públicos y se vuelve a intentar cada hora.
 
-## Todas las opciones
+## Acciones
 
-| Dónde | Opción | Valores | Por defecto |
-|---|---|---|---|
-| Ubicación (al añadirla o **Cambiar ubicación**) | Punto, concello | Mapa, lista de concellos | Tu casa y su concello |
-| Ubicación | Estación | Estaciones de la más cercana a la más lejana, o ninguna | La más cercana |
-| Ubicación | Usar la estación para el tiempo actual | Sí / No | Sí |
-| Ubicación | Cámara | Cámaras de la más cercana a la más lejana, o ninguna | La de la estación, si tiene |
-| Entrada MeteoGal → **Configurar** | Periodo de la animación del radar | 1, 2, 3 o 6 horas | 2 horas |
-| Entrada MeteoGal → **Configurar** | Encuadre del radar | 50 km, 100 km, toda Galicia | 100 km |
-| Entrada MeteoGal → **Reconfigurar** | Clave de MeteoSIX | Clave o vacío | Sin clave |
-
-Además, en cada entidad puedes activar las que vienen desactivadas (Ajustes → Entidades).
-
-## Cada cuánto se actualiza
-
-MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
-
-| Fuente | Cada cuánto | Qué trae | Si falla |
-|---|---|---|---|
-| Previsión, observación y avisos del concello | 30 minutos | Previsión diaria y por horas, estado actual del concello, avisos | La entidad del tiempo queda «No disponible» hasta que responda. Si fallan solo los avisos, la observación o el medio plazo, se mantiene lo último bueno |
-| Estación | 10 minutos (publica cada 10, con ~5 de retraso) | Lectura de 10 minutos y datos de hoy | Sus sensores quedan «No disponible»; el tiempo actual usa MeteoSIX o la observación del concello |
-| MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
-| Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
-| Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
-
-Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguiente consulta. Al arrancar Home Assistant, si MeteoGalicia no responde, Home Assistant reintenta la configuración él solo.
+| Acción | Qué hace |
+|---|---|
+| `meteogal.get_warnings` | Devuelve todos los avisos de una ubicación, vigentes y próximos, con tipo, nivel, inicio y fin. Se usa sobre el sensor de nivel de aviso ([ejemplo](#ejemplos), [detalle](docs/avisos.md#acción-meteogalget_warnings)) |
 
 ## Ejemplos
 
@@ -324,6 +335,20 @@ value_template: >
   {{ lluvia is not none and lluvia <= now() + timedelta(hours=1) }}
 ```
 
+## Cada cuánto se actualiza
+
+MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
+
+| Fuente | Cada cuánto | Qué trae | Si falla |
+|---|---|---|---|
+| Previsión, observación y avisos del concello | 30 minutos | Previsión diaria y por horas, estado actual del concello, avisos | La entidad del tiempo queda «No disponible» hasta que responda. Si fallan solo los avisos, la observación o el medio plazo, se mantiene lo último bueno |
+| Estación | 10 minutos (publica cada 10, con ~5 de retraso) | Lectura de 10 minutos y datos de hoy | Sus sensores quedan «No disponible»; el tiempo actual usa MeteoSIX o la observación del concello |
+| MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
+| Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
+| Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
+
+Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguiente consulta. Al arrancar Home Assistant, si MeteoGalicia no responde, Home Assistant reintenta la configuración él solo.
+
 ## Limitaciones
 
 - **Solo Galicia:** MeteoGalicia no da datos de otros lugares.
@@ -353,6 +378,14 @@ Para ver qué pasa por dentro, activa el registro de depuración: Ajustes → Di
 Abre una incidencia en [GitHub](https://github.com/iago-veiga/ha-meteogal/issues) y adjunta los **diagnósticos**: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Descargar diagnósticos**.
 
 El fichero dice, para cada fuente (previsión y avisos, estación, MeteoSIX, radar y cámara), si su última actualización fue bien, cuándo y con qué datos está trabajando (por ejemplo, la última lectura de la estación o cuántas horas da MeteoSIX). **No incluye tu clave de MeteoSIX ni las coordenadas de tus ubicaciones**, que suelen ser tu casa: aparecen como `**REDACTED**`. Tampoco lleva imágenes.
+
+## Quitar MeteoGal
+
+- **Una ubicación:** Ajustes → Dispositivos y servicios → **MeteoGal** → en la ubicación, menú ⋮ → **Eliminar**. Se borran su dispositivo y sus entidades; las demás ubicaciones siguen igual.
+- **Toda la integración:** en la misma pantalla, menú ⋮ de la entrada MeteoGal → **Eliminar**. Se borran todas las ubicaciones, sus entidades y la clave de MeteoSIX.
+- **Los ficheros:** con HACS, busca MeteoGal, menú ⋮ → **Eliminar** y reinicia Home Assistant. Instalado a mano, borra la carpeta `/config/custom_components/meteogal` y reinicia.
+
+Las automatizaciones y tarjetas que usaban entidades de MeteoGal no se borran solas: revísalas.
 
 ## Documentación técnica
 
