@@ -63,9 +63,24 @@ Ajustes → Dispositivos y servicios → **Añadir integración** → **MeteoGal
 | Campo | Qué es | Por defecto |
 |---|---|---|
 | Concello | El de la previsión y los avisos | El del punto |
-| Estación meteorológica | Opcional. De dónde salen los datos medidos. Cada estación mide cosas distintas | La más cercana |
+| Estación meteorológica | Opcional. De dónde salen los datos medidos. Cada estación mide cosas distintas: la lista indica si no mide viento o presión, o si no envía datos ahora | La más cercana |
 | Usar la estación para el tiempo actual | Si la entidad del tiempo usa lo medido en la estación (ver [el tiempo](#el-tiempo)) | Sí |
 | Cámara | Opcional. Una cámara de MeteoGalicia, con su distancia | La de la estación, si tiene; si no, ninguna |
+
+En la lista de estaciones, junto a cada una, aparece lo que le falta de lo que usa el tiempo actual. Si la estación que se propone, la más cercana, no mide algo que otra cercana sí, se avisa encima. Por ejemplo, junto a la Torre de Hércules:
+
+```text
+La estación más cercana, Coruña-Torre de Hércules, no mide viento ni presión. Coruña-Dique (3,5 km) sí.
+
+Estación meteorológica
+  Coruña-Torre de Hércules (A Coruña) · 0,4 km · sin viento ni presión
+  Coruña-Dique (A Coruña) · 3,5 km
+  Punta Langosteira (Arteixo) · 11,0 km
+  Guísamo (Bergondo) · 13,6 km · sin viento
+  …
+```
+
+La más cercana sigue siendo la propuesta: suele parecerse más en temperatura y lluvia. Si quieres también el viento y la presión, elige otra; o quédate con ella: la entidad del tiempo tomará viento y presión de MeteoSIX, si tienes clave. Las marcas salen de la última lectura de cada estación: una que tenga ese día el anemómetro averiado saldrá «sin viento».
 
 Para añadir más ubicaciones o cambiar una, entra en la integración y usa **Añadir ubicación** o **Cambiar ubicación** (con los mismos dos pasos; si no cambias de concello, se respeta lo que tenías elegido). Las opciones del radar están en **Configurar** y la clave de MeteoSIX en **Reconfigurar**: resumen en [todas las opciones](#todas-las-opciones).
 

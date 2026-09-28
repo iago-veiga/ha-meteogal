@@ -6,7 +6,9 @@ docs/estaciones.md.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import Final
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
@@ -38,6 +40,14 @@ WIND_BEARING: Final = "DV_AVG_10m"
 WIND_CODES: Final = frozenset(
     {WIND_SPEED, WIND_GUST, WIND_BEARING, "DV_SD_10m", "VV_SD_10m", "DV_CONDICION_10m"}
 )
+
+# Más antigua que esto, la lectura no vale: la estación ha dejado de enviar.
+MAX_AGE: Final = timedelta(hours=1)
+
+# Lo que puede faltarle a una estación para el tiempo actual (se avisa al elegirla).
+NO_DATA: Final = "no_data"
+NO_WIND: Final = "no_wind"
+NO_PRESSURE: Final = "no_pressure"
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -246,6 +256,33 @@ def sensor_keys(reading_codes: set[str], day_codes: set[str]) -> set[str]:
         if present:
             keys.add(sensor.key)
     return keys
+
+
+def station_gaps(
+    readings: list[StationReading], station_ids: Iterable[int]
+) -> dict[int, frozenset[str]]:
+    """Lo que no dará cada estación, según la última lectura de todas.
+
+    «Sin datos» se mide contra la lectura más reciente de todas y no contra el
+    reloj: si MeteoGalicia va con retraso, no se marcan todas. Viento y presión,
+    por el código aunque venga a cero: lo que importa es que la estación lo mide.
+    """
+    if not readings:
+        return {}
+    latest = max(reading.time for reading in readings)
+    by_id = {reading.station_id: reading for reading in readings}
+    gaps = {}
+    for station_id in station_ids:
+        reading = by_id.get(station_id)
+        if reading is None or latest - reading.time > MAX_AGE:
+            gaps[station_id] = frozenset({NO_DATA})
+            continue
+        gaps[station_id] = frozenset(
+            gap
+            for gap, code in ((NO_WIND, WIND_SPEED), (NO_PRESSURE, PRESSURE))
+            if code not in reading.values
+        )
+    return gaps
 
 
 def clean(reading: StationReading) -> dict[str, float]:

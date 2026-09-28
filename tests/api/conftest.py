@@ -93,7 +93,12 @@ def mock_meteogalicia(
     aioclient_mock.get(STATIONS, json=load("listaEstacionsMeteo.json"))
     aioclient_mock.get(CAMERAS, json=load("jsonCamaras.json"))
     # Cualquier estación: lecturas reales de Coruña-Dique (2026-09-27, 21:40Z).
-    aioclient_mock.get(STATION_NOW, json=load("ultimos10minEstacionsMeteo_14000.json"))
+    aioclient_mock.get(
+        re.compile(re.escape(STATION_NOW) + r"\?idEst="),
+        json=load("ultimos10minEstacionsMeteo_14000.json"),
+    )
+    # Todas a la vez (2026-09-28, 15:30Z).
+    aioclient_mock.get(STATION_NOW, json=load("ultimos10minEstacionsMeteo.json"))
     aioclient_mock.get(STATION_DAY, json=load("datosDiariosEstacionsMeteo_14000.json"))
 
 

@@ -127,6 +127,11 @@ class MeteoGalClient:
         )
         return _parse(data, _parse_station_reading)
 
+    async def get_station_readings(self) -> list[StationReading]:
+        """Última lectura de 10 minutos de todas las estaciones (una petición)."""
+        data = await self._get("observacion/ultimos10minEstacionsMeteo.action")
+        return _parse(data, _parse_station_readings)
+
     async def get_station_day(self, station_id: int) -> StationDay | None:
         """Datos de hoy de la estación hasta ahora, o None si aún no hay."""
         data = await self._get(
@@ -332,7 +337,14 @@ def _parse_station_reading(data: Any) -> StationReading | None:
     items = data["listUltimos10min"]
     if not items:
         return None
-    item = items[0]
+    return _station_reading(items[0])
+
+
+def _parse_station_readings(data: Any) -> list[StationReading]:
+    return [_station_reading(item) for item in data["listUltimos10min"]]
+
+
+def _station_reading(item: Mapping[str, Any]) -> StationReading:
     return StationReading(
         station_id=int(item["idEstacion"]),
         # En UTC, aunque sin zona.

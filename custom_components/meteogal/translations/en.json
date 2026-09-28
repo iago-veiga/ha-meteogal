@@ -13,7 +13,7 @@
       },
       "confirm": {
         "title": "Confirm location",
-        "description": "Your point is in **{concello}**. Check the municipality and the station, and change them if needed.",
+        "description": "Your point is in **{concello}**. Check the municipality and the station, and change them if needed.{station_note}",
         "data": {
           "concello_id": "Municipality",
           "station_id": "Weather station",
@@ -22,7 +22,7 @@
         },
         "data_description": {
           "concello_id": "The forecast and weather warnings are for this municipality.",
-          "station_id": "Optional. Adds measured, real-time data. Leave it empty if you don't want to use one.",
+          "station_id": "Optional. Adds measured, real-time data. Each one shows whether it lacks wind or pressure, or is not sending data now. Leave it empty if you don't want to use one.",
           "station_weather": "Temperature, humidity, pressure and wind of the weather entity, measured at the station. Untick it if the station doesn't represent your point well (altitude, coast): the station sensors stay, but the weather entity uses the forecast.",
           "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected."
         }
@@ -81,7 +81,7 @@
         },
         "confirm": {
           "title": "Confirm location",
-          "description": "Your point is in **{concello}**. Check the municipality and the station, and change them if needed.",
+          "description": "Your point is in **{concello}**. Check the municipality and the station, and change them if needed.{station_note}",
           "data": {
             "concello_id": "Municipality",
             "station_id": "Weather station",
@@ -90,7 +90,7 @@
           },
           "data_description": {
             "concello_id": "The forecast and weather warnings are for this municipality.",
-            "station_id": "Optional. Adds measured, real-time data. Leave it empty if you don't want to use one.",
+            "station_id": "Optional. Adds measured, real-time data. Each one shows whether it lacks wind or pressure, or is not sending data now. Leave it empty if you don't want to use one.",
             "station_weather": "Temperature, humidity, pressure and wind of the weather entity, measured at the station. Untick it if the station doesn't represent your point well (altitude, coast): the station sensors stay, but the weather entity uses the forecast.",
             "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected."
           }

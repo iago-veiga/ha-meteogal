@@ -5,13 +5,22 @@
 - Santiago-EOAS (10124), 21:30Z: la estación más completa, con viento válido.
 """
 
+from datetime import UTC, datetime
+
 from homeassistant.config_entries import ConfigSubentryData
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.meteogal.api.client import _parse_station_readings
 from custom_components.meteogal.const import DOMAIN
+from custom_components.meteogal.station import (
+    NO_DATA,
+    NO_PRESSURE,
+    NO_WIND,
+    station_gaps,
+)
 
 from .api.conftest import (
     STATION_DAY,
@@ -216,3 +225,30 @@ async def test_camera_saved_with_old_numeric_id(hass: HomeAssistant) -> None:
     camera = hass.states.get("image.a_coruna_camera")
     assert camera.state == "2026-09-27T23:38:00+02:00"
     assert camera.attributes["camera_name"] == "Coruña-Dique"
+
+
+def test_station_gaps() -> None:
+    """Qué le falta a cada estación, con la lectura real de todas (15:30Z)."""
+    readings = _parse_station_readings(load("ultimos10minEstacionsMeteo.json"))
+
+    gaps = station_gaps(readings, [14000, 10157, 19005, 10906, 12345])
+
+    assert gaps == {
+        14000: frozenset(),  # Coruña-Dique: todo
+        10157: {NO_WIND, NO_PRESSURE},  # Torre de Hércules
+        19005: {NO_WIND},  # Guísamo
+        10906: {NO_PRESSURE},  # Cangas-Porto
+        12345: {NO_DATA},  # no está en la lectura
+    }
+
+
+def test_station_gaps_old_reading() -> None:
+    """Sin datos: más de 1 h por detrás de la lectura más reciente de todas, no
+    del reloj (Marroxo lleva desde el 19 sin enviar)."""
+    readings = _parse_station_readings(load("ultimos10minEstacionsMeteo.json"))
+    marroxo = next(r for r in readings if r.time < datetime(2026, 9, 20, tzinfo=UTC))
+
+    assert station_gaps(readings, [marroxo.station_id]) == {
+        marroxo.station_id: {NO_DATA}
+    }
+    assert station_gaps([], [14000]) == {}

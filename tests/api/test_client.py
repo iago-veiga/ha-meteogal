@@ -1,6 +1,6 @@
 """Tests del cliente con respuestas reales de MeteoGalicia (Santiago, 2026-09-26)."""
 
-from datetime import date, datetime
+from datetime import UTC, date, datetime
 from itertools import pairwise
 from typing import Any
 
@@ -62,6 +62,17 @@ async def test_stations(client: MeteoGalClient) -> None:
     assert first.latitude == pytest.approx(43.382763)
     assert first.longitude == pytest.approx(-8.409202)
     assert first.altitude == 21.0
+
+
+async def test_station_readings(client: MeteoGalClient) -> None:
+    """Sin `idEst`, la última lectura de todas (real, 2026-09-28 15:30Z)."""
+    readings = await client.get_station_readings()
+
+    assert len(readings) == 166
+    by_id = {reading.station_id: reading for reading in readings}
+    assert by_id[14000].time == datetime(2026, 9, 28, 15, 30, tzinfo=UTC)
+    assert "VV_AVG_10m" in by_id[14000].values
+    assert "VV_AVG_10m" not in by_id[10157].values
 
 
 async def test_daily_forecast(client: MeteoGalClient) -> None:

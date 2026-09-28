@@ -13,7 +13,7 @@
       },
       "confirm": {
         "title": "Confirmar localización",
-        "description": "O teu punto está en **{concello}**. Comproba o concello e a estación, e cámbiaos se fai falta.",
+        "description": "O teu punto está en **{concello}**. Comproba o concello e a estación, e cámbiaos se fai falta.{station_note}",
         "data": {
           "concello_id": "Concello",
           "station_id": "Estación meteorolóxica",
@@ -22,7 +22,7 @@
         },
         "data_description": {
           "concello_id": "A previsión e os avisos son os deste concello.",
-          "station_id": "Opcional. Engade datos medidos en tempo real. Déixao baleiro se non queres usar ningunha.",
+          "station_id": "Opcional. Engade datos medidos en tempo real. Xunto a cada unha indícase se non mide vento ou presión, ou se non envía datos agora. Déixao baleiro se non queres usar ningunha.",
           "station_weather": "Temperatura, humidade, presión e vento da entidade do tempo, medidos na estación. Desmárcao se a estación non representa ben o teu punto (altitude, costa): os sensores da estación seguirán, pero a entidade do tempo usará a previsión.",
           "camera_id": "Opcional. Foto dunha cámara de MeteoGalicia, que se renova cada ~5 minutos. Se a estación ten cámara, xa vén escollida."
         }
@@ -81,7 +81,7 @@
         },
         "confirm": {
           "title": "Confirmar localización",
-          "description": "O teu punto está en **{concello}**. Comproba o concello e a estación, e cámbiaos se fai falta.",
+          "description": "O teu punto está en **{concello}**. Comproba o concello e a estación, e cámbiaos se fai falta.{station_note}",
           "data": {
             "concello_id": "Concello",
             "station_id": "Estación meteorolóxica",
@@ -90,7 +90,7 @@
           },
           "data_description": {
             "concello_id": "A previsión e os avisos son os deste concello.",
-            "station_id": "Opcional. Engade datos medidos en tempo real. Déixao baleiro se non queres usar ningunha.",
+            "station_id": "Opcional. Engade datos medidos en tempo real. Xunto a cada unha indícase se non mide vento ou presión, ou se non envía datos agora. Déixao baleiro se non queres usar ningunha.",
             "station_weather": "Temperatura, humidade, presión e vento da entidade do tempo, medidos na estación. Desmárcao se a estación non representa ben o teu punto (altitude, costa): os sensores da estación seguirán, pero a entidade do tempo usará a previsión.",
             "camera_id": "Opcional. Foto dunha cámara de MeteoGalicia, que se renova cada ~5 minutos. Se a estación ten cámara, xa vén escollida."
           }

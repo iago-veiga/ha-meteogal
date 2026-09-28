@@ -48,6 +48,7 @@ from .const import (
 )
 from .geo import load_polygons
 from .radar import Marker, RadarRenderer, animation, area_around, galicia_area, still
+from .station import MAX_AGE
 
 if TYPE_CHECKING:
     from . import MeteoGalConfigEntry
@@ -346,8 +347,6 @@ class RadarCoordinator(TimestampDataUpdateCoordinator[dict[str, RadarImages]]):
 
 # Las estaciones publican cada 10 min con ~5 min de retraso.
 STATION_UPDATE_INTERVAL = timedelta(minutes=10)
-# Más antigua que esto, la lectura no vale: la estación ha dejado de enviar.
-STATION_MAX_AGE = timedelta(hours=1)
 
 
 @dataclass(frozen=True, slots=True)
@@ -359,7 +358,7 @@ class StationData:
 
     def fresh_reading(self, now: datetime) -> StationReading | None:
         reading = self.reading
-        if reading is None or now - reading.time > STATION_MAX_AGE:
+        if reading is None or now - reading.time > MAX_AGE:
             return None
         return reading
 

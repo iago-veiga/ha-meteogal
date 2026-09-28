@@ -20,10 +20,13 @@ from custom_components.meteogal.const import DOMAIN
 from custom_components.meteogal.geo import nearest_station
 
 from .api.conftest import (
+    CAMERAS,
+    CONCELLOS,
     METEOSIX_BAD_KEY,
     METEOSIX_DOWN_KEY,
     METEOSIX_FORECAST,
     METEOSIX_KEY,
+    STATION_NOW,
     STATIONS,
     load,
     mock_meteogalicia,
@@ -76,7 +79,10 @@ async def test_first_install(hass: HomeAssistant) -> None:
 
     assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "confirm"
-    assert result["description_placeholders"] == {"concello": "Santiago de Compostela"}
+    assert result["description_placeholders"] == {
+        "concello": "Santiago de Compostela",
+        "station_note": "",
+    }
     station_id = nearest_station_id(SANTIAGO)
     # Santiago-EOAS no tiene cámara: no se propone ninguna.
     assert suggested(result) == {
@@ -188,7 +194,10 @@ async def test_add_location(hass: HomeAssistant, entry: MockConfigEntry) -> None
         result["flow_id"], {"location": VIGO}
     )
     assert result["step_id"] == "confirm"
-    assert result["description_placeholders"] == {"concello": "Vigo"}
+    assert result["description_placeholders"] == {
+        "concello": "Vigo",
+        "station_note": "",
+    }
 
     result = await hass.config_entries.subentries.async_configure(
         result["flow_id"], suggested(result)
@@ -491,3 +500,95 @@ async def test_reconfigure_keeps_camera_and_station_weather(
 
     assert suggested(result)["station_weather"] is False
     assert suggested(result)["camera_id"] == "Ribadeoporto"
+
+
+# Al pie de la Torre de Hércules: la estación más cercana no mide viento ni presión.
+TORRE = {"latitude": 43.3858, "longitude": -8.4065}
+
+
+def station_options(result: dict[str, Any]) -> list[str]:
+    key = next(key for key in result["data_schema"].schema if str(key) == "station_id")
+    return [
+        option["label"]
+        for option in result["data_schema"].schema[key].config["options"]
+    ]
+
+
+async def test_station_gaps_and_note(hass: HomeAssistant) -> None:
+    hass.config.language = "es"
+    result = await start(hass, TORRE)
+
+    assert suggested(result)["station_id"] == "10157"
+    assert station_options(result)[:4] == [
+        "Coruña-Torre de Hércules (A Coruña) · 0,4 km · sin viento ni presión",
+        "Coruña-Dique (A Coruña) · 3,5 km",
+        "Punta Langosteira (Arteixo) · 11,0 km",
+        "Guísamo (Bergondo) · 13,6 km · sin viento",
+    ]
+    assert result["description_placeholders"]["station_note"] == (
+        "\n\nLa estación más cercana, Coruña-Torre de Hércules, no mide viento ni "
+        "presión. Coruña-Dique (3,5 km) sí."
+    )
+    # Las que llevan días sin enviar (lectura real: Marroxo, desde el 19).
+    assert any(
+        label.startswith("Marroxo") and label.endswith("· sin datos ahora")
+        for label in station_options(result)
+    )
+
+
+async def test_station_note_in_english(hass: HomeAssistant) -> None:
+    result = await start(hass, TORRE)
+
+    assert station_options(result)[0] == (
+        "Coruña-Torre de Hércules (A Coruña) · 0.4 km · no wind or pressure"
+    )
+    assert result["description_placeholders"]["station_note"] == (
+        "\n\nThe nearest station, Coruña-Torre de Hércules, does not measure wind "
+        "or pressure. Coruña-Dique (3.5 km) does."
+    )
+
+
+async def test_station_gaps_unavailable(hass: HomeAssistant, aioclient_mock) -> None:
+    """Sin la lectura de todas, el desplegable queda como siempre."""
+    aioclient_mock.clear_requests()
+    aioclient_mock.get(STATIONS, json=load("listaEstacionsMeteo.json"))
+    aioclient_mock.get(CAMERAS, json=load("jsonCamaras.json"))
+    aioclient_mock.get(
+        CONCELLOS, params={"dia": 0}, json=load("jsonConcellosNivelMax.json")
+    )
+    aioclient_mock.get(STATION_NOW, exc=aiohttp.ClientConnectionError())
+
+    result = await start(hass, TORRE)
+
+    assert result["step_id"] == "confirm"
+    assert station_options(result)[0] == "Coruña-Torre de Hércules (A Coruña) · 0.4 km"
+    assert result["description_placeholders"]["station_note"] == ""
+
+
+async def test_station_note_only_for_nearest(hass: HomeAssistant) -> None:
+    """Al reconfigurar con otra estación ya elegida, no se avisa de la más cercana."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        title="MeteoGal",
+        data={},
+        subentries_data=[
+            ConfigSubentryData(
+                subentry_type="location",
+                title="A Coruña",
+                data={**TORRE, "concello_id": 15030, "station_id": 14000},
+                unique_id=None,
+            )
+        ],
+    )
+    entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    (subentry_id,) = entry.subentries
+
+    result = await entry.start_subentry_reconfigure_flow(hass, subentry_id)
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"], {"location": TORRE}
+    )
+
+    assert suggested(result)["station_id"] == "14000"
+    assert result["description_placeholders"]["station_note"] == ""

@@ -16,7 +16,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from dataclasses import dataclass
 import logging
-from typing import Any, override
+from typing import Any, Final, override
 
 from homeassistant.config_entries import (
     SOURCE_USER,
@@ -74,6 +74,7 @@ from .const import (
     SUBENTRY_LOCATION,
 )
 from .geo import ConcelloLocator, distance_km
+from .station import NO_DATA, NO_PRESSURE, NO_WIND, station_gaps
 from .toponyms import load_toponyms
 
 _LOGGER = logging.getLogger(__name__)
@@ -84,6 +85,41 @@ SAME_LOCATION_DEGREES = 1e-4
 # Página de MeteoGalicia donde se pide la clave. Fuera de las traducciones, que no
 # admiten URL.
 METEOSIX_KEY_URL = "https://www.meteogalicia.gal/web/modelos-numericos/meteosix"
+
+# Textos de lo que le falta a cada estación. Van en las opciones del desplegable y
+# en un marcador de la descripción, que se construyen aquí: sin traducciones de HA.
+_GAP_TEXTS: Final = {
+    "gl": {
+        "without": "sen {what}",
+        NO_DATA: "sen datos agora",
+        NO_WIND: "vento",
+        NO_PRESSURE: "presión",
+        "and": "{first} nin {second}",
+        "missing": "A estación máis próxima, {station}, non mide {what}.",
+        "silent": "A estación máis próxima, {station}, non envía datos agora.",
+        "other": "{station} ({distance} km) si.",
+    },
+    "es": {
+        "without": "sin {what}",
+        NO_DATA: "sin datos ahora",
+        NO_WIND: "viento",
+        NO_PRESSURE: "presión",
+        "and": "{first} ni {second}",
+        "missing": "La estación más cercana, {station}, no mide {what}.",
+        "silent": "La estación más cercana, {station}, no envía datos ahora.",
+        "other": "{station} ({distance} km) sí.",
+    },
+    "en": {
+        "without": "no {what}",
+        NO_DATA: "no data now",
+        NO_WIND: "wind",
+        NO_PRESSURE: "pressure",
+        "and": "{first} or {second}",
+        "missing": "The nearest station, {station}, does not measure {what}.",
+        "silent": "The nearest station, {station}, is not sending data now.",
+        "other": "{station} ({distance} km) does.",
+    },
+}
 
 
 @dataclass(slots=True)
@@ -99,6 +135,8 @@ class _Candidate:
     # Cámaras de la más cercana a la más lejana, con su distancia (vacío si falla:
     # la cámara es opcional).
     cameras: list[tuple[Camera, float]]
+    # Lo que le falta a cada estación (vacío si falla: solo es una ayuda).
+    gaps: dict[int, frozenset[str]]
 
 
 async def _async_candidate(
@@ -145,8 +183,14 @@ async def _async_candidate(
         ),
         key=lambda item: item[1],
     )
+    try:
+        readings = await client.get_station_readings()
+    except MeteoGalError as err:
+        _LOGGER.debug("No se pudo obtener la lectura de las estaciones: %s", err)
+        readings = []
+    gaps = station_gaps(readings, (station.id for station in stations))
     return _Candidate(
-        latitude, longitude, concello_id, toponyms, ranked, ranked_cameras
+        latitude, longitude, concello_id, toponyms, ranked, ranked_cameras, gaps
     )
 
 
@@ -172,25 +216,52 @@ def _location_schema(hass: HomeAssistant) -> vol.Schema:
     )
 
 
+def _language(hass: HomeAssistant) -> str:
+    language = hass.config.language.split("-")[0]
+    return language if language in _GAP_TEXTS else "en"
+
+
+def _km(hass: HomeAssistant, distance: float) -> str:
+    decimal = "." if _language(hass) == "en" else ","
+    return f"{distance:.1f}".replace(".", decimal)
+
+
+def _gap_text(texts: Mapping[str, str], gaps: frozenset[str]) -> str | None:
+    """«sin datos ahora», «sin viento», «sin presión» o «sin viento ni presión»."""
+    if NO_DATA in gaps:
+        return texts[NO_DATA]
+    what = _gap_what(texts, gaps)
+    return texts["without"].format(what=what) if what else None
+
+
+def _gap_what(texts: Mapping[str, str], gaps: frozenset[str]) -> str | None:
+    names = [texts[gap] for gap in (NO_WIND, NO_PRESSURE) if gap in gaps]
+    if len(names) == 2:
+        return texts["and"].format(first=names[0], second=names[1])
+    return names[0] if names else None
+
+
 def _confirm_schema(hass: HomeAssistant, candidate: _Candidate) -> vol.Schema:
-    decimal = "." if hass.config.language.startswith("en") else ","
+    texts = _GAP_TEXTS[_language(hass)]
     concellos = sorted(candidate.toponyms.items(), key=lambda item: _sort_key(item[1]))
-    stations = [
-        SelectOptionDict(
-            value=str(station.id),
-            label=(
-                f"{station.name} ({candidate.toponyms.get(concello_id, '?')}) · "
-                f"{distance:.1f} km".replace(".", decimal)
-            ),
+    stations = []
+    for station, concello_id, distance in candidate.stations:
+        label = (
+            f"{station.name} ({candidate.toponyms.get(concello_id, '?')}) · "
+            f"{_km(hass, distance)} km"
         )
-        for station, concello_id, distance in candidate.stations
-    ]
+        gap = _gap_text(texts, candidate.gaps.get(station.id, frozenset()))
+        stations.append(
+            SelectOptionDict(
+                value=str(station.id), label=f"{label} · {gap}" if gap else label
+            )
+        )
     cameras = [
         SelectOptionDict(
             value=camera.key,
             label=(
                 f"{camera.name} ({candidate.toponyms.get(camera.concello_id, '?')}) · "
-                f"{distance:.1f} km".replace(".", decimal)
+                f"{_km(hass, distance)} km"
             ),
         )
         for camera, distance in candidate.cameras
@@ -222,8 +293,52 @@ def _confirm_schema(hass: HomeAssistant, candidate: _Candidate) -> vol.Schema:
     )
 
 
-def _confirm_placeholders(candidate: _Candidate) -> dict[str, str]:
-    return {"concello": candidate.toponyms[candidate.concello_id]}
+def _confirm_placeholders(
+    hass: HomeAssistant, candidate: _Candidate, suggested: Mapping[str, Any]
+) -> dict[str, str]:
+    return {
+        "concello": candidate.toponyms[candidate.concello_id],
+        "station_note": _station_note(hass, candidate, suggested),
+    }
+
+
+def _station_note(
+    hass: HomeAssistant, candidate: _Candidate, suggested: Mapping[str, Any]
+) -> str:
+    """Aviso si la estación propuesta es la más cercana y le falta algo que otra
+    cercana sí da: «La estación más cercana, Torre de Hércules, no mide viento ni
+    presión. Coruña-Dique (3,1 km) sí.» Vacío si no hay nada que avisar."""
+    if not candidate.stations or not candidate.gaps:
+        return ""
+    nearest = candidate.stations[0][0]
+    if suggested.get(CONF_STATION_ID) != str(nearest.id):
+        return ""
+    gaps = candidate.gaps.get(nearest.id, frozenset())
+    if not gaps:
+        return ""
+    texts = _GAP_TEXTS[_language(hass)]
+    if NO_DATA in gaps:
+        note = texts["silent"].format(station=nearest.name)
+    else:
+        note = texts["missing"].format(
+            station=nearest.name, what=_gap_what(texts, gaps)
+        )
+    # La siguiente más cercana que envía datos y da lo que le falta a la primera.
+    other = next(
+        (
+            (station, distance)
+            for station, _, distance in candidate.stations[1:]
+            if station.id in candidate.gaps
+            and not candidate.gaps[station.id] & (gaps | {NO_DATA})
+        ),
+        None,
+    )
+    if other:
+        station, distance = other
+        note += " " + texts["other"].format(
+            station=station.name, distance=_km(hass, distance)
+        )
+    return f"\n\n{note}"
 
 
 async def _async_check_api_key(
@@ -327,12 +442,15 @@ class MeteoGalConfigFlow(ConfigFlow, domain=DOMAIN):
                 ],
             )
 
+        suggested = _suggested(candidate)
         return self.async_show_form(
             step_id="confirm",
             data_schema=self.add_suggested_values_to_schema(
-                _confirm_schema(self.hass, candidate), _suggested(candidate)
+                _confirm_schema(self.hass, candidate), suggested
             ),
-            description_placeholders=_confirm_placeholders(candidate),
+            description_placeholders=_confirm_placeholders(
+                self.hass, candidate, suggested
+            ),
         )
 
     async def async_step_reconfigure(
@@ -534,7 +652,9 @@ class LocationSubentryFlow(ConfigSubentryFlow):
             data_schema=self.add_suggested_values_to_schema(
                 _confirm_schema(self.hass, candidate), suggested
             ),
-            description_placeholders=_confirm_placeholders(candidate),
+            description_placeholders=_confirm_placeholders(
+                self.hass, candidate, suggested
+            ),
         )
 
     async_step_user = async_step_location
