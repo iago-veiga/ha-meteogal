@@ -1,0 +1,348 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ubicación",
+        "description": "Elige en el mapa el punto del que quieres la previsión. Por defecto es tu casa en Home Assistant.",
+        "data": {
+          "location": "Ubicación"
+        },
+        "data_description": {
+          "location": "Punto en el mapa. Por defecto, tu casa en Home Assistant."
+        }
+      },
+      "confirm": {
+        "title": "Confirmar ubicación",
+        "description": "Tu punto está en **{concello}**. Comprueba el concello y la estación, y cámbialos si hace falta.",
+        "data": {
+          "concello_id": "Concello",
+          "station_id": "Estación meteorológica",
+          "station_weather": "Usar la estación para el tiempo actual",
+          "camera_id": "Cámara"
+        },
+        "data_description": {
+          "concello_id": "La previsión y los avisos son los de este concello.",
+          "station_id": "Opcional. Añade datos medidos en tiempo real. Déjalo vacío si no quieres usar ninguna.",
+          "station_weather": "Temperatura, humedad, presión y viento de la entidad del tiempo, medidos en la estación. Desmárcalo si la estación no representa bien tu punto (altitud, costa): los sensores de la estación seguirán, pero la entidad del tiempo usará la previsión.",
+          "camera_id": "Opcional. Foto de una cámara de MeteoGalicia, que se renueva cada ~5 minutos. Si la estación tiene cámara, ya viene elegida."
+        }
+      },
+      "reconfigure": {
+        "title": "Clave de MeteoSIX",
+        "description": "Con una clave de MeteoSIX, la previsión por horas trae además lluvia, viento, humedad y presión. Es gratuita: pídela a MeteoGalicia en {url}. Deja el campo vacío para usar MeteoGal sin clave.",
+        "data": {
+          "api_key": "Clave de MeteoSIX"
+        },
+        "data_description": {
+          "api_key": "Opcional. Déjala vacía para quitarla."
+        }
+      },
+      "reauth_confirm": {
+        "title": "La clave de MeteoSIX ya no vale",
+        "description": "MeteoSIX no acepta la clave guardada. Escribe una nueva o deja el campo vacío para seguir sin clave. Puedes pedir otra a MeteoGalicia en {url}.",
+        "data": {
+          "api_key": "Clave de MeteoSIX"
+        },
+        "data_description": {
+          "api_key": "Opcional. Déjala vacía para quitarla."
+        }
+      }
+    },
+    "error": {
+      "outside_galicia": "Ese punto está fuera de Galicia. MeteoGalicia solo tiene datos de Galicia: elige otro punto.",
+      "cannot_connect": "No se pudo conectar con MeteoGalicia. Inténtalo de nuevo en unos minutos.",
+      "invalid_api_key": "MeteoSIX no acepta esta clave. Comprueba que la copiaste entera.",
+      "cannot_connect_meteosix": "No se pudo conectar con MeteoSIX para comprobar la clave. Inténtalo de nuevo en unos minutos."
+    },
+    "abort": {
+      "single_instance_allowed": "MeteoGal ya está configurado. Para añadir otra ubicación, usa «Añadir ubicación» en la integración.",
+      "already_configured": "Esa ubicación ya está configurada.",
+      "reconfigure_successful": "Cambios guardados.",
+      "reauth_successful": "Cambios guardados."
+    }
+  },
+  "config_subentries": {
+    "location": {
+      "entry_type": "Ubicación",
+      "initiate_flow": {
+        "user": "Añadir ubicación",
+        "reconfigure": "Cambiar ubicación"
+      },
+      "step": {
+        "location": {
+          "title": "Ubicación",
+          "description": "Elige en el mapa el punto del que quieres la previsión. Por defecto es tu casa en Home Assistant.",
+          "data": {
+            "location": "Ubicación"
+          },
+          "data_description": {
+            "location": "Punto en el mapa. Por defecto, tu casa en Home Assistant."
+          }
+        },
+        "confirm": {
+          "title": "Confirmar ubicación",
+          "description": "Tu punto está en **{concello}**. Comprueba el concello y la estación, y cámbialos si hace falta.",
+          "data": {
+            "concello_id": "Concello",
+            "station_id": "Estación meteorológica",
+            "station_weather": "Usar la estación para el tiempo actual",
+            "camera_id": "Cámara"
+          },
+          "data_description": {
+            "concello_id": "La previsión y los avisos son los de este concello.",
+            "station_id": "Opcional. Añade datos medidos en tiempo real. Déjalo vacío si no quieres usar ninguna.",
+            "station_weather": "Temperatura, humedad, presión y viento de la entidad del tiempo, medidos en la estación. Desmárcalo si la estación no representa bien tu punto (altitud, costa): los sensores de la estación seguirán, pero la entidad del tiempo usará la previsión.",
+            "camera_id": "Opcional. Foto de una cámara de MeteoGalicia, que se renueva cada ~5 minutos. Si la estación tiene cámara, ya viene elegida."
+          }
+        }
+      },
+      "error": {
+        "outside_galicia": "Ese punto está fuera de Galicia. MeteoGalicia solo tiene datos de Galicia: elige otro punto.",
+        "cannot_connect": "No se pudo conectar con MeteoGalicia. Inténtalo de nuevo en unos minutos."
+      },
+      "abort": {
+        "already_configured": "Esa ubicación ya está configurada.",
+        "entry_not_loaded": "MeteoGal está desactivado. Actívalo para añadir o cambiar ubicaciones.",
+        "reconfigure_successful": "Ubicación actualizada."
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "warning_level": {
+        "name": "Nivel de aviso",
+        "state": {
+          "none": "Sin avisos",
+          "yellow": "Amarillo",
+          "orange": "Naranja",
+          "red": "Rojo"
+        },
+        "state_attributes": {
+          "type": {
+            "name": "Tipo",
+            "state": {
+              "high_temperature": "Temperatura máxima",
+              "low_temperature": "Temperatura mínima",
+              "rain_1h": "Lluvia en 1 hora",
+              "rain_12h": "Lluvia en 12 horas",
+              "fog": "Niebla",
+              "snow": "Nieve",
+              "thunderstorm": "Tormenta",
+              "wind_gust": "Racha máxima de viento",
+              "wind_at_sea": "Viento en el mar",
+              "waves": "Olas",
+              "unknown": "Desconocido"
+            }
+          },
+          "level": {
+            "name": "Nivel",
+            "state": {
+              "none": "Sin avisos",
+              "yellow": "Amarillo",
+              "orange": "Naranja",
+              "red": "Rojo"
+            }
+          },
+          "start": {
+            "name": "Inicio"
+          },
+          "end": {
+            "name": "Fin"
+          },
+          "warning_id": {
+            "name": "Código del aviso"
+          }
+        }
+      },
+      "upcoming_warning_level": {
+        "name": "Nivel de aviso próximo",
+        "state": {
+          "none": "Sin avisos",
+          "yellow": "Amarillo",
+          "orange": "Naranja",
+          "red": "Rojo"
+        },
+        "state_attributes": {
+          "type": {
+            "name": "Tipo",
+            "state": {
+              "high_temperature": "Temperatura máxima",
+              "low_temperature": "Temperatura mínima",
+              "rain_1h": "Lluvia en 1 hora",
+              "rain_12h": "Lluvia en 12 horas",
+              "fog": "Niebla",
+              "snow": "Nieve",
+              "thunderstorm": "Tormenta",
+              "wind_gust": "Racha máxima de viento",
+              "wind_at_sea": "Viento en el mar",
+              "waves": "Olas",
+              "unknown": "Desconocido"
+            }
+          },
+          "level": {
+            "name": "Nivel",
+            "state": {
+              "none": "Sin avisos",
+              "yellow": "Amarillo",
+              "orange": "Naranja",
+              "red": "Rojo"
+            }
+          },
+          "start": {
+            "name": "Inicio"
+          },
+          "end": {
+            "name": "Fin"
+          },
+          "warning_id": {
+            "name": "Código del aviso"
+          }
+        }
+      },
+      "active_warnings": {
+        "name": "Avisos vigentes"
+      },
+      "upcoming_warnings": {
+        "name": "Avisos próximos"
+      },
+      "rain_this_hour": {
+        "name": "Lluvia esta hora"
+      },
+      "next_rain": {
+        "name": "Próxima lluvia"
+      },
+      "snow_level": {
+        "name": "Cota de nieve"
+      },
+      "station_temperature": {
+        "name": "Temperatura"
+      },
+      "station_humidity": {
+        "name": "Humedad"
+      },
+      "station_rain_today": {
+        "name": "Lluvia hoy"
+      },
+      "station_rain_10min": {
+        "name": "Lluvia últimos 10 min"
+      },
+      "station_wind_speed": {
+        "name": "Viento"
+      },
+      "station_wind_gust": {
+        "name": "Racha"
+      },
+      "station_pressure": {
+        "name": "Presión"
+      },
+      "station_water_temperature": {
+        "name": "Temperatura del agua"
+      },
+      "station_wind_direction": {
+        "name": "Dirección del viento"
+      },
+      "station_dew_point": {
+        "name": "Punto de rocío"
+      },
+      "station_temperature_max_today": {
+        "name": "Máxima de hoy"
+      },
+      "station_temperature_min_today": {
+        "name": "Mínima de hoy"
+      },
+      "station_wind_max_today": {
+        "name": "Viento máximo de hoy"
+      },
+      "station_sun_hours_today": {
+        "name": "Horas de sol hoy"
+      },
+      "station_evapotranspiration_today": {
+        "name": "Evapotranspiración hoy"
+      },
+      "station_solar_radiation": {
+        "name": "Radiación solar"
+      },
+      "station_uv_radiation": {
+        "name": "Radiación ultravioleta"
+      },
+      "station_ground_temperature": {
+        "name": "Temperatura a 10 cm del suelo"
+      },
+      "station_soil_temperature": {
+        "name": "Temperatura del suelo"
+      },
+      "station_soil_moisture": {
+        "name": "Humedad del suelo"
+      },
+      "station_updated": {
+        "name": "Estación: última medida",
+        "state_attributes": {
+          "station_id": {
+            "name": "Estación (código)"
+          },
+          "station_name": {
+            "name": "Estación"
+          },
+          "distance": {
+            "name": "Distancia (km)"
+          }
+        }
+      }
+    },
+    "image": {
+      "radar": {
+        "name": "Radar"
+      },
+      "radar_latest": {
+        "name": "Radar (última pasada)"
+      },
+      "camera": {
+        "name": "Cámara",
+        "state_attributes": {
+          "camera_name": {
+            "name": "Cámara"
+          }
+        }
+      }
+    }
+  },
+  "services": {
+    "get_warnings": {
+      "name": "Obtener avisos",
+      "description": "Devuelve todos los avisos meteorológicos de la ubicación, vigentes y próximos, con su tipo, nivel, inicio y fin."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Radar",
+        "description": "Cómo se ve el radar de MeteoGalicia en cada ubicación. Vale para todas las ubicaciones.",
+        "data": {
+          "radar_hours": "Periodo de la animación",
+          "radar_zoom": "Encuadre"
+        },
+        "data_description": {
+          "radar_hours": "Horas de radar que se animan. Con más horas, la animación va a saltos más grandes para no pesar demasiado.",
+          "radar_zoom": "Zona alrededor de cada ubicación, o toda Galicia."
+        }
+      }
+    }
+  },
+  "selector": {
+    "radar_hours": {
+      "options": {
+        "1": "1 hora (cada 10 min)",
+        "2": "2 horas (cada 10 min)",
+        "3": "3 horas (cada 20 min)",
+        "6": "6 horas (cada 30 min)"
+      }
+    },
+    "radar_zoom": {
+      "options": {
+        "50": "50 km alrededor",
+        "100": "100 km alrededor",
+        "galicia": "Toda Galicia"
+      }
+    }
+  }
+}

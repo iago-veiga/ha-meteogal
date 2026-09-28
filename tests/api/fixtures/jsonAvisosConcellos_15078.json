@@ -1,0 +1,29 @@
+{
+ "listaDiaConcellos": [
+  {
+   "dia": 0,
+   "listaAvisosConcellos": []
+  },
+  {
+   "dia": 1,
+   "listaAvisosConcellos": []
+  },
+  {
+   "dia": 2,
+   "listaAvisosConcellos": [
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T21:00:00",
+     "dataIni": "2026-09-29T15:00:00",
+     "id": 951686251,
+     "idConcello": 15078,
+     "idNivel": 1,
+     "idTipoAlerta": 8,
+     "nomeConcello": "Santiago De Compostela",
+     "tipoalerta_es": "Racha m\u00e1xima de viento",
+     "tipoalerta_gl": "Refacho m\u00e1ximo de vento"
+    }
+   ]
+  }
+ ]
+}

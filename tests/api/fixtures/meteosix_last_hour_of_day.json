@@ -1,0 +1,3789 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -8.4115,
+     43.3623
+    ]
+   },
+   "properties": {
+    "days": [
+     {
+      "timePeriod": {
+       "begin": {
+        "timeInstant": "2026-09-27T23:07:46+02"
+       },
+       "end": {
+        "timeInstant": "2026-09-27T23:59:59+02"
+       }
+      },
+      "variables": null
+     },
+     {
+      "timePeriod": {
+       "begin": {
+        "timeInstant": "2026-09-28T00:00:00+02"
+       },
+       "end": {
+        "timeInstant": "2026-09-28T23:59:59+02"
+       }
+      },
+      "variables": [
+       {
+        "name": "sky_state",
+        "model": "WRF",
+        "grid": "1km",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubes75.png"
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubes75.png"
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubes75.png"
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubes75.png"
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         }
+        ]
+       },
+       {
+        "name": "temperature",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "degc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 16
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 22
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 23
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 23
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 23
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 23
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 22
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 21
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         }
+        ]
+       },
+       {
+        "name": "precipitation_amount",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "lm2",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "wind",
+        "model": "WRF",
+        "grid": "1km",
+        "moduleUnits": "kmh",
+        "directionUnits": "deg",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.48,
+          "directionValue": 242.07,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 6.78,
+          "directionValue": 299,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 3.92,
+          "directionValue": 338.04,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.18,
+          "directionValue": 236.15,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.15,
+          "directionValue": 302.97,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.44,
+          "directionValue": 345.95,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 5.05,
+          "directionValue": 6.41,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 2.9,
+          "directionValue": 339.53,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 2.34,
+          "directionValue": 0,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 0.7,
+          "directionValue": 309.85,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 2.15,
+          "directionValue": 110.57,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 2.72,
+          "directionValue": 139.96,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.71,
+          "directionValue": 96.56,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 7.26,
+          "directionValue": 12.95,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 9.36,
+          "directionValue": 356.67,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_N.png"
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 10.07,
+          "directionValue": 351.79,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_N.png"
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 12.06,
+          "directionValue": 338.28,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_N.png"
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 11.03,
+          "directionValue": 331.52,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_NO.png"
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 9.2,
+          "directionValue": 333,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 7.42,
+          "directionValue": 333.91,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 1.9,
+          "directionValue": 336.25,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 1.55,
+          "directionValue": 190.52,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 3.27,
+          "directionValue": 158.86,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 9.86,
+          "directionValue": 155.16,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SE.png"
+         }
+        ]
+       },
+       {
+        "name": "relative_humidity",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 99.2
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 99.2
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 98.69
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 99.01
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 99.32
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 97.68
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 97.16
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 95.56
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 98.83
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 97.44
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 97.12
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 78
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 70.23
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 67.82
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 67.38
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 66.4
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 68.32
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 71.29
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 73.06
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 77.9
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 87.09
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 94.82
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 95.66
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 93.98
+         }
+        ]
+       },
+       {
+        "name": "cloud_area_fraction",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 48.44
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 42
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 53.12
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 42.19
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 50
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 48.44
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 75
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 50
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 50
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 48.44
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 34.38
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 28.12
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 40
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 40
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 10
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 30
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 10
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 30
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 30
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 40
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2.34
+         }
+        ]
+       },
+       {
+        "name": "air_pressure_at_sea_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "hpa",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1017
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1017
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1017
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1015
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1013
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         }
+        ]
+       },
+       {
+        "name": "snow_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "m",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-28T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2383
+         },
+         {
+          "timeInstant": "2026-09-28T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2463
+         },
+         {
+          "timeInstant": "2026-09-28T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2459
+         },
+         {
+          "timeInstant": "2026-09-28T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2439
+         },
+         {
+          "timeInstant": "2026-09-28T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2421
+         },
+         {
+          "timeInstant": "2026-09-28T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2397
+         },
+         {
+          "timeInstant": "2026-09-28T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2328
+         },
+         {
+          "timeInstant": "2026-09-28T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2324
+         },
+         {
+          "timeInstant": "2026-09-28T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2324
+         },
+         {
+          "timeInstant": "2026-09-28T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2306
+         },
+         {
+          "timeInstant": "2026-09-28T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2321
+         },
+         {
+          "timeInstant": "2026-09-28T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2340
+         },
+         {
+          "timeInstant": "2026-09-28T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2363
+         },
+         {
+          "timeInstant": "2026-09-28T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2393
+         },
+         {
+          "timeInstant": "2026-09-28T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2456
+         },
+         {
+          "timeInstant": "2026-09-28T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2504
+         },
+         {
+          "timeInstant": "2026-09-28T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2486
+         },
+         {
+          "timeInstant": "2026-09-28T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2498
+         },
+         {
+          "timeInstant": "2026-09-28T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2477
+         },
+         {
+          "timeInstant": "2026-09-28T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2481
+         },
+         {
+          "timeInstant": "2026-09-28T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2459
+         },
+         {
+          "timeInstant": "2026-09-28T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2483
+         },
+         {
+          "timeInstant": "2026-09-28T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2539
+         },
+         {
+          "timeInstant": "2026-09-28T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2608
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "timePeriod": {
+       "begin": {
+        "timeInstant": "2026-09-29T00:00:00+02"
+       },
+       "end": {
+        "timeInstant": "2026-09-29T23:59:59+02"
+       }
+      },
+      "variables": [
+       {
+        "name": "sky_state",
+        "model": "WRF",
+        "grid": "1km",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "HIGH_CLOUDS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubesaltas.png"
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "HIGH_CLOUDS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubesaltas.png"
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubes75.png"
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST_AND_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubasco75.png"
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/cuberto.png"
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST_AND_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubasco75.png"
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "WEAK_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubascosdebiles.png"
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST_AND_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubasco75.png"
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "RAIN",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/chuvia.png"
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST_AND_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/chubasco75.png"
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         }
+        ]
+       },
+       {
+        "name": "temperature",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "degc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 16
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 15
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 15
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 21
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 21
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 18
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 18
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 18
+         }
+        ]
+       },
+       {
+        "name": "precipitation_amount",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "lm2",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.27
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.24
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.1
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.38
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.5
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.21
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.2
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2.1
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.5
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 5.9
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2.2
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "wind",
+        "model": "WRF",
+        "grid": "1km",
+        "moduleUnits": "kmh",
+        "directionUnits": "deg",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 8.05,
+          "directionValue": 190.95,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 5.23,
+          "directionValue": 161.24,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 5.44,
+          "directionValue": 138.26,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 2.11,
+          "directionValue": 132,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 12.09,
+          "directionValue": 167.68,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 15.09,
+          "directionValue": 176.06,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 14.82,
+          "directionValue": 170.03,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 14.73,
+          "directionValue": 164.62,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 21.31,
+          "directionValue": 169.36,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/10nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 12.91,
+          "directionValue": 161.83,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 15.11,
+          "directionValue": 176.15,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 10.2,
+          "directionValue": 178.42,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 10.87,
+          "directionValue": 169.07,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 11.49,
+          "directionValue": 131.8,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SE.png"
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 18.2,
+          "directionValue": 166.36,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 25.3,
+          "directionValue": 175.84,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/10nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 29.67,
+          "directionValue": 181.29,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/15nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 13.84,
+          "directionValue": 160.96,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 7.87,
+          "directionValue": 119.85,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 20.57,
+          "directionValue": 182.1,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/10nudos_S.png"
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 3.87,
+          "directionValue": 144.31,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 8.52,
+          "directionValue": 262.54,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 3.78,
+          "directionValue": 233.6,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 8.96,
+          "directionValue": 239,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         }
+        ]
+       },
+       {
+        "name": "relative_humidity",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 96.98
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 99.2
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 87.48
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 76.16
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 74.39
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 77.23
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 77.47
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 82.29
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 78.7
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 79.54
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 75.72
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 76.18
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 72.81
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 78.31
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 75.03
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 84.15
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 84.61
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 84.36
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 83.24
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 88.19
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 88.82
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 83.68
+         }
+        ]
+       },
+       {
+        "name": "cloud_area_fraction",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 50
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 60
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 30
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 10
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 60
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 30
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 60
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 62.5
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 60
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 50
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 80
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 40
+         }
+        ]
+       },
+       {
+        "name": "air_pressure_at_sea_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "hpa",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1013
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1012
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1012
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1011
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1010
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1009
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1009
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1008
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1008
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1009
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1008
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1008
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1007
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1005
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1004
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1004
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1004
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1004
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1005
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1008
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1008
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1009
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1010
+         }
+        ]
+       },
+       {
+        "name": "snow_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "m",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-29T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2565
+         },
+         {
+          "timeInstant": "2026-09-29T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2617
+         },
+         {
+          "timeInstant": "2026-09-29T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2649
+         },
+         {
+          "timeInstant": "2026-09-29T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2692
+         },
+         {
+          "timeInstant": "2026-09-29T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2714
+         },
+         {
+          "timeInstant": "2026-09-29T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2650
+         },
+         {
+          "timeInstant": "2026-09-29T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2640
+         },
+         {
+          "timeInstant": "2026-09-29T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2658
+         },
+         {
+          "timeInstant": "2026-09-29T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2719
+         },
+         {
+          "timeInstant": "2026-09-29T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2682
+         },
+         {
+          "timeInstant": "2026-09-29T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2618
+         },
+         {
+          "timeInstant": "2026-09-29T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2608
+         },
+         {
+          "timeInstant": "2026-09-29T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2567
+         },
+         {
+          "timeInstant": "2026-09-29T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2558
+         },
+         {
+          "timeInstant": "2026-09-29T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2927
+         },
+         {
+          "timeInstant": "2026-09-29T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2940
+         },
+         {
+          "timeInstant": "2026-09-29T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2795
+         },
+         {
+          "timeInstant": "2026-09-29T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2887
+         },
+         {
+          "timeInstant": "2026-09-29T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2924
+         },
+         {
+          "timeInstant": "2026-09-29T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2902
+         },
+         {
+          "timeInstant": "2026-09-29T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2596
+         },
+         {
+          "timeInstant": "2026-09-29T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2501
+         },
+         {
+          "timeInstant": "2026-09-29T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2502
+         },
+         {
+          "timeInstant": "2026-09-29T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2552
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "timePeriod": {
+       "begin": {
+        "timeInstant": "2026-09-30T00:00:00+02"
+       },
+       "end": {
+        "timeInstant": "2026-09-30T23:59:59+02"
+       }
+      },
+      "variables": [
+       {
+        "name": "sky_state",
+        "model": "WRF",
+        "grid": "1km",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "PARTLY_CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubescraros.png"
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST_AND_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubasco75.png"
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "OVERCAST_AND_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubasco75.png"
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "DRIZZLE",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/orballo.png"
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "CLOUDY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/nubes75.png"
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "WEAK_SHOWERS",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/chubascosdebiles.png"
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/day/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         }
+        ]
+       },
+       {
+        "name": "temperature",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "degc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 18
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 16
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 16
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 16
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 18
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 20
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 19
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 17
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 16
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 15
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 14
+         }
+        ]
+       },
+       {
+        "name": "precipitation_amount",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "lm2",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.2
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2.1
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.3
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.1
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0.2
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "wind",
+        "model": "WRF",
+        "grid": "1km",
+        "moduleUnits": "kmh",
+        "directionUnits": "deg",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 11.29,
+          "directionValue": 217.73,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 6.4,
+          "directionValue": 207.63,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 11.17,
+          "directionValue": 223.87,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 14.69,
+          "directionValue": 216.68,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 13.18,
+          "directionValue": 217.92,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 13.54,
+          "directionValue": 216.57,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 11.78,
+          "directionValue": 215.91,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 15.46,
+          "directionValue": 228.44,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 13.55,
+          "directionValue": 209.9,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 16.68,
+          "directionValue": 212.16,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 13.05,
+          "directionValue": 208.26,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 17.2,
+          "directionValue": 222.97,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 19.97,
+          "directionValue": 231.25,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/10nudos_SO.png"
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 14.57,
+          "directionValue": 256.21,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 15.47,
+          "directionValue": 270.83,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 11.03,
+          "directionValue": 262.18,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 16.74,
+          "directionValue": 275.93,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 18.17,
+          "directionValue": 283.23,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 17.17,
+          "directionValue": 282.48,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 13.54,
+          "directionValue": 283.89,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 9.56,
+          "directionValue": 271.01,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/5nudos_O.png"
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 8.08,
+          "directionValue": 262.29,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 7.94,
+          "directionValue": 248.38,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.73,
+          "directionValue": 207.29,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         }
+        ]
+       },
+       {
+        "name": "relative_humidity",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 87.43
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 89.19
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 89.3
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 83.44
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 82.43
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 85.22
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 82.31
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 82.61
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 83.72
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 78.11
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 71.9
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 62.78
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 61.68
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 73.91
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 66.3
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 62.89
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 60.17
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 57.33
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 61.5
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 65.76
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 71.58
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 72.48
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 80.57
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 86.74
+         }
+        ]
+       },
+       {
+        "name": "cloud_area_fraction",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 40
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 43.46
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 100
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 68.68
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 69.66
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 93.54
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 67.04
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 10
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 10
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 10
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "air_pressure_at_sea_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "hpa",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1011
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1011
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1012
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1012
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1013
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1013
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1013
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1014
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1015
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1015
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1016
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1017
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1018
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1019
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1019
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1020
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1020
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1020
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1021
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1022
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1023
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1023
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1024
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1024
+         }
+        ]
+       },
+       {
+        "name": "snow_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "m",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-09-30T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2307
+         },
+         {
+          "timeInstant": "2026-09-30T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2296
+         },
+         {
+          "timeInstant": "2026-09-30T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2287
+         },
+         {
+          "timeInstant": "2026-09-30T03:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2287
+         },
+         {
+          "timeInstant": "2026-09-30T04:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2219
+         },
+         {
+          "timeInstant": "2026-09-30T05:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2171
+         },
+         {
+          "timeInstant": "2026-09-30T06:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2120
+         },
+         {
+          "timeInstant": "2026-09-30T07:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2169
+         },
+         {
+          "timeInstant": "2026-09-30T08:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2153
+         },
+         {
+          "timeInstant": "2026-09-30T09:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2169
+         },
+         {
+          "timeInstant": "2026-09-30T10:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2132
+         },
+         {
+          "timeInstant": "2026-09-30T11:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2137
+         },
+         {
+          "timeInstant": "2026-09-30T12:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2085
+         },
+         {
+          "timeInstant": "2026-09-30T13:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2061
+         },
+         {
+          "timeInstant": "2026-09-30T14:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2008
+         },
+         {
+          "timeInstant": "2026-09-30T15:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2059
+         },
+         {
+          "timeInstant": "2026-09-30T16:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1999
+         },
+         {
+          "timeInstant": "2026-09-30T17:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2079
+         },
+         {
+          "timeInstant": "2026-09-30T18:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2047
+         },
+         {
+          "timeInstant": "2026-09-30T19:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2043
+         },
+         {
+          "timeInstant": "2026-09-30T20:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 2045
+         },
+         {
+          "timeInstant": "2026-09-30T21:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1998
+         },
+         {
+          "timeInstant": "2026-09-30T22:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1962
+         },
+         {
+          "timeInstant": "2026-09-30T23:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1978
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "timePeriod": {
+       "begin": {
+        "timeInstant": "2026-10-01T00:00:00+02"
+       },
+       "end": {
+        "timeInstant": "2026-10-01T02:00:00+02"
+       }
+      },
+      "variables": [
+       {
+        "name": "sky_state",
+        "model": "WRF",
+        "grid": "1km",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": "SUNNY",
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/sky-state/night/despexado.png"
+         }
+        ]
+       },
+       {
+        "name": "temperature",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "degc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 13
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 13
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 12
+         }
+        ]
+       },
+       {
+        "name": "precipitation_amount",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "lm2",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "wind",
+        "model": "WRF",
+        "grid": "1km",
+        "moduleUnits": "kmh",
+        "directionUnits": "deg",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 4.24,
+          "directionValue": 188.28,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 6.46,
+          "directionValue": 178.63,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "moduleValue": 5.37,
+          "directionValue": 236.35,
+          "iconURL": "https://servizos.meteogalicia.gal/apiv5/images/weather/wind-arrows/VAR.png"
+         }
+        ]
+       },
+       {
+        "name": "relative_humidity",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 92.54
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 94.51
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 94.51
+         }
+        ]
+       },
+       {
+        "name": "cloud_area_fraction",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "perc",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "air_pressure_at_sea_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "hpa",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1025
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1025
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1024
+         }
+        ]
+       },
+       {
+        "name": "snow_level",
+        "model": "WRF",
+        "grid": "1km",
+        "units": "m",
+        "geometry": {
+         "type": "Point",
+         "coordinates": [
+          -8.4115,
+          43.3623
+         ]
+        },
+        "values": [
+         {
+          "timeInstant": "2026-10-01T00:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1992
+         },
+         {
+          "timeInstant": "2026-10-01T01:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1983
+         },
+         {
+          "timeInstant": "2026-10-01T02:00:00+02",
+          "modelRun": "2026-09-27T02:00:00+02",
+          "value": 1981
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

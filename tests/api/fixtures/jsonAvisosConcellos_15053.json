@@ -1,0 +1,41 @@
+{
+ "listaDiaConcellos": [
+  {
+   "dia": 0,
+   "listaAvisosConcellos": []
+  },
+  {
+   "dia": 1,
+   "listaAvisosConcellos": []
+  },
+  {
+   "dia": 2,
+   "listaAvisosConcellos": [
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T18:00:00",
+     "dataIni": "2026-09-29T12:00:00",
+     "id": 815130500,
+     "idConcello": 15053,
+     "idNivel": 1,
+     "idTipoAlerta": 8,
+     "nomeConcello": "Muros",
+     "tipoalerta_es": "Racha m\u00e1xima de viento",
+     "tipoalerta_gl": "Refacho m\u00e1ximo de vento"
+    },
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-30T00:00:00",
+     "dataIni": "2026-09-29T12:00:00",
+     "id": 1360271719,
+     "idConcello": 15053,
+     "idNivel": 1,
+     "idTipoAlerta": 4,
+     "nomeConcello": "Muros",
+     "tipoalerta_es": "Precipitaci\u00f3n 12 horas",
+     "tipoalerta_gl": "Precipitaci\u00f3n 12 horas"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+  "domain": "meteogal",
+  "name": "MeteoGal",
+  "codeowners": [
+    "@iago-veiga"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/iago-veiga/ha-meteogal",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/iago-veiga/ha-meteogal/issues",
+  "requirements": [
+    "Pillow>=12.0"
+  ],
+  "single_config_entry": true,
+  "version": "0.0.1"
+}

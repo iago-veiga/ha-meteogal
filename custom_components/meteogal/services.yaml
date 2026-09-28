@@ -1,0 +1,6 @@
+get_warnings:
+  target:
+    entity:
+      integration: meteogal
+      domain: sensor
+      device_class: enum

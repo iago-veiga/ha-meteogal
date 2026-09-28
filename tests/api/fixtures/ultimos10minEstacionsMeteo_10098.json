@@ -1,0 +1,60 @@
+{
+ "listUltimos10min": [
+  {
+   "estacion": "Abradelo",
+   "idEstacion": 10098,
+   "instanteLecturaUTC": "2026-09-27T21:40:00",
+   "listaMedidas": [
+    {
+     "codigoParametro": "HR_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Humidade relativa media a\u00a01.5m",
+     "unidade": "%",
+     "valor": 77.0
+    },
+    {
+     "codigoParametro": "HSOL_SUM_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Horas de sol",
+     "unidade": "h",
+     "valor": 0.0
+    },
+    {
+     "codigoParametro": "PP_SUM_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Chuvia",
+     "unidade": "L/m2",
+     "valor": 0.0
+    },
+    {
+     "codigoParametro": "RS_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Radiaci\u00f3n solar global",
+     "unidade": "W/m2",
+     "valor": 0.0
+    },
+    {
+     "codigoParametro": "TA_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura  a\u00a01.5m",
+     "unidade": "\u00baC",
+     "valor": 15.81
+    },
+    {
+     "codigoParametro": "TA_AVG_0.1m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura  a 0.1m",
+     "unidade": "\u00baC",
+     "valor": 15.2
+    },
+    {
+     "codigoParametro": "TO_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura de orballo a 1.5m",
+     "unidade": "\u00baC",
+     "valor": 11.75
+    }
+   ]
+  }
+ ]
+}

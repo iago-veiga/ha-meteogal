@@ -1,0 +1,6 @@
+{
+ "exception": {
+  "code": "217",
+  "message": "Specified point falls outside the geographic limits for which there are data."
+ }
+}

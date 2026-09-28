@@ -1,0 +1,51 @@
+MeteoGal
+Copyright 2026 Iago Veiga
+
+Este producto incluye datos de terceros, generados con scripts/generate_data.py:
+
+custom_components/meteogal/data/concellos.json
+  Contornos municipales de Galicia y de los municipios limítrofes de Asturias,
+  León y Zamora, del Instituto Geográfico Nacional (IGN), https://www.ign.es,
+  servicio WFS de unidades administrativas.
+  Licencia: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+  Modificaciones: simplificados a ~100 m y coordenadas a 4 decimales.
+
+custom_components/meteogal/data/toponimos.json
+  Nombres oficiales de los concellos del Nomenclátor de Galicia, Xunta de Galicia,
+  https://abertos.xunta.gal (conjunto de datos 0270).
+  Licencia: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+  Este fichero se distribuye con la misma licencia.
+  Modificaciones: solo los concellos, con el artículo delante y en minúsculas y
+  mayúsculas ("BAÑA, A" → "A Baña"), emparejados con su código INE.
+
+docs/brand/ y custom_components/meteogal/brand/
+  El contorno de Galicia del icono deriva de spain-communities.geojson de
+  click_that_hood (https://github.com/codeforgermany/click_that_hood), licencia MIT.
+
+tests/api/fixtures/
+  Respuestas reales de los servicios de MeteoGalicia (Xunta de Galicia),
+  https://www.meteogalicia.gal, guardadas para los tests: servicios públicos
+  (conjuntos 0106, 0114, 0385 y 0617 de https://abertos.xunta.gal) y MeteoSIX
+  (conjunto 0274).
+  Licencia: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+  Estos ficheros se distribuyen con la misma licencia.
+  Modificaciones: ninguna, salvo el formato (sangrado) y, en las respuestas de
+  MeteoSIX, que la clave nunca forma parte de la respuesta.
+
+custom_components/meteogal/data/DejaVuSans-latin.ttf
+  DejaVu Sans 2.37 (https://dejavu-fonts.github.io), reducida a los caracteres
+  latinos con scripts/generate_font.py.
+  Licencia: la de Bitstream Vera con los cambios de DejaVu en dominio público;
+  texto completo en custom_components/meteogal/data/DejaVuSans-LICENSE.txt.
+
+Imágenes del radar (entidades image de MeteoGal)
+  Se componen con los datos del radar de MeteoGalicia (Xunta de Galicia), servidor
+  THREDDS (conjunto 0485 de https://abertos.xunta.gal), con licencia
+  CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), y los contornos
+  del IGN (CC BY 4.0). Modificaciones: colores propios, mapa y rótulos. Las
+  imágenes resultantes tienen la misma licencia CC BY-SA 4.0 y llevan la atribución.
+  tests/api/fixtures/radar_* son respuestas reales de ese servidor (CC BY-SA 4.0).
+
+docs/images/radar.*
+  Imágenes de ejemplo generadas por MeteoGal con el radar de MeteoGalicia
+  (2026-09-27) y los contornos del IGN. Licencia CC BY-SA 4.0.

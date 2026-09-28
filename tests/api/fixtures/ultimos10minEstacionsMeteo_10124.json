@@ -1,0 +1,151 @@
+{
+ "listUltimos10min": [
+  {
+   "estacion": "Santiago-EOAS",
+   "idEstacion": 10124,
+   "instanteLecturaUTC": "2026-09-27T21:30:00",
+   "listaMedidas": [
+    {
+     "codigoParametro": "DV_AVG_10m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Direcci\u00f3n do vento a 10m",
+     "unidade": "\u00ba",
+     "valor": 23.0
+    },
+    {
+     "codigoParametro": "DV_CONDICION_10m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Direcci\u00f3n do refacho a 10m",
+     "unidade": "\u00ba",
+     "valor": 12.0
+    },
+    {
+     "codigoParametro": "DV_SD_10m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Desviaci\u00f3n t\u00edpica da direcci\u00f3n do vento a 10m",
+     "unidade": "\u00ba",
+     "valor": 11.0
+    },
+    {
+     "codigoParametro": "HR_AVG_30m",
+     "lnCodigoValidacion": 9,
+     "nomeParametro": "Humidade relativa media a 30m",
+     "unidade": "%",
+     "valor": -9999.0
+    },
+    {
+     "codigoParametro": "HR_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Humidade relativa media a\u00a01.5m",
+     "unidade": "%",
+     "valor": 97.0
+    },
+    {
+     "codigoParametro": "HSOL_SUM_1.5m",
+     "lnCodigoValidacion": 9,
+     "nomeParametro": "Horas de sol",
+     "unidade": "h",
+     "valor": -9999.0
+    },
+    {
+     "codigoParametro": "PP_SUM_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Chuvia",
+     "unidade": "L/m2",
+     "valor": 0.0
+    },
+    {
+     "codigoParametro": "PR_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Presi\u00f3n",
+     "unidade": "hPa",
+     "valor": 987.54
+    },
+    {
+     "codigoParametro": "PRED_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Presi\u00f3n reducida",
+     "unidade": "hPa",
+     "valor": 1017.42
+    },
+    {
+     "codigoParametro": "RD_AVG_1.5m",
+     "lnCodigoValidacion": 9,
+     "nomeParametro": "Radiaci\u00f3n difusa",
+     "unidade": "W/m2",
+     "valor": -9999.0
+    },
+    {
+     "codigoParametro": "RS_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Radiaci\u00f3n solar global",
+     "unidade": "W/m2",
+     "valor": 0.0
+    },
+    {
+     "codigoParametro": "TA_AVG_0.1m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura  a 0.1m",
+     "unidade": "\u00baC",
+     "valor": 17.51
+    },
+    {
+     "codigoParametro": "TA_AVG_30m",
+     "lnCodigoValidacion": 9,
+     "nomeParametro": "Temperatura  a 30m",
+     "unidade": "\u00baC",
+     "valor": -9999.0
+    },
+    {
+     "codigoParametro": "TA_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura  a\u00a01.5m",
+     "unidade": "\u00baC",
+     "valor": 17.51
+    },
+    {
+     "codigoParametro": "TO_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura de orballo a 1.5m",
+     "unidade": "\u00baC",
+     "valor": 17.08
+    },
+    {
+     "codigoParametro": "TS_AVG_-0.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura do solo a -0.5m",
+     "unidade": "\u00baC",
+     "valor": 22.75
+    },
+    {
+     "codigoParametro": "TS_AVG_-0.1m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura do solo a -0.1m",
+     "unidade": "\u00baC",
+     "valor": 22.32
+    },
+    {
+     "codigoParametro": "VV_SD_10m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Desviaci\u00f3n t\u00edpica da velocidade do vento a 10m",
+     "unidade": "m/s",
+     "valor": 0.36
+    },
+    {
+     "codigoParametro": "VV_AVG_10m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Velocidade do vento a 10m",
+     "unidade": "m/s",
+     "valor": 2.28
+    },
+    {
+     "codigoParametro": "VV_RACHA_10m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Refacho a 10m",
+     "unidade": "m/s",
+     "valor": 2.97
+    }
+   ]
+  }
+ ]
+}

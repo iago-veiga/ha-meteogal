@@ -1,0 +1,110 @@
+{
+ "listDatosDiarios": [
+  {
+   "data": "2026-09-27T00:00:00",
+   "listaEstacions": [
+    {
+     "concello": "SAMOS",
+     "estacion": "Abradelo",
+     "idEstacion": 10098,
+     "listaMedidas": [
+      {
+       "codigoParametro": "HFRIO7_RECUENTO_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Horas de fr\u00edo ( <=7\u00baC)",
+       "unidade": "h",
+       "valor": 0.0
+      },
+      {
+       "codigoParametro": "HR_AVG_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Humidade relativa media a\u00a01.5m",
+       "unidade": "%",
+       "valor": 67.0
+      },
+      {
+       "codigoParametro": "HR_MAX_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Humidade relativa \u00a0m\u00e1xima a 1.5m",
+       "unidade": "%",
+       "valor": 84.0
+      },
+      {
+       "codigoParametro": "HR_MIN_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Humidade relativa \u00a0m\u00ednima a 1.5m",
+       "unidade": "%",
+       "valor": 54.0
+      },
+      {
+       "codigoParametro": "HSOL_SUM_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Horas de sol",
+       "unidade": "h",
+       "valor": 2.0335
+      },
+      {
+       "codigoParametro": "INS_RATIO_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Insolaci\u00f3n",
+       "unidade": "%",
+       "valor": 17.2
+      },
+      {
+       "codigoParametro": "IRD_SUM_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Irradiaci\u00f3n global diaria",
+       "unidade": "10kJ/(m2.d\u00eda)",
+       "valor": 876.0
+      },
+      {
+       "codigoParametro": "PP_SUM_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Chuvia",
+       "unidade": "L/m2",
+       "valor": 0.0
+      },
+      {
+       "codigoParametro": "TA_AVG_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Temperatura media a\u00a01.5m",
+       "unidade": "\u00baC",
+       "valor": 17.59
+      },
+      {
+       "codigoParametro": "TA_MAX_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Temperatura m\u00e1xima a 1.5m",
+       "unidade": "\u00baC",
+       "valor": 21.95
+      },
+      {
+       "codigoParametro": "TA_MIN_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Temperatura m\u00ednima a 1.5m",
+       "unidade": "\u00baC",
+       "valor": 12.76
+      },
+      {
+       "codigoParametro": "TA_AVG_0.1m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Temperatura media a 0.1m",
+       "unidade": "\u00baC",
+       "valor": 17.98
+      },
+      {
+       "codigoParametro": "TO_AVG_1.5m",
+       "lnCodigoValidacion": 1,
+       "nomeParametro": "Temperatura de orballo a 1.5m",
+       "unidade": "\u00baC",
+       "valor": 11.19
+      }
+     ],
+     "provincia": "Lugo",
+     "utmx": "643328.0",
+     "utmy": "4734223.0"
+    }
+   ]
+  }
+ ]
+}

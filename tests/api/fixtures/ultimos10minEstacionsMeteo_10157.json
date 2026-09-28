@@ -1,0 +1,46 @@
+{
+ "listUltimos10min": [
+  {
+   "estacion": "Coru\u00f1a-Torre de H\u00e9rcules",
+   "idEstacion": 10157,
+   "instanteLecturaUTC": "2026-09-27T21:40:00",
+   "listaMedidas": [
+    {
+     "codigoParametro": "BCN_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Brillo do Ceo Nocturno",
+     "unidade": "mag/arsec2",
+     "valor": 17.041
+    },
+    {
+     "codigoParametro": "HR_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Humidade relativa media a\u00a01.5m",
+     "unidade": "%",
+     "valor": 100.0
+    },
+    {
+     "codigoParametro": "PP_SUM_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Chuvia",
+     "unidade": "L/m2",
+     "valor": 0.0
+    },
+    {
+     "codigoParametro": "TA_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura  a\u00a01.5m",
+     "unidade": "\u00baC",
+     "valor": 16.77
+    },
+    {
+     "codigoParametro": "TO_AVG_1.5m",
+     "lnCodigoValidacion": 1,
+     "nomeParametro": "Temperatura de orballo a 1.5m",
+     "unidade": "\u00baC",
+     "valor": 16.77
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+{
+  "exception": {
+    "code": "006",
+    "message": "Supplied API Key is invalid. You can get an API Key for free at https://www.meteogalicia.gal/web/modelos-numericos/meteosix"
+  }
+}

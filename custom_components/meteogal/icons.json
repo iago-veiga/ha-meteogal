@@ -1,0 +1,112 @@
+{
+  "entity": {
+    "sensor": {
+      "warning_level": {
+        "default": "mdi:alert",
+        "state": {
+          "none": "mdi:check-circle-outline"
+        }
+      },
+      "upcoming_warning_level": {
+        "default": "mdi:alert-outline",
+        "state": {
+          "none": "mdi:check-circle-outline"
+        }
+      },
+      "active_warnings": {
+        "default": "mdi:alert"
+      },
+      "upcoming_warnings": {
+        "default": "mdi:alert-outline"
+      },
+      "rain_this_hour": {
+        "default": "mdi:weather-rainy"
+      },
+      "next_rain": {
+        "default": "mdi:weather-pouring"
+      },
+      "snow_level": {
+        "default": "mdi:snowflake"
+      },
+      "station_temperature": {
+        "default": "mdi:thermometer"
+      },
+      "station_humidity": {
+        "default": "mdi:water-percent"
+      },
+      "station_rain_today": {
+        "default": "mdi:weather-pouring"
+      },
+      "station_rain_10min": {
+        "default": "mdi:weather-rainy"
+      },
+      "station_wind_speed": {
+        "default": "mdi:weather-windy"
+      },
+      "station_wind_gust": {
+        "default": "mdi:weather-windy-variant"
+      },
+      "station_pressure": {
+        "default": "mdi:gauge"
+      },
+      "station_water_temperature": {
+        "default": "mdi:coolant-temperature"
+      },
+      "station_wind_direction": {
+        "default": "mdi:compass-outline"
+      },
+      "station_dew_point": {
+        "default": "mdi:thermometer-water"
+      },
+      "station_temperature_max_today": {
+        "default": "mdi:thermometer-chevron-up"
+      },
+      "station_temperature_min_today": {
+        "default": "mdi:thermometer-chevron-down"
+      },
+      "station_wind_max_today": {
+        "default": "mdi:weather-windy"
+      },
+      "station_sun_hours_today": {
+        "default": "mdi:weather-sunny"
+      },
+      "station_evapotranspiration_today": {
+        "default": "mdi:water-sync"
+      },
+      "station_solar_radiation": {
+        "default": "mdi:solar-power-variant"
+      },
+      "station_uv_radiation": {
+        "default": "mdi:sun-wireless"
+      },
+      "station_ground_temperature": {
+        "default": "mdi:thermometer-low"
+      },
+      "station_soil_temperature": {
+        "default": "mdi:sprout"
+      },
+      "station_soil_moisture": {
+        "default": "mdi:water-outline"
+      },
+      "station_updated": {
+        "default": "mdi:access-point"
+      }
+    },
+    "image": {
+      "camera": {
+        "default": "mdi:cctv"
+      },
+      "radar": {
+        "default": "mdi:radar"
+      },
+      "radar_latest": {
+        "default": "mdi:radar"
+      }
+    }
+  },
+  "services": {
+    "get_warnings": {
+      "service": "mdi:alert"
+    }
+  }
+}
