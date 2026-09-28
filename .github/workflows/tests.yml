@@ -19,3 +19,14 @@ jobs:
       - run: ruff format --check .
       - run: mypy custom_components/meteogal
       - run: pytest
+
+  # La versión mínima que se anuncia (hacs.json): HA 2025.11, con Python 3.13.
+  tests-minimum:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install "pytest-homeassistant-custom-component==0.13.294" "pycares<5"
+      - run: pytest

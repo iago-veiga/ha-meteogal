@@ -35,6 +35,8 @@ Cada ubicación que configures es un dispositivo con el nombre oficial de su con
 | `sensor.a_coruna_lluvia_esta_hora`, `…_proxima_lluvia` | Lluvia prevista | Clave de MeteoSIX | Activadas |
 | `sensor.a_coruna_cota_de_nieve` | Cota de nieve prevista | Clave de MeteoSIX | Desactivada |
 
+<img src="docs/images/sensores.png" width="320" alt="Dispositivo A Coruña en Home Assistant: tiempo, cámara, sensores de la estación, avisos, lluvia prevista y radar">
+
 Los `entity_id` salen del nombre en el idioma de tu Home Assistant: en gallego serían, por ejemplo, `sensor.a_coruna_nivel_de_aviso_proximo` o `sensor.a_coruna_choiva_hoxe`.
 
 Todo lo que viene de MeteoGalicia lleva la atribución «MeteoGalicia · Xunta de Galicia».
@@ -52,7 +54,7 @@ Todo lo que viene de MeteoGalicia lleva la atribución «MeteoGalicia · Xunta d
 1. Copia la carpeta `custom_components/meteogal` en `/config/custom_components/` de tu Home Assistant.
 2. Reinicia Home Assistant.
 
-Requiere Home Assistant 2026.3 o posterior.
+Requiere Home Assistant 2025.11 o posterior.
 
 ## Configuración
 
@@ -172,6 +174,8 @@ Detalle en [docs/estaciones.md](docs/estaciones.md).
 ## Cámara
 
 `image.<ubicación>_camara`: la última foto de la cámara de MeteoGalicia que elijas para la ubicación (hay 33, muchas en estaciones). Se renueva cada ~5 minutos; el estado es la hora de la foto y el atributo «Cámara», su nombre. Se ve con una tarjeta **Imagen**.
+
+<img src="docs/images/camara.jpg" width="480" alt="Cámara de Coruña-Dique de noche en Home Assistant">
 
 ## Clave de MeteoSIX (opcional)
 
@@ -359,7 +363,7 @@ Cómo funciona cada parte, con las decisiones tomadas y los datos con que se val
 - [Servicios de MeteoGalicia](docs/api.md) que usa MeteoGal.
 - [Concello a partir de coordenadas](docs/concello-por-coordenadas.md) y [nombres de concello](docs/toponimos.md).
 
-Para trabajar en el código (Python 3.14):
+Para trabajar en el código (Python 3.14; la CI también pasa los tests con la versión mínima, HA 2025.11 y Python 3.13):
 
 ```sh
 python -m venv .venv && . .venv/bin/activate

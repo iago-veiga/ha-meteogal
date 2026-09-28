@@ -49,3 +49,8 @@ Imágenes del radar (entidades image de MeteoGal)
 docs/images/radar.*
   Imágenes de ejemplo generadas por MeteoGal con el radar de MeteoGalicia
   (2026-09-27) y los contornos del IGN. Licencia CC BY-SA 4.0.
+
+docs/images/sensores.png y docs/images/camara.jpg
+  Capturas de Home Assistant con MeteoGal (2026-09-28). Incluyen datos de
+  MeteoGalicia y la foto de su cámara de Coruña-Dique (Xunta de Galicia),
+  licencia CC BY-SA 4.0; las capturas se distribuyen con la misma licencia.
