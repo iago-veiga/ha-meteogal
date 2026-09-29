@@ -158,12 +158,12 @@ Avisos de MeteoGalicia para el concello: temperatura máxima y mínima, lluvia e
 
 | Entidad | Estado | Atributos |
 |---|---|---|
-| Nivel de aviso | Sin avisos, amarillo, naranja o rojo, de los **vigentes ahora** | Del aviso principal (el más grave): tipo, nivel, inicio y fin |
+| Nivel de aviso | Sin avisos, amarillo, naranja o rojo, de los **vigentes ahora** | Del aviso principal (el más grave): tipo, nivel, inicio, fin y **descripción** de MeteoGalicia («Rachas superando los 80 km/h») |
 | Nivel de aviso próximo | Lo mismo de los **emitidos que aún no han empezado** | Ídem |
 | Avisos vigentes / próximos | Número (desactivadas) | — |
 
 - El estado cambia **justo** cuando empieza o acaba cada aviso.
-- Los atributos se ven en el menú **⋮ → Atributos** de la ventana de la entidad, traducidos («Tipo: Racha máxima de viento»).
+- Los atributos se ven en el menú **⋮ → Atributos** de la ventana de la entidad, traducidos («Tipo: Racha máxima de viento»). La descripción es el texto de MeteoGalicia, en gallego o castellano según el idioma de Home Assistant (en inglés, en castellano); si MeteoGalicia no lo publica para ese aviso, queda vacía.
 - Para ver **todos** los avisos, usa la acción **`meteogal.get_warnings`** sobre el sensor de nivel (ver [ejemplos](#ejemplos)).
 
 Detalle en [docs/avisos.md](docs/avisos.md).
@@ -281,7 +281,7 @@ Home Assistant te avisa arriba del todo en **Ajustes**, como una reparación: «
 
 | Acción | Qué hace |
 |---|---|
-| `meteogal.get_warnings` | Devuelve todos los avisos de una ubicación, vigentes y próximos, con tipo, nivel, inicio y fin. Se usa sobre el sensor de nivel de aviso ([ejemplo](#ejemplos), [detalle](docs/avisos.md#acción-meteogalget_warnings)) |
+| `meteogal.get_warnings` | Devuelve todos los avisos de una ubicación, vigentes y próximos, con tipo, nivel, inicio, fin y descripción. Se usa sobre el sensor de nivel de aviso ([ejemplo](#ejemplos), [detalle](docs/avisos.md#acción-meteogalget_warnings)) |
 | `meteogal.get_air_quality` | Devuelve la calidad del aire de una ubicación: ahora, cada hora prevista por el modelo y cada día previsto para el concello. Se usa sobre el sensor de calidad del aire ([ejemplo](#ejemplos), [detalle](docs/calidad-aire.md#acción-meteogalget_air_quality)) |
 
 ## Ejemplos
@@ -310,6 +310,7 @@ content: >
   **Aviso {{ state_translated(e) | lower }}** por {{ tipos.get(state_attr(e, 'type'), 'otro fenómeno') }}:
   {{ as_timestamp(state_attr(e, 'start')) | timestamp_custom('%d/%m %H:%M') }} –
   {{ as_timestamp(state_attr(e, 'end')) | timestamp_custom('%H:%M') }}
+  {{ state_attr(e, 'description') or '' }}
   {% else %}
   Sin avisos próximos.
   {% endif %}

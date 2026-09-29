@@ -4,6 +4,7 @@ Respuesta real de Muxía (2026-09-27): dos avisos amarillos el martes 29, racha
 máxima de viento de 12 a 18 h y lluvia en 12 horas de 12 a 24 h.
 """
 
+from dataclasses import replace
 from datetime import datetime
 
 from homeassistant.config_entries import ConfigSubentryData
@@ -17,19 +18,33 @@ from pytest_homeassistant_custom_component.common import (
     async_fire_time_changed,
 )
 
-from custom_components.meteogal.api import WeatherWarning
-from custom_components.meteogal.api.client import TIMEZONE
+from custom_components.meteogal.api import WarningText, WeatherWarning
+from custom_components.meteogal.api.client import (
+    TIMEZONE,
+    _parse_warning_texts,
+    _parse_warnings,
+)
 from custom_components.meteogal.const import DOMAIN
 from custom_components.meteogal.sensor import WarningLevelSensor
 from custom_components.meteogal.warnings import (
     active,
+    concello_zones,
+    describe,
     highest_level,
+    load_zones,
     next_change,
     sort_warnings,
     upcoming,
 )
 
-from .api.conftest import SANTIAGO, WARNINGS, load, mock_meteogalicia
+from .api.conftest import (
+    FIXTURES,
+    SANTIAGO,
+    WARNING_TEXTS,
+    WARNINGS,
+    load,
+    mock_meteogalicia,
+)
 
 LEVEL = "sensor.santiago_de_compostela_warning_level"
 UPCOMING_LEVEL = "sensor.santiago_de_compostela_upcoming_warning_level"
@@ -166,6 +181,8 @@ async def test_get_warnings_action(hass: HomeAssistant) -> None:
                     "start": "2026-09-29T12:00:00+02:00",
                     "end": "2026-09-29T18:00:00+02:00",
                     "warning_id": 815130500,
+                    "description": None,
+                    "zone": None,
                     "active": True,
                 },
                 {
@@ -174,6 +191,8 @@ async def test_get_warnings_action(hass: HomeAssistant) -> None:
                     "start": "2026-09-29T12:00:00+02:00",
                     "end": "2026-09-30T00:00:00+02:00",
                     "warning_id": 1360271719,
+                    "description": None,
+                    "zone": None,
                     "active": True,
                 },
             ]
@@ -269,3 +288,178 @@ async def test_get_warnings_only_on_warning_level(hass: HomeAssistant) -> None:
             blocking=True,
             return_response=True,
         )
+
+
+# --- Comentario de cada aviso (RSS por zonas), respuestas reales del 2026-09-29 ---
+
+
+def rss_warnings(concello: int) -> list[WeatherWarning]:
+    return _parse_warnings(load(f"jsonAvisosConcellos_{concello}_rss.json"))
+
+
+def rss_texts(locale: str = "es") -> list[WarningText]:
+    return _parse_warning_texts(
+        (FIXTURES / f"rssAdversos_{locale}.xml").read_text(encoding="utf-8")
+    )
+
+
+def described(concello: int, locale: str = "es") -> dict:
+    zones = concello_zones(concello, load_zones())
+    return {
+        (w.type_id, w.level, w.start.hour, w.end.hour): (w.description, w.zone)
+        for w in describe(rss_warnings(concello), rss_texts(locale), zones)
+    }
+
+
+def test_parse_warning_texts() -> None:
+    texts = rss_texts()
+    assert len(texts) == 16
+    rain = next(t for t in texts if t.type_id == 3 and t.zone_id == 322)
+    assert rain.zone_name == "Oeste de A Coruña"
+    assert rain.level == 2
+    assert rain.start == at(29, 18)
+    assert rain.end == at(29, 21)
+    assert rain.comment == "Lluvia de más de 30 litros/m2 en una hora."
+
+
+def test_zones_of_a_concello() -> None:
+    zones = load_zones()
+    assert len(zones) == 313
+    # A Coruña: su zona, Noroeste de A Coruña, la provincia y Galicia.
+    assert concello_zones(15030, zones) == [213, 321, 316, 320]
+    assert concello_zones(27045, zones)[2] == 317  # Pedrafita: Lugo
+
+
+def test_describe_a_coruna() -> None:
+    """Los dos avisos de A Coruña salen del tramo de la provincia."""
+    assert described(15030) == {
+        (3, 1, 18, 21): (
+            "LLuvias de más de 15 l/m2 en una hora.",
+            "A Coruña (provincia)",
+        ),
+        (8, 1, 9, 21): ("Rachas superando los 80 km/h.", "A Coruña (provincia)"),
+    }
+
+
+def test_describe_cee() -> None:
+    """Cee: el mismo tipo y hora con dos niveles, cada uno con el suyo (la
+    agrupación para el naranja, la provincia para el amarillo). La racha naranja de
+    12 a 18 ya no está en el RSS: sin comentario."""
+    assert described(15023) == {
+        (8, 2, 12, 18): (None, None),
+        (8, 1, 9, 21): ("Rachas superando los 80 km/h.", "A Coruña (provincia)"),
+        (3, 1, 18, 21): (
+            "LLuvias de más de 15 l/m2 en una hora.",
+            "A Coruña (provincia)",
+        ),
+        (3, 2, 18, 21): (
+            "Lluvia de más de 30 litros/m2 en una hora.",
+            "Oeste de A Coruña",
+        ),
+        (4, 1, 12, 0): ("Lluvia de más de 40 litros/m2.", "Oeste de A Coruña"),
+    }
+
+
+def test_describe_in_galician() -> None:
+    comment, zone = described(15030, "gl")[(8, 1, 9, 21)]
+    assert zone == "A Coruña (provincia)"
+    assert comment and "80 km/h" in comment
+    assert comment != "Rachas superando los 80 km/h."
+
+
+def test_describe_other_zone_or_marine() -> None:
+    """Un tramo de otra zona no vale; los de mar, sí, si todos dicen lo mismo."""
+    texts = [
+        WarningText(
+            type_id=8,
+            zone_id=332,
+            zone_name="Montaña de Ourense",
+            level=1,
+            start=at(29, 9),
+            end=at(29, 21),
+            comment="Rachas superando los 80 km/h.",
+        ),
+        WarningText(
+            type_id=9,
+            zone_id=342,
+            zone_name="Coruña Noroeste (mar+costa)",
+            level=1,
+            start=at(29, 15),
+            end=at(29, 21),
+            comment="Viento del sur, fuerza 7.",
+        ),
+    ]
+    zones = concello_zones(15030, load_zones())
+    gust = warning(1, 1, at(29, 9), at(29, 21))
+    sea = warning(2, 1, at(29, 15), at(29, 21), type_id=9)
+    result = describe([gust, sea], texts, zones)
+    assert result[0].description is None
+    assert (result[1].description, result[1].zone) == (
+        "Viento del sur, fuerza 7.",
+        "Coruña Noroeste (mar+costa)",
+    )
+    # Dos zonas de mar con textos distintos: no se sabe cuál es.
+    texts.append(replace(texts[1], zone_id=400, comment="Viento del sur, fuerza 8."))
+    assert describe([sea], texts, zones)[0].description is None
+
+
+A_CORUNA = "sensor.a_coruna_warning_level"
+
+
+async def setup_a_coruna(hass: HomeAssistant, aioclient_mock, rss_down: bool) -> None:
+    """A Coruña con sus avisos reales del 2026-09-29. Lo propio va antes que la
+    simulación general: gana la primera respuesta que encaja."""
+    await hass.config.async_set_time_zone("Europe/Madrid")
+    aioclient_mock.clear_requests()
+    if rss_down:
+        aioclient_mock.get(WARNING_TEXTS, status=503)
+    aioclient_mock.get(
+        WARNINGS,
+        params={"idConcello": 15030, "dia": -1},
+        json=load("jsonAvisosConcellos_15030_rss.json"),
+    )
+    mock_meteogalicia(aioclient_mock)
+    mock_meteogalicia(aioclient_mock, concello=15030)
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        title="MeteoGal",
+        data={},
+        subentries_data=[
+            ConfigSubentryData(
+                subentry_type="location",
+                title="A Coruña",
+                data={
+                    "latitude": 43.3665,
+                    "longitude": -8.3735,
+                    "concello_id": 15030,
+                    "station_id": None,
+                },
+                unique_id=None,
+            )
+        ],
+    )
+    entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+
+@pytest.mark.freeze_time("2026-09-29T19:00:00+02:00")
+async def test_description_in_ha(hass: HomeAssistant, aioclient_mock) -> None:
+    await setup_a_coruna(hass, aioclient_mock, rss_down=False)
+
+    state = hass.states.get(A_CORUNA)
+    assert state.state == "yellow"
+    # Principal: la racha, que acaba a la vez que la lluvia pero empezó antes.
+    assert state.attributes["type"] == "wind_gust"
+    assert state.attributes["description"] == "Rachas superando los 80 km/h."
+    assert state.attributes["zone"] == "A Coruña (provincia)"
+
+
+@pytest.mark.freeze_time("2026-09-29T19:00:00+02:00")
+async def test_description_rss_down(hass: HomeAssistant, aioclient_mock) -> None:
+    """Sin RSS, los avisos siguen, sin comentario."""
+    await setup_a_coruna(hass, aioclient_mock, rss_down=True)
+
+    state = hass.states.get(A_CORUNA)
+    assert state.state == "yellow"
+    assert state.attributes["description"] is None

@@ -1,0 +1,41 @@
+{
+ "listaDiaConcellos": [
+  {
+   "dia": 0,
+   "listaAvisosConcellos": [
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T21:00:00",
+     "dataIni": "2026-09-29T18:00:00",
+     "id": 282978952,
+     "idConcello": 15030,
+     "idNivel": 1,
+     "idTipoAlerta": 3,
+     "nomeConcello": "Coruña (A)",
+     "tipoalerta_es": "Precipitación 1 hora",
+     "tipoalerta_gl": "Precipitación 1 hora"
+    },
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T21:00:00",
+     "dataIni": "2026-09-29T09:00:00",
+     "id": 1077489894,
+     "idConcello": 15030,
+     "idNivel": 1,
+     "idTipoAlerta": 8,
+     "nomeConcello": "Coruña (A)",
+     "tipoalerta_es": "Racha máxima de viento",
+     "tipoalerta_gl": "Refacho máximo de vento"
+    }
+   ]
+  },
+  {
+   "dia": 1,
+   "listaAvisosConcellos": []
+  },
+  {
+   "dia": 2,
+   "listaAvisosConcellos": []
+  }
+ ]
+}

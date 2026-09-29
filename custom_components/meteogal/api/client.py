@@ -6,6 +6,7 @@ from collections.abc import Callable, Mapping
 from datetime import UTC, date, datetime
 import logging
 from typing import Any
+from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
 import aiohttp
@@ -31,6 +32,7 @@ from .models import (
     Station,
     StationDay,
     StationReading,
+    WarningText,
     WeatherWarning,
 )
 
@@ -124,6 +126,17 @@ class MeteoGalClient:
         )
         return _parse(data, _parse_warnings)
 
+    async def get_warning_texts(self, locale: str) -> list[WarningText]:
+        """Tramos del RSS de avisos, con su comentario, en `es` o `gl`.
+
+        Van por zona (concello, agrupación, provincia, Galicia o mar), no por
+        concello: la integración los une con los avisos de cada concello.
+        """
+        text = await self._get_text(
+            "predicion/rssAdversos.action", request_locale=locale
+        )
+        return _parse(text, _parse_warning_texts)
+
     async def get_station_reading(self, station_id: int) -> StationReading | None:
         """Última lectura de 10 minutos de la estación, o None si no hay."""
         data = await self._get(
@@ -173,6 +186,12 @@ class MeteoGalClient:
         return _parse(data, _parse_air_forecast)
 
     async def _get(self, path: str, **params: Any) -> Any:
+        return await self._request(path, params, text=False)
+
+    async def _get_text(self, path: str, **params: Any) -> str:
+        return str(await self._request(path, params, text=True))
+
+    async def _request(self, path: str, params: dict[str, Any], *, text: bool) -> Any:
         url = f"{self._base_url}/{path}"
         try:
             async with self._session.get(
@@ -182,6 +201,8 @@ class MeteoGalClient:
                     raise MeteoGalResponseError(
                         f"{path}: respuesta HTTP {response.status}"
                     )
+                if text:
+                    return await response.text()
                 return await response.json()
         except (TimeoutError, aiohttp.ClientConnectionError) as err:
             raise MeteoGalConnectionError(f"{path}: {err!r}") from err
@@ -193,7 +214,13 @@ def _parse[T](data: Any, parser: Callable[[Any], T]) -> T:
     """Convierte cualquier sorpresa en el formato en un error del cliente."""
     try:
         return parser(data)
-    except (KeyError, TypeError, ValueError, AttributeError) as err:
+    except (
+        KeyError,
+        TypeError,
+        ValueError,
+        AttributeError,
+        ElementTree.ParseError,
+    ) as err:
         raise MeteoGalResponseError(f"Formato inesperado: {err!r}") from err
 
 
@@ -391,6 +418,39 @@ def _parse_station_day(data: Any) -> StationDay | None:
         date=_local_date(days[0]["data"]),
         values=_measures(station["listaMedidas"]),
     )
+
+
+# Espacio de nombres de las etiquetas propias del RSS de avisos (`adversos:…`).
+_ADVERSOS = "{adversos}"
+
+
+def _parse_warning_texts(text: str) -> list[WarningText]:
+    """Cada `tramo` de cada `zona` de cada `adversos:TipoAlerta`. Fechas «dd/mm/aaaa
+    HH:MM» en hora local."""
+    root = ElementTree.fromstring(text)
+
+    def when(raw: str | None) -> datetime:
+        return datetime.strptime((raw or "").strip(), "%d/%m/%Y %H:%M").replace(
+            tzinfo=TIMEZONE
+        )
+
+    texts = []
+    for alert in root.iter(f"{_ADVERSOS}TipoAlerta"):
+        type_id = int(alert.attrib["idtipoalerta"])
+        for zone in alert.iter("zona"):
+            for part in zone.iter("tramo"):
+                texts.append(
+                    WarningText(
+                        type_id=type_id,
+                        zone_id=int(zone.attrib["id"]),
+                        zone_name=zone.attrib.get("nome", "").strip(),
+                        level=int((part.findtext("nivel") or "0").strip()),
+                        start=when(part.findtext("dataIni")),
+                        end=when(part.findtext("dataFin")),
+                        comment=" ".join((part.findtext("comentario") or "").split()),
+                    )
+                )
+    return texts
 
 
 # Marcas de las medidas de aire que no valen: canal desactivado y mantenimiento.

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:adversos="adversos" version="2.0">
+  <channel>
+    <title>Avisos</title>
+    <link>https://www.meteogalicia.gal/web/predicion/avisos/0</link>
+    <description>Boletín de tempo meteorolóxico con avisos</description>
+    <item>
+      <title>Aviso de nivel máximo laranxa de Precipitación 1 hora</title>
+      <link>https://www.meteogalicia.gal/web/predicion/avisos/0</link>
+      <description>Aviso de nivel máximo laranxa de Precipitación 1 hora. Resumo por zonas: &lt;br/&gt;&lt;ul&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;A Coruña (provincia)&lt;/font&gt;&lt;br/&gt;Desde as 18h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Chuvias de máis de 15 l/m2 nunha hora.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Pontevedra (provincia)&lt;/font&gt;&lt;br/&gt;Desde as 18h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Chuvia de máis de 15 litros/m2.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color='#FF9900'&gt;Oeste de A Coruña&lt;/font&gt;&lt;br/&gt;Desde as 18h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Chuvia de máis de 30 litros/m2.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color='#FF9900'&gt;Suroeste de A Coruña&lt;/font&gt;&lt;br/&gt;Desde as 18h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Chuvia de máis de 30 litros/m2&lt;br/&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+      <pubDate>Tue, 29 Sep 2026 06:30:39 GMT</pubDate>
+      <guid>https://www.meteogalicia.gal/web/predicion/avisos/0</guid>
+      <dc:date>2026-09-29T06:30:39Z</dc:date>
+      <adversos:TipoAlerta nome="Precipitación 1 hora" idtipoalerta="3" nivelMax="2">
+        <zona nome="A Coruña (provincia)" id="316">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 18:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Chuvias de máis de 15 l/m2 nunha hora.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Pontevedra (provincia)" id="319">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 18:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Chuvia de máis de 15 litros/m2.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Oeste de A Coruña" id="322">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 18:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">2</nivel>
+            <comentario>Chuvia de máis de 30 litros/m2.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Suroeste de A Coruña" id="324">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 18:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">2</nivel>
+            <comentario>Chuvia de máis de 30 litros/m2</comentario>
+          </tramo>
+        </zona>
+      </adversos:TipoAlerta>
+    </item>
+    <item>
+      <title>Aviso de nivel máximo laranxa de Vento no mar</title>
+      <link>https://www.meteogalicia.gal/web/predicion/avisos/0</link>
+      <description>Aviso de nivel máximo laranxa de Vento no mar. Resumo por zonas: &lt;br/&gt;&lt;ul&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Coruña Noroeste (mar)&lt;/font&gt;&lt;br/&gt;Desde as 15h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Vento do sur, forza 7.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color='#FF9900'&gt;Rías Baixas (mar)&lt;/font&gt;&lt;br/&gt;Desde as 09h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Vento do sur, forza 8.&lt;br/&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+      <pubDate>Tue, 29 Sep 2026 06:30:39 GMT</pubDate>
+      <guid>https://www.meteogalicia.gal/web/predicion/avisos/0</guid>
+      <dc:date>2026-09-29T06:30:39Z</dc:date>
+      <adversos:TipoAlerta nome="Vento no mar" idtipoalerta="9" nivelMax="2">
+        <zona nome="Coruña Noroeste (mar)" id="338">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 15:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Vento do sur, forza 7.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Rías Baixas (mar)" id="400">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 09:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">2</nivel>
+            <comentario>Vento do sur, forza 8.</comentario>
+          </tramo>
+        </zona>
+      </adversos:TipoAlerta>
+    </item>
+    <item>
+      <title>Aviso de nivel máximo amarelo de Precipitación 12 horas</title>
+      <link>https://www.meteogalicia.gal/web/predicion/avisos/0</link>
+      <description>Aviso de nivel máximo amarelo de Precipitación 12 horas. Resumo por zonas: &lt;br/&gt;&lt;ul&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Oeste de A Coruña&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 00h. do día 30/09/2026&lt;br/&gt;Comentario:Chuvia de máis de 40 litros/m2.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Suroeste de A Coruña&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 00h. do día 30/09/2026&lt;br/&gt;Comentario:Chuvia de máis de 40 litros/m2.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Interior de Pontevedra&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 00h. do día 30/09/2026&lt;br/&gt;Comentario:Chuvia de máis de 40 litros/m2.&lt;br/&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+      <pubDate>Tue, 29 Sep 2026 06:30:39 GMT</pubDate>
+      <guid>https://www.meteogalicia.gal/web/predicion/avisos/0</guid>
+      <dc:date>2026-09-29T06:30:39Z</dc:date>
+      <adversos:TipoAlerta nome="Precipitación 12 horas" idtipoalerta="4" nivelMax="1">
+        <zona nome="Oeste de A Coruña" id="322">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">30/09/2026 00:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Chuvia de máis de 40 litros/m2.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Suroeste de A Coruña" id="324">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">30/09/2026 00:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Chuvia de máis de 40 litros/m2.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Interior de Pontevedra" id="335">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">30/09/2026 00:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Chuvia de máis de 40 litros/m2.</comentario>
+          </tramo>
+        </zona>
+      </adversos:TipoAlerta>
+    </item>
+    <item>
+      <title>Aviso de nivel máximo amarelo de Refacho máximo de vento</title>
+      <link>https://www.meteogalicia.gal/web/predicion/avisos/0</link>
+      <description>Aviso de nivel máximo amarelo de Refacho máximo de vento. Resumo por zonas: &lt;br/&gt;&lt;ul&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;A Coruña (provincia)&lt;/font&gt;&lt;br/&gt;Desde as 09h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Refachos por riba de 80 km/h.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Pontevedra (provincia)&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Refachos por riba de 80 km/h.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;A Mariña&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Refachos por riba de 80 km/h.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Centro de Lugo&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Refachos por riba de 70 km/h.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Montaña de Lugo&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 00h. do día 30/09/2026&lt;br/&gt;Comentario:Refachos por riba de 80 km/h.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Sur de Ourense&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 21h. do día 29/09/2026&lt;br/&gt;Comentario:Refachos por riba de 80 km/h.&lt;br/&gt;&lt;/li&gt;&lt;li&gt;&lt;font  color=' "#E0D700"'&gt;Montaña de Ourense&lt;/font&gt;&lt;br/&gt;Desde as 12h. do día 29/09/2026 ata as 00h. do día 30/09/2026&lt;br/&gt;Comentario:Refachos por riba de 80 km/h.&lt;br/&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+      <pubDate>Tue, 29 Sep 2026 06:30:39 GMT</pubDate>
+      <guid>https://www.meteogalicia.gal/web/predicion/avisos/0</guid>
+      <dc:date>2026-09-29T06:30:39Z</dc:date>
+      <adversos:TipoAlerta nome="Refacho máximo de vento" idtipoalerta="8" nivelMax="1">
+        <zona nome="A Coruña (provincia)" id="316">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 09:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 80 km/h.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Pontevedra (provincia)" id="319">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 80 km/h.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="A Mariña" id="325">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 80 km/h.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Centro de Lugo" id="326">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 70 km/h.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Montaña de Lugo" id="327">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">30/09/2026 00:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 80 km/h.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Sur de Ourense" id="331">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">29/09/2026 21:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 80 km/h.</comentario>
+          </tramo>
+        </zona>
+        <zona nome="Montaña de Ourense" id="332">
+          <tramo>
+            <dataIni descricion="Data e hora de inicio">29/09/2026 12:00</dataIni>
+            <dataFin descricion="Data e hora de finalización">30/09/2026 00:00</dataFin>
+            <nivel descricion="Nivel de alerta">1</nivel>
+            <comentario>Refachos por riba de 80 km/h.</comentario>
+          </tramo>
+        </zona>
+      </adversos:TipoAlerta>
+    </item>
+  </channel>
+</rss>
+

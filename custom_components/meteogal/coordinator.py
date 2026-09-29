@@ -38,6 +38,7 @@ from .api import (
     Station,
     StationDay,
     StationReading,
+    WarningText,
     WeatherWarning,
 )
 from .api.meteosix import MAX_POINTS
@@ -57,6 +58,7 @@ from .geo import load_polygons
 from .radar import Marker, RadarRenderer, animation, area_around, galicia_area, still
 from .repairs import async_check_station
 from .station import MAX_AGE
+from .warnings import concello_zones, describe, load_zones
 
 if TYPE_CHECKING:
     from . import MeteoGalConfigEntry
@@ -105,15 +107,27 @@ class LocationCoordinator(TimestampDataUpdateCoordinator[LocationData]):
         self.subentry = subentry
         self.concello_id: int = subentry.data[CONF_CONCELLO_ID]
         self._client = client
+        # El RSS de avisos está en gallego y en castellano; en inglés, castellano.
+        self._locale = "gl" if hass.config.language.startswith("gl") else "es"
+        self._texts: list[WarningText] = []
+        self._zones: dict[int, tuple[int, int]] | None = None
 
     async def _async_update_data(self) -> LocationData:
         concello = self.concello_id
-        daily, hourly, medium_term, observation, warnings = await asyncio.gather(
+        (
+            daily,
+            hourly,
+            medium_term,
+            observation,
+            warnings,
+            texts,
+        ) = await asyncio.gather(
             self._client.get_daily_forecast(concello),
             self._client.get_hourly_forecast(concello),
             self._client.get_medium_term_forecast(concello),
             self._client.get_concello_observation(concello),
             self._client.get_warnings(concello),
+            self._client.get_warning_texts(self._locale),
             return_exceptions=True,
         )
         # Sin previsión diaria u horaria no hay nada que mostrar.
@@ -133,6 +147,14 @@ class LocationCoordinator(TimestampDataUpdateCoordinator[LocationData]):
         if isinstance(warnings, BaseException):
             self._keep(warnings, "avisos")
             warnings = previous.warnings if previous else []
+        # El comentario de cada aviso: del RSS por zonas (docs/avisos.md).
+        if isinstance(texts, BaseException):
+            self._keep(texts, "comentarios de los avisos")
+            texts = self._texts
+        self._texts = texts
+        if self._zones is None:
+            self._zones = await self.hass.async_add_executor_job(load_zones)
+        warnings = describe(warnings, texts, concello_zones(concello, self._zones))
 
         return LocationData(
             observation=observation,

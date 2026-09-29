@@ -37,6 +37,7 @@ CAMERAS = f"{BASE_URL}/observacion/jsonCamaras.action"
 STATION_NOW = f"{BASE_URL}/observacion/ultimos10minEstacionsMeteo.action"
 STATION_DAY = f"{BASE_URL}/observacion/datosDiariosEstacionsMeteo.action"
 WARNINGS = f"{BASE_URL}/predicion/adversos/jsonAvisosConcellos.action"
+WARNING_TEXTS = f"{BASE_URL}/predicion/rssAdversos.action"
 AIR_STATIONS = f"{BASE_URL}/caire/jsonEstacionesCaire.action"
 AIR_INDEXES = f"{BASE_URL}/caire/jsonICAActual.action"
 AIR_MEASUREMENTS = f"{BASE_URL}/caire/jsonDatosActualesEstacion.action"
@@ -128,6 +129,13 @@ def mock_meteogalicia(
     # Todas a la vez (2026-09-28, 15:30Z).
     aioclient_mock.get(STATION_NOW, json=load("ultimos10minEstacionsMeteo.json"))
     mock_air(aioclient_mock)
+    # RSS de avisos real del 2026-09-29 (~21:00 hora local), en los dos idiomas.
+    for locale in ("gl", "es"):
+        aioclient_mock.get(
+            WARNING_TEXTS,
+            params={"request_locale": locale},
+            text=(FIXTURES / f"rssAdversos_{locale}.xml").read_text(encoding="utf-8"),
+        )
     aioclient_mock.get(STATION_DAY, json=load("datosDiariosEstacionsMeteo_14000.json"))
 
 

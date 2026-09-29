@@ -12,7 +12,7 @@ Tipos (anexo II): `high_temperature`, `low_temperature`, `rain_1h`, `rain_12h`, 
 
 | Entidad | Estado | Notas |
 |---|---|---|
-| Nivel de aviso | enum `none`/`yellow`/`orange`/`red`, el más alto de los **vigentes ahora** | Atributos del aviso principal: `type`, `level`, `start`, `end`, `warning_id` |
+| Nivel de aviso | enum `none`/`yellow`/`orange`/`red`, el más alto de los **vigentes ahora** | Atributos del aviso principal: `type`, `level`, `start`, `end`, `warning_id`, `description` (comentario de MeteoGalicia) y `zone` (su zona) |
 | Nivel de aviso próximo | Ídem, de los **emitidos que aún no han empezado** (hasta pasado mañana, sin ventana inventada) | Ídem |
 | Avisos vigentes / próximos | Número | Desactivados por defecto |
 
@@ -20,6 +20,18 @@ Tipos (anexo II): `high_temperature`, `low_temperature`, `rain_1h`, `rain_12h`, 
 - **Atributos fuera del recorder** (`_unrecorded_attributes`), para no llenar la base de datos.
 - **Cambio de estado exacto:** cada entidad programa el siguiente inicio o fin de un aviso y se actualiza en ese momento, sin pedir datos.
 - Valores de `type` y `level` como slugs estables, no textos. Los atributos tienen traducción (`state_attributes` en las traducciones): en **⋮ → Atributos** se ve «Tipo: Racha máxima de viento», «Nivel: Amarillo», «Inicio», «Fin».
+
+## Comentario de cada aviso
+
+`jsonAvisosConcellos` no trae el texto del aviso. Lo tiene el RSS de avisos (`predicion/rssAdversos.action?request_locale=gl|es`), pero **por zonas**: cada tipo de aviso lleva zonas y, en cada una, tramos con inicio, fin, nivel y comentario. Las zonas (documento «Definición de zonas de adverso meteorolóxico» de MeteoGalicia) son el concello, una de las **16 agrupaciones** («Noroeste de A Coruña»…), la provincia, toda Galicia y zonas de mar.
+
+- `data/zonas_avisos.json`: por código INE, la zona del concello y la de su agrupación (`scripts/generate_warning_zones.py`, que comprueba que salen los 313 y que cada agrupación tiene los concellos que dice el documento). La provincia sale del código INE y Galicia es la 320.
+- A cada aviso del concello se le une el tramo del **mismo tipo, nivel, inicio y fin** de una zona que incluya al concello; si hay varios, el de la zona más concreta. Los avisos de mar (viento en el mar y olas) van en zonas marítimo-costeras, que no están en la tabla: valen si todos los tramos iguales dicen lo mismo.
+- Sin tramo, el aviso queda sin comentario (por ejemplo, uno que ya terminó: el RSS solo trae los vigentes y próximos).
+- En gallego o en castellano según el idioma de HA; en inglés, en castellano (MeteoGalicia no lo publica en inglés).
+- Una petición más cada 30 minutos por ubicación (~13 KB). Si falla, se usan los últimos comentarios buenos; los avisos no dependen de ella.
+
+Ejemplo real (2026-09-29): en A Coruña, «Racha máxima de viento» amarilla de 09:00 a 21:00 → «Rachas superando los 80 km/h.» (zona «A Coruña (provincia)»). En Cee, la lluvia en 1 hora amarilla y naranja a la misma hora salen de la provincia («más de 15 l/m2») y de «Oeste de A Coruña» («más de 30 litros/m2»).
 
 ## Acción `meteogal.get_warnings`
 
@@ -34,8 +46,10 @@ response_variable: avisos
 
 ```json
 {"sensor.a_coruna_nivel_de_aviso": {"warnings": [
-  {"type": "wind_gust", "level": "yellow", "start": "2026-09-29T15:00:00+02:00",
-   "end": "2026-09-29T21:00:00+02:00", "warning_id": 1224130978, "active": false}
+  {"type": "wind_gust", "level": "yellow", "start": "2026-09-29T09:00:00+02:00",
+   "end": "2026-09-29T21:00:00+02:00", "warning_id": 1077489894,
+   "description": "Rachas superando los 80 km/h.", "zone": "A Coruña (provincia)",
+   "active": true}
 ]}}
 ```
 
@@ -47,6 +61,5 @@ response_variable: avisos
 
 ## Pendiente
 
-- Comentario de cada aviso ("Chuvia de máis de 40 litros/m2"): está en `rssAdversos`, por zonas; habría que cruzar concello y zona.
 - Avisos por zona marítima, para quien navega o pesca.
 - Adaptador `meteogal` para `weather_alerts_card` cuando MeteoGal esté publicado.

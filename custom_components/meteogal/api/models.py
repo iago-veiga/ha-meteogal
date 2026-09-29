@@ -144,6 +144,24 @@ class WeatherWarning:
     level: int
     start: datetime
     end: datetime
+    # Comentario de MeteoGalicia («Rachas superando los 80 km/h») y la zona a la
+    # que lo asigna, sacados del RSS de avisos (docs/avisos.md). None si no está.
+    description: str | None = None
+    zone: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class WarningText:
+    """Un tramo del RSS de avisos (`rssAdversos`): tipo, zona, nivel, horas locales
+    y el comentario de MeteoGalicia."""
+
+    type_id: int
+    zone_id: int
+    zone_name: str
+    level: int
+    start: datetime
+    end: datetime
+    comment: str
 
 
 @dataclass(frozen=True, slots=True)

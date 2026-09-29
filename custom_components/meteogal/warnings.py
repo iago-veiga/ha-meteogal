@@ -8,10 +8,13 @@ siempre con slugs estables que traduce la interfaz.
 from __future__ import annotations
 
 from collections.abc import Iterable
+from dataclasses import replace
 from datetime import datetime
+import json
+from pathlib import Path
 from typing import Any, Final
 
-from .api import WeatherWarning
+from .api import WarningText, WeatherWarning
 
 LEVEL_NONE: Final = "none"
 LEVELS: Final = {1: "yellow", 2: "orange", 3: "red"}
@@ -31,6 +34,67 @@ TYPES: Final = {
     10: "waves",
 }
 UNKNOWN_TYPE: Final = "unknown"
+
+# Zonas del RSS de avisos que no dependen del concello: provincia (por los dos
+# primeros dígitos del código INE) y toda Galicia.
+PROVINCE_ZONES: Final = {15: 316, 27: 317, 32: 318, 36: 319}
+GALICIA_ZONE: Final = 320
+# Avisos de mar: se asignan a zonas marítimo-costeras, que no están en la tabla.
+MARINE_TYPES: Final = frozenset({9, 10})
+
+ZONES_FILE: Final = Path(__file__).parent / "data" / "zonas_avisos.json"
+
+
+def load_zones() -> dict[int, tuple[int, int]]:
+    """Por código INE: la zona del concello y la de su agrupación (bloquea: en el
+    executor). Generado con scripts/generate_warning_zones.py."""
+    data = json.loads(ZONES_FILE.read_text(encoding="utf-8"))
+    return {int(code): (own, group) for code, (own, group) in data["zones"].items()}
+
+
+def concello_zones(concello_id: int, zones: dict[int, tuple[int, int]]) -> list[int]:
+    """Zonas que incluyen al concello, de la más concreta a la más amplia."""
+    own = list(zones.get(concello_id, ()))
+    province = PROVINCE_ZONES.get(concello_id // 1000)
+    return [*own, *([province] if province else []), GALICIA_ZONE]
+
+
+def describe(
+    warnings: list[WeatherWarning], texts: list[WarningText], zones: list[int]
+) -> list[WeatherWarning]:
+    """Añade a cada aviso el comentario del tramo del RSS que le corresponde.
+
+    El tramo tiene que ser del mismo tipo, nivel, inicio y fin, y de una zona que
+    incluya al concello; si hay varios, el de la zona más concreta. Los avisos de
+    mar van en zonas marítimo-costeras, que no están en la tabla: valen si todos
+    los tramos iguales dicen lo mismo. Sin tramo, el aviso queda sin comentario.
+    """
+    rank = {zone: n for n, zone in enumerate(zones)}
+    result = []
+    for warning in warnings:
+        same = [
+            t
+            for t in texts
+            if t.type_id == warning.type_id
+            and t.level == warning.level
+            and t.start == warning.start
+            and t.end == warning.end
+            and t.comment
+        ]
+        own = sorted(
+            (t for t in same if t.zone_id in rank), key=lambda t: rank[t.zone_id]
+        )
+        match = own[0] if own else None
+        if (
+            match is None
+            and warning.type_id in MARINE_TYPES
+            and len({t.comment for t in same}) == 1
+        ):
+            match = same[0]
+        if match:
+            warning = replace(warning, description=match.comment, zone=match.zone_name)
+        result.append(warning)
+    return result
 
 
 def type_slug(warning: WeatherWarning) -> str:
@@ -73,6 +137,8 @@ def main_warning_attributes(warnings: list[WeatherWarning]) -> dict[str, Any]:
         "start": warning.start.isoformat(),
         "end": warning.end.isoformat(),
         "warning_id": warning.id,
+        "description": warning.description,
+        "zone": warning.zone,
     }
 
 

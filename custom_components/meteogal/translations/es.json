@@ -159,6 +159,12 @@
           },
           "warning_id": {
             "name": "Código del aviso"
+          },
+          "description": {
+            "name": "Descripción"
+          },
+          "zone": {
+            "name": "Zona"
           }
         }
       },
@@ -204,6 +210,12 @@
           },
           "warning_id": {
             "name": "Código del aviso"
+          },
+          "description": {
+            "name": "Descripción"
+          },
+          "zone": {
+            "name": "Zona"
           }
         }
       },

@@ -1,0 +1,77 @@
+{
+ "listaDiaConcellos": [
+  {
+   "dia": 0,
+   "listaAvisosConcellos": [
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T18:00:00",
+     "dataIni": "2026-09-29T12:00:00",
+     "id": 107484185,
+     "idConcello": 15023,
+     "idNivel": 2,
+     "idTipoAlerta": 8,
+     "nomeConcello": "Cee",
+     "tipoalerta_es": "Racha máxima de viento",
+     "tipoalerta_gl": "Refacho máximo de vento"
+    },
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T21:00:00",
+     "dataIni": "2026-09-29T09:00:00",
+     "id": 114928040,
+     "idConcello": 15023,
+     "idNivel": 1,
+     "idTipoAlerta": 8,
+     "nomeConcello": "Cee",
+     "tipoalerta_es": "Racha máxima de viento",
+     "tipoalerta_gl": "Refacho máximo de vento"
+    },
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T21:00:00",
+     "dataIni": "2026-09-29T18:00:00",
+     "id": 323537863,
+     "idConcello": 15023,
+     "idNivel": 1,
+     "idTipoAlerta": 3,
+     "nomeConcello": "Cee",
+     "tipoalerta_es": "Precipitación 1 hora",
+     "tipoalerta_gl": "Precipitación 1 hora"
+    },
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-29T21:00:00",
+     "dataIni": "2026-09-29T18:00:00",
+     "id": 882668157,
+     "idConcello": 15023,
+     "idNivel": 2,
+     "idTipoAlerta": 3,
+     "nomeConcello": "Cee",
+     "tipoalerta_es": "Precipitación 1 hora",
+     "tipoalerta_gl": "Precipitación 1 hora"
+    },
+    {
+     "dataAviso": "2026-09-29T00:00:00",
+     "dataFin": "2026-09-30T00:00:00",
+     "dataIni": "2026-09-29T12:00:00",
+     "id": 1855882288,
+     "idConcello": 15023,
+     "idNivel": 1,
+     "idTipoAlerta": 4,
+     "nomeConcello": "Cee",
+     "tipoalerta_es": "Precipitación 12 horas",
+     "tipoalerta_gl": "Precipitación 12 horas"
+    }
+   ]
+  },
+  {
+   "dia": 1,
+   "listaAvisosConcellos": []
+  },
+  {
+   "dia": 2,
+   "listaAvisosConcellos": []
+  }
+ ]
+}

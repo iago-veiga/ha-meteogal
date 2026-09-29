@@ -34,6 +34,13 @@ tests/api/fixtures/
   Modificaciones: ninguna, salvo el formato (sangrado) y, en las respuestas de
   MeteoSIX, que la clave nunca forma parte de la respuesta.
 
+custom_components/meteogal/data/zonas_avisos.json
+  Zonas de avisos de cada concello, del documento «Definición de zonas de adverso
+  meteorolóxico» de MeteoGalicia (Xunta de Galicia), generado con
+  scripts/generate_warning_zones.py.
+  Licencia: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+  Modificaciones: solo los códigos de zona de cada concello, por código INE.
+
 custom_components/meteogal/data/DejaVuSans-latin.ttf
   DejaVu Sans 2.37 (https://dejavu-fonts.github.io), reducida a los caracteres
   latinos con scripts/generate_font.py.

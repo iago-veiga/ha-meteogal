@@ -30,6 +30,7 @@ from .models import (
     Station,
     StationDay,
     StationReading,
+    WarningText,
     WeatherWarning,
 )
 
@@ -61,5 +62,6 @@ __all__ = [
     "Station",
     "StationDay",
     "StationReading",
+    "WarningText",
     "WeatherWarning",
 ]
