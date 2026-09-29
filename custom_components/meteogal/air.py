@@ -11,12 +11,14 @@ from datetime import UTC, datetime, timedelta
 from typing import Final
 
 from homeassistant.components.sensor import SensorDeviceClass
-from homeassistant.const import (
-    CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
-    CONCENTRATION_MILLIGRAMS_PER_CUBIC_METER,
-)
 
 from .api import AirDayForecast, AirModelHour, AirStationIndex
+
+# Unidades como texto: las constantes CONCENTRATION_* están obsoletas desde HA 2026.7
+# y UnitOfDensity no existe antes, y MeteoGal funciona desde la 2025.11. Es el mismo
+# valor en las dos (la «μ» es la letra griega, U+03BC).
+MICROGRAMS_PER_CUBIC_METER: Final = "\u03bcg/m³"
+MILLIGRAMS_PER_CUBIC_METER: Final = "mg/m³"
 
 # Los seis niveles del ICA, como el índice europeo de la EEA: 0-1 good, 1-2 fair…
 # 5-6 extremely_poor. Se sacan del número, no de los textos de la API.
@@ -97,45 +99,45 @@ POLLUTANTS: Final = (
         key="pm25",
         code="PM25",
         device_class=SensorDeviceClass.PM25,
-        unit=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        unit=MICROGRAMS_PER_CUBIC_METER,
     ),
     AirPollutant(
         key="pm10",
         code="PM10",
         device_class=SensorDeviceClass.PM10,
-        unit=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        unit=MICROGRAMS_PER_CUBIC_METER,
     ),
     AirPollutant(
         key="no2",
         code="NO2",
         device_class=SensorDeviceClass.NITROGEN_DIOXIDE,
-        unit=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        unit=MICROGRAMS_PER_CUBIC_METER,
     ),
     AirPollutant(
         key="o3",
         code="O3",
         device_class=SensorDeviceClass.OZONE,
-        unit=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        unit=MICROGRAMS_PER_CUBIC_METER,
     ),
     AirPollutant(
         key="so2",
         code="SO2",
         device_class=SensorDeviceClass.SULPHUR_DIOXIDE,
-        unit=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        unit=MICROGRAMS_PER_CUBIC_METER,
         enabled=False,
     ),
     AirPollutant(
         key="co",
         code="CO",
         device_class=SensorDeviceClass.CO,
-        unit=CONCENTRATION_MILLIGRAMS_PER_CUBIC_METER,
+        unit=MILLIGRAMS_PER_CUBIC_METER,
         enabled=False,
     ),
     AirPollutant(
         key="no",
         code="NO",
         device_class=SensorDeviceClass.NITROGEN_MONOXIDE,
-        unit=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        unit=MICROGRAMS_PER_CUBIC_METER,
         enabled=False,
     ),
 )
