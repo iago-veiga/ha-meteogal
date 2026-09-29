@@ -166,7 +166,7 @@ class MeteoGalClient:
         return _parse(data, _parse_air_measurements)
 
     async def get_air_forecast(self, concello_id: int) -> list[AirDayForecast]:
-        """ICA previsto de hoy y los dos días siguientes para un concello."""
+        """ICA previsto de hoy y los días siguientes para un concello (3 o 4 días)."""
         data = await self._get(
             "caire/jsonPrediccionIcaDiarioConcello.action", idConcello=concello_id
         )

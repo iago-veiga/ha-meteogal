@@ -9,7 +9,7 @@ Fecha: 2026-09-29. Calidad del aire de MeteoGalicia en cada ubicación, sin clav
 | `caire/jsonICAActual.action` | ICA actual de todas las estaciones de la Rede de Calidade do Aire, en una petición: número, nivel (en es, gl y en), contaminante que manda y hora local | Cada 30 min (las estaciones publican cada hora) |
 | `caire/jsonDatosActualesEstacion.action?idEstacion=` | Medidas actuales de la estación elegida, con marca: `T` temporal, `D` canal desactivado, `M` mantenimiento (estas dos se descartan) | Cada 30 min |
 | `caire/jsonEstacionesCaire.action` | Estaciones: nombre, coordenadas, **tipo** (tráfico, industrial, fondo) | Al configurar y una vez al arrancar |
-| `caire/jsonPrediccionIcaDiarioConcello.action?idConcello=` | ICA previsto de hoy y dos días más para el concello, con el contaminante que manda y la hora del peor momento | Cada hora |
+| `caire/jsonPrediccionIcaDiarioConcello.action?idConcello=` | ICA previsto de hoy y los días siguientes para el concello (3 o 4 días en total), con el contaminante que manda y la hora del peor momento | Cada hora |
 | THREDDS, `chimere_2d_gal` (modelo CHIMERE) | ICA de cada hora (~76 h) en una malla de ~7 km; se consulta en el punto de cada ubicación con NCSS | Cada hora se mira si hay pasada nueva (una al día, 00 UTC) y solo entonces se piden los puntos |
 
 Documentación oficial: IT/052 «JSON» de MeteoGalicia (2021). Conjuntos 0055 (calidad del aire) y 0485 (THREDDS) de abertos.xunta.gal.

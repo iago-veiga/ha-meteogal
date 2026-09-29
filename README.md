@@ -229,7 +229,7 @@ El atributo «Origen» dice de cuál ha salido, y «Contaminante principal», cu
 **Estación de calidad del aire (opcional).** Al añadir o cambiar una ubicación eliges una de las ~46 estaciones, de la más cercana a la más lejana, con su tipo. Por defecto se propone la más cercana **si está a menos de 10 km**; si no, ninguna, y el nivel sale del modelo. Con estación, además, sensores de lo que mide: **PM2,5, PM10, dióxido de nitrógeno y ozono** (activados) y dióxido de azufre, monóxido de carbono y monóxido de nitrógeno (desactivados), en µg/m³ (CO en mg/m³). Son sensores normales de Home Assistant, así que funcionan con sus disparadores y condiciones de calidad del aire.
 
 - **El tipo importa:** una estación de **tráfico** o **industrial** mide la calle o la fábrica, no el barrio. Si no representa tu punto, desmarca **Usar la estación para la calidad del aire actual**: sus sensores siguen y el nivel sale del modelo.
-- **Previsión:** la acción `meteogal.get_air_quality` devuelve el nivel de cada hora del modelo (unos 2 días) y de cada día para tu concello (hoy y dos más). Ver [ejemplos](#ejemplos).
+- **Previsión:** la acción `meteogal.get_air_quality` devuelve el nivel de cada hora del modelo (2 o 3 días) y de cada día para tu concello (hoy y 2 o 3 más). Ver [ejemplos](#ejemplos).
 - `sensor.<ubicación>_indice_de_calidad_del_aire` (desactivado): el número del índice, de 0 a 6.
 
 Detalle en [docs/calidad-aire.md](docs/calidad-aire.md).

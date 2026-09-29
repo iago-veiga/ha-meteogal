@@ -22,7 +22,7 @@ Base `https://servizos.meteogalicia.gal/mgrss`.
 | `get_air_stations()` | `caire/jsonEstacionesCaire` | Estaciones de la Rede de Calidade do Aire: coordenadas, concello, tipo (tráfico, industrial, fondo) ([calidad-aire.md](calidad-aire.md)) |
 | `get_air_indexes()` | `caire/jsonICAActual` | ICA actual de todas las estaciones, en una petición |
 | `get_air_measurements(id)` | `caire/jsonDatosActualesEstacion?idEstacion=` | Medidas actuales de una estación de aire (sin las marcadas como desactivadas o en mantenimiento) |
-| `get_air_forecast(id)` | `caire/jsonPrediccionIcaDiarioConcello?idConcello=` | ICA previsto de hoy y dos días más para un concello |
+| `get_air_forecast(id)` | `caire/jsonPrediccionIcaDiarioConcello?idConcello=` | ICA previsto de hoy y los días siguientes para un concello (3 o 4 días) |
 
 ## MeteoSIX (`MeteoSixClient`, con clave)
 
