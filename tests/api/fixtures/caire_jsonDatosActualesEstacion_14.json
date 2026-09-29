@@ -1,0 +1,86 @@
+{
+ "datosEstacion": [
+  {
+   "estacion": "Torre Hércules",
+   "idEstacion": 14,
+   "latitud": "43.382786",
+   "longitud": "-8.409211",
+   "parametros": [
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 1,
+     "parametro": "SO2",
+     "unidades": "µg/m³",
+     "valor": 1.0
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 7,
+     "parametro": "NO",
+     "unidades": "µg/m³",
+     "valor": 2.7
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 8,
+     "parametro": "NO2",
+     "unidades": "µg/m³",
+     "valor": 20.0
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 12,
+     "parametro": "NOX",
+     "unidades": "µg/m³",
+     "valor": 24.0
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 6,
+     "parametro": "CO",
+     "unidades": "mg/m³",
+     "valor": 0.43
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 14,
+     "parametro": "O3",
+     "unidades": "µg/m³",
+     "valor": 36.0
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 10,
+     "parametro": "PM10",
+     "unidades": "µg/m³",
+     "valor": 18.0
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 9,
+     "parametro": "PM25",
+     "unidades": "µg/m³",
+     "valor": 10.0
+    },
+    {
+     "fecha": "2026-09-29 07:00",
+     "flag": "T",
+     "idParametro": 99,
+     "parametro": "TIN",
+     "unidades": "µg/m³",
+     "valor": 21.0
+    }
+   ],
+   "utmx": "547965",
+   "utmy": "4803717"
+  }
+ ]
+}

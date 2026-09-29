@@ -1,0 +1,160 @@
+{
+ "prediccion": [
+  {
+   "color": "#50C8A3",
+   "concello": "SANTIAGO DE COMPOSTELA",
+   "fecha": "29/09/2026",
+   "horaMaximo": "21:00",
+   "ica": 1.8,
+   "idConcello": 15078,
+   "maximo": "O3",
+   "parametros": [
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "01:00",
+     "ica": 0.29,
+     "idParametro": 8,
+     "nombre": "NO2",
+     "valor": 11.0
+    },
+    {
+     "color": "#50C8A3",
+     "horaMaximo": "21:00",
+     "ica": 1.8,
+     "idParametro": 14,
+     "nombre": "O3",
+     "valor": 88.0
+    },
+    {
+     "color": "#50C8A3",
+     "horaMaximo": "01:00",
+     "ica": 1.7,
+     "idParametro": 9,
+     "nombre": "PM25",
+     "valor": 17.0
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "18:00",
+     "ica": 0.01,
+     "idParametro": 1,
+     "nombre": "SO2",
+     "valor": 0.53
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "01:00",
+     "ica": 0.96,
+     "idParametro": 10,
+     "nombre": "PM10",
+     "valor": 19.0
+    }
+   ],
+   "valor": 88.0
+  },
+  {
+   "color": "#50C8A3",
+   "concello": "SANTIAGO DE COMPOSTELA",
+   "fecha": "30/09/2026",
+   "horaMaximo": "15:00",
+   "ica": 1.6,
+   "idConcello": 15078,
+   "maximo": "O3",
+   "parametros": [
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "23:00",
+     "ica": 0.88,
+     "idParametro": 8,
+     "nombre": "NO2",
+     "valor": 35.0
+    },
+    {
+     "color": "#50C8A3",
+     "horaMaximo": "15:00",
+     "ica": 1.6,
+     "idParametro": 14,
+     "nombre": "O3",
+     "valor": 79.0
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "23:00",
+     "ica": 0.18,
+     "idParametro": 9,
+     "nombre": "PM25",
+     "valor": 1.8
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "23:00",
+     "ica": 0.0,
+     "idParametro": 1,
+     "nombre": "SO2",
+     "valor": 0.34
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "23:00",
+     "ica": 0.16,
+     "idParametro": 10,
+     "nombre": "PM10",
+     "valor": 3.3
+    }
+   ],
+   "valor": 79.0
+  },
+  {
+   "color": "#00FFFF",
+   "concello": "SANTIAGO DE COMPOSTELA",
+   "fecha": "01/10/2026",
+   "horaMaximo": "00:00",
+   "ica": 0.92,
+   "idConcello": 15078,
+   "maximo": "NO2",
+   "parametros": [
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "00:00",
+     "ica": 0.92,
+     "idParametro": 8,
+     "nombre": "NO2",
+     "valor": 37.0
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "02:00",
+     "ica": 0.64,
+     "idParametro": 14,
+     "nombre": "O3",
+     "valor": 32.0
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "05:00",
+     "ica": 0.26,
+     "idParametro": 9,
+     "nombre": "PM25",
+     "valor": 2.6
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "05:00",
+     "ica": 0.01,
+     "idParametro": 1,
+     "nombre": "SO2",
+     "valor": 0.65
+    },
+    {
+     "color": "#00FFFF",
+     "horaMaximo": "05:00",
+     "ica": 0.22,
+     "idParametro": 10,
+     "nombre": "PM10",
+     "valor": 4.5
+    }
+   ],
+   "valor": 37.0
+  }
+ ]
+}

@@ -90,6 +90,23 @@
       },
       "station_updated": {
         "default": "mdi:access-point"
+      },
+      "air_quality": {
+        "default": "mdi:air-filter",
+        "state": {
+          "good": "mdi:leaf",
+          "fair": "mdi:leaf",
+          "moderate": "mdi:weather-hazy",
+          "poor": "mdi:smog",
+          "very_poor": "mdi:smog",
+          "extremely_poor": "mdi:biohazard"
+        }
+      },
+      "air_quality_index": {
+        "default": "mdi:air-filter"
+      },
+      "air_station_updated": {
+        "default": "mdi:access-point"
       }
     },
     "image": {
@@ -107,6 +124,9 @@
   "services": {
     "get_warnings": {
       "service": "mdi:alert"
+    },
+    "get_air_quality": {
+      "service": "mdi:air-filter"
     }
   }
 }

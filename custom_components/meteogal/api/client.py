@@ -16,6 +16,10 @@ from .exceptions import (
     MeteoGalResponseError,
 )
 from .models import (
+    AirDayForecast,
+    AirMeasurements,
+    AirStation,
+    AirStationIndex,
     Camera,
     Concello,
     ConcelloObservation,
@@ -143,6 +147,30 @@ class MeteoGalClient:
         """Las cámaras de MeteoGalicia con su última imagen (`jsonCamaras`)."""
         data = await self._get("observacion/jsonCamaras.action")
         return _parse(data, _parse_cameras)
+
+    async def get_air_stations(self) -> list[AirStation]:
+        """Estaciones de la Rede de Calidade do Aire (`jsonEstacionesCaire`)."""
+        data = await self._get("caire/jsonEstacionesCaire.action")
+        return _parse(data, _parse_air_stations)
+
+    async def get_air_indexes(self) -> list[AirStationIndex]:
+        """ICA actual de todas las estaciones de aire, en una petición."""
+        data = await self._get("caire/jsonICAActual.action")
+        return _parse(data, _parse_air_indexes)
+
+    async def get_air_measurements(self, station_id: int) -> AirMeasurements | None:
+        """Medidas actuales de una estación de aire, o None si no hay."""
+        data = await self._get(
+            "caire/jsonDatosActualesEstacion.action", idEstacion=station_id
+        )
+        return _parse(data, _parse_air_measurements)
+
+    async def get_air_forecast(self, concello_id: int) -> list[AirDayForecast]:
+        """ICA previsto de hoy y los dos días siguientes para un concello."""
+        data = await self._get(
+            "caire/jsonPrediccionIcaDiarioConcello.action", idConcello=concello_id
+        )
+        return _parse(data, _parse_air_forecast)
 
     async def _get(self, path: str, **params: Any) -> Any:
         url = f"{self._base_url}/{path}"
@@ -363,6 +391,84 @@ def _parse_station_day(data: Any) -> StationDay | None:
         date=_local_date(days[0]["data"]),
         values=_measures(station["listaMedidas"]),
     )
+
+
+# Marcas de las medidas de aire que no valen: canal desactivado y mantenimiento.
+AIR_INVALID_FLAGS = frozenset({"D", "M"})
+
+
+def _air_index(raw: Any) -> float | None:
+    # -1: la estación no tiene datos para calcular el ICA.
+    value = _float(raw)
+    return None if value is None or value < 0 else value
+
+
+def _parse_air_stations(data: Any) -> list[AirStation]:
+    return [
+        AirStation(
+            id=int(item["idEstacion"]),
+            name=item["nombre"],
+            concello_id=int(item["idConcello"]),
+            latitude=float(item["latitud"]),
+            longitude=float(item["longitud"]),
+            kind=item.get("tipo") or "",
+            area=item.get("tipoArea") or "",
+        )
+        for item in data["estaciones"]
+    ]
+
+
+def _parse_air_indexes(data: Any) -> list[AirStationIndex]:
+    return [
+        AirStationIndex(
+            station_id=int(item["idEstacion"]),
+            time=_local_datetime(item["fecha"]),
+            index=_air_index(item["ica"]),
+            pollutant=item.get("maximo") or None,
+            label=item.get("icaEn") or None,
+        )
+        for item in data["icas"]
+    ]
+
+
+def _parse_air_measurements(data: Any) -> AirMeasurements | None:
+    items = data["datosEstacion"]
+    if not items:
+        return None
+    item = items[0]
+    valid = [
+        measure
+        for measure in item["parametros"]
+        if measure.get("flag") not in AIR_INVALID_FLAGS
+        and _float(measure.get("valor")) is not None
+    ]
+    return AirMeasurements(
+        station_id=int(item["idEstacion"]),
+        time=max((_local_datetime(m["fecha"]) for m in valid), default=None),
+        values={m["parametro"]: float(m["valor"]) for m in valid},
+    )
+
+
+def _parse_air_forecast(data: Any) -> list[AirDayForecast]:
+    days = []
+    for item in data["prediccion"]:
+        day = datetime.strptime(item["fecha"], "%d/%m/%Y").date()
+        peak = item.get("horaMaximo")
+        days.append(
+            AirDayForecast(
+                date=day,
+                index=_air_index(item["ica"]),
+                pollutant=item.get("maximo") or None,
+                peak=(
+                    datetime.combine(
+                        day, datetime.strptime(peak, "%H:%M").time(), TIMEZONE
+                    )
+                    if peak
+                    else None
+                ),
+            )
+        )
+    return days
 
 
 def _parse_cameras(data: Any) -> list[Camera]:

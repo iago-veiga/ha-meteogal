@@ -4,3 +4,9 @@ get_warnings:
       integration: meteogal
       domain: sensor
       device_class: enum
+get_air_quality:
+  target:
+    entity:
+      integration: meteogal
+      domain: sensor
+      device_class: enum

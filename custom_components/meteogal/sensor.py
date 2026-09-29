@@ -11,6 +11,7 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
+from homeassistant.config_entries import ConfigSubentry
 from homeassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
@@ -25,10 +26,33 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
 from . import MeteoGalConfigEntry
-from .api import MeteoSixHour, WeatherWarning
-from .const import ATTRIBUTION
-from .coordinator import LocationCoordinator, StationCoordinator, StationData
-from .entity import ONE_HOUR, MeteoSixEntity, WarningsEntity, location_device, rain
+from .air import (
+    LEVELS,
+    POLLUTANTS,
+    STATION_KINDS,
+    STATION_MAX_AGE,
+    AirPollutant,
+    level,
+    pollutant,
+)
+from .api import AirMeasurements, MeteoSixHour, WeatherWarning
+from .const import ATTRIBUTION, CONF_AIR_STATION_ID
+from .coordinator import (
+    AirStationCoordinator,
+    AirStationData,
+    LocationCoordinator,
+    StationCoordinator,
+    StationData,
+)
+from .entity import (
+    ONE_HOUR,
+    AirEntity,
+    EnumActions,
+    MeteoSixEntity,
+    WarningsEntity,
+    location_device,
+    rain,
+)
 from .geo import distance_km
 from .station import SENSORS, TODAY, StationSensor, clean, sensor_keys
 from .warnings import (
@@ -39,6 +63,9 @@ from .warnings import (
     upcoming,
     warning_details,
 )
+
+# Estados del sensor de calidad del aire.
+AIR_LEVEL_OPTIONS = list(LEVELS)
 
 # A partir de 0,1 mm se considera que llueve (lo mínimo que se mide).
 RAIN_THRESHOLD = 0.1
@@ -73,6 +100,67 @@ async def async_setup_entry(
 
     for subentry_id, station in entry.runtime_data.stations.items():
         _add_station_sensors(station, subentry_id, async_add_entities)
+
+    air_model = entry.runtime_data.air_model
+    air_stations = entry.runtime_data.air_stations
+    for subentry_id in entry.runtime_data.locations:
+        subentry = entry.subentries[subentry_id]
+        async_add_entities(
+            [
+                AirQualitySensor(air_model, air_stations, subentry, "air_quality"),
+                AirQualityIndexSensor(
+                    air_model, air_stations, subentry, "air_quality_index"
+                ),
+            ],
+            config_subentry_id=subentry_id,
+        )
+        if air_stations is not None and subentry.data.get(CONF_AIR_STATION_ID):
+            _add_air_station_sensors(
+                air_stations,
+                subentry,
+                int(subentry.data[CONF_AIR_STATION_ID]),
+                async_add_entities,
+            )
+
+
+@callback
+def _add_air_station_sensors(
+    stations: AirStationCoordinator,
+    subentry: ConfigSubentry,
+    station_id: int,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Solo los contaminantes que mide esa estación. Si al arrancar aún no hay
+    medidas, se añaden con las primeras que lleguen."""
+
+    @callback
+    def add() -> bool:
+        data: AirStationData | None = stations.data
+        if data is None or station_id not in data.measurements:
+            return False
+        measured = data.measurements[station_id].values
+        entities: list[SensorEntity] = [
+            AirStationUpdatedSensor(stations, subentry, station_id)
+        ]
+        entities += [
+            AirPollutantSensor(stations, subentry, station_id, pollutant)
+            for pollutant in POLLUTANTS
+            if pollutant.code in measured
+        ]
+        async_add_entities(entities, config_subentry_id=subentry.subentry_id)
+        return True
+
+    if add():
+        return
+    remove: CALLBACK_TYPE | None = None
+
+    @callback
+    def on_update() -> None:
+        if add() and remove:
+            remove()
+
+    remove = stations.async_add_listener(on_update)
+    stations.config_entry.async_on_unload(remove)
 
 
 @callback
@@ -201,7 +289,7 @@ class StationUpdatedSensor(StationEntity, SensorEntity):
 type WarningSelector = Callable[[list[WeatherWarning], datetime], list[WeatherWarning]]
 
 
-class WarningLevelSensor(WarningsEntity, SensorEntity):
+class WarningLevelSensor(WarningsEntity, EnumActions, SensorEntity):
     """Nivel más alto de los avisos vigentes (o de los próximos).
 
     Atributos: solo el aviso principal y fuera del recorder. La lista completa se
@@ -308,3 +396,174 @@ class SnowLevelSensor(MeteoSixEntity, SensorEntity):
     def native_value(self) -> float | None:
         now = self._start
         return next((hour.snow_level for hour in self._hours if hour.time == now), None)
+
+
+class AirQualitySensor(AirEntity, EnumActions, SensorEntity):
+    """Calidad del aire ahora: la estación de aire si la hay y su dato es reciente;
+    si no, el modelo en el punto; si no, lo previsto para hoy en el concello.
+
+    El detalle por horas y días se pide con la acción `meteogal.get_air_quality`.
+    """
+
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_options = AIR_LEVEL_OPTIONS
+
+    @property
+    def native_value(self) -> str | None:
+        current = self._current
+        return current.level if current else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        current = self._current
+        if current is None:
+            return {}
+        return {"source": current.source, "main_pollutant": current.pollutant}
+
+    def get_air_quality(self) -> dict[str, Any]:
+        """Respuesta de `meteogal.get_air_quality`: ahora, cada hora del modelo desde
+        la en curso y cada día previsto para el concello."""
+        current = self._current
+        start = dt_util.utcnow().replace(minute=0, second=0, microsecond=0)
+        return {
+            "now": {
+                "level": current.level,
+                "index": current.index,
+                "main_pollutant": current.pollutant,
+                "source": current.source,
+            }
+            if current
+            else None,
+            "hourly": [
+                {
+                    "datetime": dt_util.as_local(hour.time).isoformat(),
+                    "level": level(hour.index),
+                    "index": hour.index,
+                }
+                for hour in self._model_hours
+                if hour.time >= start and hour.index is not None
+            ],
+            "daily": [
+                {
+                    "date": day.date.isoformat(),
+                    "level": level(day.index),
+                    "index": day.index,
+                    "main_pollutant": pollutant(day.pollutant),
+                    "peak": day.peak.isoformat() if day.peak else None,
+                }
+                for day in self._forecast
+                if day.date >= dt_util.now().date() and day.index is not None
+            ],
+        }
+
+
+class AirQualityIndexSensor(AirEntity, SensorEntity):
+    """El número del ICA (0-6) del que sale el nivel. Desactivado por defecto."""
+
+    _attr_device_class = SensorDeviceClass.AQI
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
+    _attr_entity_registry_enabled_default = False
+
+    @property
+    def native_value(self) -> float | None:
+        current = self._current
+        return current.index if current else None
+
+
+class AirStationEntity(CoordinatorEntity[AirStationCoordinator]):
+    """Entidad de la estación de aire de una ubicación, en su dispositivo."""
+
+    _attr_has_entity_name = True
+    _attr_attribution = ATTRIBUTION
+
+    def __init__(
+        self,
+        coordinator: AirStationCoordinator,
+        subentry: ConfigSubentry,
+        station_id: int,
+        key: str,
+    ) -> None:
+        super().__init__(coordinator)
+        self._subentry = subentry
+        self._station_id = station_id
+        self._attr_unique_id = f"{subentry.subentry_id}_air_{key}"
+        self._attr_device_info = location_device(subentry)
+
+    @property
+    def _measurements(self) -> AirMeasurements | None:
+        data = self.coordinator.data
+        return data.measurements.get(self._station_id) if data else None
+
+
+class AirPollutantSensor(AirStationEntity, SensorEntity):
+    """Un contaminante medido en la estación de aire. El nombre sale de la clase de
+    dispositivo (PM2,5, Ozono…), así valen los disparadores y condiciones de HA."""
+
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 1
+
+    def __init__(
+        self,
+        coordinator: AirStationCoordinator,
+        subentry: ConfigSubentry,
+        station_id: int,
+        description: AirPollutant,
+    ) -> None:
+        super().__init__(coordinator, subentry, station_id, description.key)
+        self._code = description.code
+        self._attr_device_class = description.device_class
+        self._attr_native_unit_of_measurement = description.unit
+        self._attr_entity_registry_enabled_default = description.enabled
+
+    @property
+    def native_value(self) -> float | None:
+        measurements = self._measurements
+        if (
+            measurements is None
+            or measurements.time is None
+            or dt_util.now() - measurements.time > STATION_MAX_AGE
+        ):
+            return None  # la estación ha dejado de enviar
+        return measurements.values.get(self._code)
+
+
+class AirStationUpdatedSensor(AirStationEntity, SensorEntity):
+    """Hora de la última medida de la estación de aire, con cuál es, de qué tipo y
+    a qué distancia."""
+
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_translation_key = "air_station_updated"
+
+    def __init__(
+        self,
+        coordinator: AirStationCoordinator,
+        subentry: ConfigSubentry,
+        station_id: int,
+    ) -> None:
+        super().__init__(coordinator, subentry, station_id, "station_updated")
+
+    @property
+    def native_value(self) -> datetime | None:
+        measurements = self._measurements
+        return measurements.time if measurements else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        attributes: dict[str, Any] = {"station_id": self._station_id}
+        station = self.coordinator.stations.get(self._station_id)
+        if station:
+            location = self._subentry.data
+            attributes["station_name"] = station.name
+            attributes["station_type"] = STATION_KINDS.get(station.kind)
+            attributes["distance"] = round(
+                distance_km(
+                    location[CONF_LATITUDE],
+                    location[CONF_LONGITUDE],
+                    station.latitude,
+                    station.longitude,
+                ),
+                1,
+            )
+        return attributes

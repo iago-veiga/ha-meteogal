@@ -21,6 +21,7 @@ from custom_components.meteogal.const import DOMAIN
 from custom_components.meteogal.geo import nearest_station
 
 from .api.conftest import (
+    AIR_STATIONS,
     CAMERAS,
     CONCELLOS,
     METEOSIX_BAD_KEY,
@@ -85,11 +86,14 @@ async def test_first_install(hass: HomeAssistant) -> None:
         "station_note": "",
     }
     station_id = nearest_station_id(SANTIAGO)
-    # Santiago-EOAS no tiene cámara: no se propone ninguna.
+    # Santiago-EOAS no tiene cámara: no se propone ninguna. Estación de aire: Campus
+    # (2), la más cercana con datos, a menos de 10 km.
     assert suggested(result) == {
         "concello_id": "15078",
         "station_id": str(station_id),
         "station_weather": True,
+        "air_station_id": "2",
+        "air_station_use": True,
     }
 
     result = await hass.config_entries.flow.async_configure(
@@ -110,6 +114,8 @@ async def test_first_install(hass: HomeAssistant) -> None:
         "station_id": station_id,
         "station_weather": True,
         "camera_id": None,
+        "air_station_id": 2,
+        "air_station_use": True,
     }
 
 
@@ -454,6 +460,8 @@ async def test_station_camera_suggested(hass: HomeAssistant) -> None:
         "station_id": "14000",
         "station_weather": True,
         "camera_id": "Corunha",
+        "air_station_id": "14",
+        "air_station_use": True,
     }
     # Las cámaras, de la más cercana a la más lejana, con su concello y distancia.
     cameras = next(
@@ -574,12 +582,34 @@ async def test_station_gaps_unavailable(hass: HomeAssistant, aioclient_mock) -> 
         CONCELLOS, params={"dia": 0}, json=load("jsonConcellosNivelMax.json")
     )
     aioclient_mock.get(STATION_NOW, exc=aiohttp.ClientConnectionError())
+    # Tampoco las estaciones de aire: el campo queda vacío y sin propuesta.
+    aioclient_mock.get(AIR_STATIONS, exc=aiohttp.ClientConnectionError())
 
     result = await start(hass, TORRE)
 
     assert result["step_id"] == "confirm"
     assert station_options(result)[0] == "Coruña-Torre de Hércules (A Coruña) · 0.4 km"
     assert result["description_placeholders"]["station_note"] == ""
+    assert "air_station_id" not in suggested(result)
+
+
+async def test_air_station_options(hass: HomeAssistant) -> None:
+    """Estaciones de aire con concello, distancia y tipo; las sin ICA, marcadas."""
+    hass.config.language = "es"
+    result = await start(hass, DIQUE)
+
+    key = next(k for k in result["data_schema"].schema if str(k) == "air_station_id")
+    labels = [o["label"] for o in result["data_schema"].schema[key].config["options"]]
+    assert labels[:2] == [
+        "Torre Hércules (A Coruña) · 3,4 km · fondo",
+        "Riazor (A Coruña) · 3,8 km · tráfico",
+    ]
+    # Teixeiro y Penedo daban «sin datos» (ICA -1) en la respuesta guardada.
+    assert any(
+        label.startswith("Teixeiro") and label.endswith("· sin datos ahora")
+        for label in labels
+    )
+    assert len(labels) == 46
 
 
 async def test_station_note_only_for_nearest(hass: HomeAssistant) -> None:

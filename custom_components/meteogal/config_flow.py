@@ -50,7 +50,9 @@ from homeassistant.helpers.selector import (
 )
 import voluptuous as vol
 
+from .air import STATION_KINDS, SUGGEST_WITHIN_KM
 from .api import (
+    AirStation,
     Camera,
     MeteoGalClient,
     MeteoGalError,
@@ -59,6 +61,8 @@ from .api import (
     Station,
 )
 from .const import (
+    CONF_AIR_STATION_ID,
+    CONF_AIR_STATION_USE,
     CONF_CAMERA_ID,
     CONF_CONCELLO_ID,
     CONF_RADAR_HOURS,
@@ -98,6 +102,9 @@ _GAP_TEXTS: Final = {
         "missing": "A estación máis próxima, {station}, non mide {what}.",
         "silent": "A estación máis próxima, {station}, non envía datos agora.",
         "other": "{station} ({distance} km) si.",
+        "traffic": "tráfico",
+        "industrial": "industrial",
+        "background": "fondo",
     },
     "es": {
         "without": "sin {what}",
@@ -108,6 +115,9 @@ _GAP_TEXTS: Final = {
         "missing": "La estación más cercana, {station}, no mide {what}.",
         "silent": "La estación más cercana, {station}, no envía datos ahora.",
         "other": "{station} ({distance} km) sí.",
+        "traffic": "tráfico",
+        "industrial": "industrial",
+        "background": "fondo",
     },
     "en": {
         "without": "no {what}",
@@ -118,6 +128,9 @@ _GAP_TEXTS: Final = {
         "missing": "The nearest station, {station}, does not measure {what}.",
         "silent": "The nearest station, {station}, is not sending data now.",
         "other": "{station} ({distance} km) does.",
+        "traffic": "traffic",
+        "industrial": "industrial",
+        "background": "background",
     },
 }
 
@@ -137,6 +150,9 @@ class Candidate:
     cameras: list[tuple[Camera, float]]
     # Lo que le falta a cada estación (vacío si falla: solo es una ayuda).
     gaps: dict[int, frozenset[str]]
+    # Estaciones de aire con ICA, de la más cercana a la más lejana, con su
+    # distancia y si tienen dato ahora (vacío si falla: la estación es opcional).
+    air_stations: list[tuple[AirStation, float, bool]]
 
 
 async def async_candidate(
@@ -189,8 +205,43 @@ async def async_candidate(
         _LOGGER.debug("No se pudo obtener la lectura de las estaciones: %s", err)
         readings = []
     gaps = station_gaps(readings, (station.id for station in stations))
+    air_stations = await _async_air_stations(client, latitude, longitude)
     return Candidate(
-        latitude, longitude, concello_id, toponyms, ranked, ranked_cameras, gaps
+        latitude,
+        longitude,
+        concello_id,
+        toponyms,
+        ranked,
+        ranked_cameras,
+        gaps,
+        air_stations,
+    )
+
+
+async def _async_air_stations(
+    client: MeteoGalClient, latitude: float, longitude: float
+) -> list[tuple[AirStation, float, bool]]:
+    """Solo las que calculan el ICA (las de un solo contaminante, como las de SO₂ de
+    la industria, no dan nivel)."""
+    try:
+        stations = await client.get_air_stations()
+        indexes = await client.get_air_indexes()
+    except MeteoGalError as err:
+        _LOGGER.debug("No se pudo obtener la lista de estaciones de aire: %s", err)
+        return []
+    # Con dato: con ICA en la última lectura (la API da -1 si no puede calcularlo).
+    by_id = {index.station_id: index for index in indexes}
+    return sorted(
+        (
+            (
+                station,
+                distance_km(latitude, longitude, station.latitude, station.longitude),
+                by_id[station.id].index is not None,
+            )
+            for station in stations
+            if station.id in by_id
+        ),
+        key=lambda item: item[1],
     )
 
 
@@ -268,9 +319,29 @@ def station_options(
     return stations
 
 
+def _air_station_options(
+    hass: HomeAssistant, candidate: Candidate
+) -> list[SelectOptionDict]:
+    """«Torre Hércules (A Coruña) · 3,4 km · fondo», y «sin datos ahora» si no tiene."""
+    texts = _GAP_TEXTS[_language(hass)]
+    options = []
+    for station, distance, has_data in candidate.air_stations:
+        label = (
+            f"{station.name} ({_toponym(candidate, station.concello_id)}) · "
+            f"{_km(hass, distance)} km"
+        )
+        if kind := STATION_KINDS.get(station.kind):
+            label += f" · {texts[kind]}"
+        if not has_data:
+            label += f" · {texts[NO_DATA]}"
+        options.append(SelectOptionDict(value=str(station.id), label=label))
+    return options
+
+
 def _confirm_schema(hass: HomeAssistant, candidate: Candidate) -> vol.Schema:
     concellos = sorted(candidate.toponyms.items(), key=lambda item: _sort_key(item[1]))
     stations = station_options(hass, candidate)
+    air_stations = _air_station_options(hass, candidate)
     cameras = [
         SelectOptionDict(
             value=camera.key,
@@ -304,6 +375,12 @@ def _confirm_schema(hass: HomeAssistant, candidate: Candidate) -> vol.Schema:
                     options=cameras, mode=SelectSelectorMode.DROPDOWN, sort=False
                 )
             ),
+            vol.Optional(CONF_AIR_STATION_ID): SelectSelector(
+                SelectSelectorConfig(
+                    options=air_stations, mode=SelectSelectorMode.DROPDOWN, sort=False
+                )
+            ),
+            vol.Optional(CONF_AIR_STATION_USE): BooleanSelector(),
         }
     )
 
@@ -382,6 +459,7 @@ def _sort_key(name: str) -> str:
 def _location_data(candidate: Candidate, user_input: dict[str, Any]) -> dict[str, Any]:
     station = user_input.get(CONF_STATION_ID)
     camera = user_input.get(CONF_CAMERA_ID)
+    air_station = user_input.get(CONF_AIR_STATION_ID)
     return {
         CONF_LATITUDE: candidate.latitude,
         CONF_LONGITUDE: candidate.longitude,
@@ -389,6 +467,8 @@ def _location_data(candidate: Candidate, user_input: dict[str, Any]) -> dict[str
         CONF_STATION_ID: int(station) if station else None,
         CONF_STATION_WEATHER: bool(user_input.get(CONF_STATION_WEATHER, True)),
         CONF_CAMERA_ID: camera or None,
+        CONF_AIR_STATION_ID: int(air_station) if air_station else None,
+        CONF_AIR_STATION_USE: bool(user_input.get(CONF_AIR_STATION_USE, True)),
     }
 
 
@@ -661,6 +741,18 @@ class LocationSubentryFlow(ConfigSubentryFlow):
                     )
                 else:
                     suggested.pop(CONF_CAMERA_ID, None)
+                # Ubicaciones de antes de la calidad del aire: sin el dato, se
+                # propone como en una nueva.
+                if CONF_AIR_STATION_ID in previous:
+                    if previous[CONF_AIR_STATION_ID]:
+                        suggested[CONF_AIR_STATION_ID] = str(
+                            previous[CONF_AIR_STATION_ID]
+                        )
+                    else:
+                        suggested.pop(CONF_AIR_STATION_ID, None)
+                    suggested[CONF_AIR_STATION_USE] = previous.get(
+                        CONF_AIR_STATION_USE, True
+                    )
 
         return self.async_show_form(
             step_id="confirm",
@@ -700,4 +792,17 @@ def _suggested(candidate: Candidate) -> dict[str, Any]:
         camera = next((c for c, _ in candidate.cameras if c.id == station.id), None)
         if camera:
             suggested[CONF_CAMERA_ID] = camera.key
+    # Estación de aire: la más cercana con datos, solo si está cerca; si no, el
+    # modelo cubre la ubicación.
+    air = next(
+        (
+            station
+            for station, distance, has_data in candidate.air_stations
+            if has_data and distance <= SUGGEST_WITHIN_KM
+        ),
+        None,
+    )
+    if air:
+        suggested[CONF_AIR_STATION_ID] = str(air.id)
+        suggested[CONF_AIR_STATION_USE] = True
     return suggested

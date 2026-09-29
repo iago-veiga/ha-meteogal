@@ -187,3 +187,80 @@ class Camera:
     longitude: float
     image_url: str
     time: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class AirStation:
+    """Estación de la Rede de Calidade do Aire (`jsonEstacionesCaire`).
+
+    `kind`: tipo de estación (`Tráfico`, `Industrial`, `Fondo`) y `area`: tipo de
+    área (`Urbana`, `Suburbana`, `Rural`), tal cual los da la API.
+    """
+
+    id: int
+    name: str
+    concello_id: int
+    latitude: float
+    longitude: float
+    kind: str
+    area: str
+
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class AirIndex:
+    """Índice de Calidad del Aire (ICA) de una estación, un concello o un punto.
+
+    `index`: de 0 a 6 (0-1 bueno … 5-6 el peor), o None sin datos (la API da -1).
+    `pollutant`: el contaminante con el peor índice (`NO2`, `O3`, `PM25`, `PM10`,
+    `SO2`), tal cual lo da la API; None si no se sabe (el modelo no lo da).
+    """
+
+    index: float | None
+    pollutant: str | None = None
+
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class AirStationIndex(AirIndex):
+    """ICA actual de una estación (`jsonICAActual`), con la hora local del dato.
+
+    `label`: el nivel en inglés que da MeteoGalicia (`Good`, `Fair`, `Moderate`…).
+    En el límite exacto manda sobre el número, que llega redondeado: el mismo 2,0
+    sale unas veces `Fair` y otras `Moderate`.
+    """
+
+    station_id: int
+    time: datetime
+    label: str | None = None
+
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class AirDayForecast(AirIndex):
+    """ICA previsto para un día en un concello (`jsonPrediccionIcaDiarioConcello`).
+
+    `peak`: hora local del peor momento del día.
+    """
+
+    date: date
+    peak: datetime | None
+
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class AirModelHour(AirIndex):
+    """ICA previsto por el modelo CHIMERE en un punto, para una hora (en UTC)."""
+
+    time: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class AirMeasurements:
+    """Medidas actuales de una estación (`jsonDatosActualesEstacion`).
+
+    `values`: por contaminante de la API (`PM25`, `NO2`, `CO`…), solo las medidas
+    con dato y sin marca de canal desactivado (`D`) o equipo en mantenimiento
+    (`M`). CO en mg/m³; el resto, en µg/m³. `time`: hora local de la medida más
+    reciente.
+    """
+
+    station_id: int
+    time: datetime | None
+    values: dict[str, float]

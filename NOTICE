@@ -25,8 +25,10 @@ docs/brand/ y custom_components/meteogal/brand/
 tests/api/fixtures/
   Respuestas reales de los servicios de MeteoGalicia (Xunta de Galicia),
   https://www.meteogalicia.gal, guardadas para los tests: servicios públicos
-  (previsión, observación, avisos, estaciones y cámaras) y MeteoSIX (conjunto
-  0274), publicados como datos abiertos en https://abertos.xunta.gal.
+  (previsión, observación, avisos, estaciones, cámaras y calidad del aire,
+  conjunto 0055), MeteoSIX (conjunto 0274) y el modelo de calidad del aire
+  CHIMERE del servidor THREDDS (conjunto 0485), publicados como datos abiertos
+  en https://abertos.xunta.gal.
   Licencia: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
   Estos ficheros se distribuyen con la misma licencia.
   Modificaciones: ninguna, salvo el formato (sangrado) y, en las respuestas de

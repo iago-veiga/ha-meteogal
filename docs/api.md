@@ -19,6 +19,10 @@ Base `https://servizos.meteogalicia.gal/mgrss`.
 | `get_station_readings()` | `ultimos10minEstacionsMeteo` | Última lectura de las 166 estaciones, en una petición (~320 KB) |
 | `get_station_day(id)` | `datosDiariosEstacionsMeteo?idEst=` | Acumulados y extremos de hoy de una estación |
 | `get_cameras()` | `jsonCamaras` | Las 33 cámaras con coordenadas, concello y su última foto |
+| `get_air_stations()` | `caire/jsonEstacionesCaire` | Estaciones de la Rede de Calidade do Aire: coordenadas, concello, tipo (tráfico, industrial, fondo) ([calidad-aire.md](calidad-aire.md)) |
+| `get_air_indexes()` | `caire/jsonICAActual` | ICA actual de todas las estaciones, en una petición |
+| `get_air_measurements(id)` | `caire/jsonDatosActualesEstacion?idEstacion=` | Medidas actuales de una estación de aire (sin las marcadas como desactivadas o en mantenimiento) |
+| `get_air_forecast(id)` | `caire/jsonPrediccionIcaDiarioConcello?idConcello=` | ICA previsto de hoy y dos días más para un concello |
 
 ## MeteoSIX (`MeteoSixClient`, con clave)
 
@@ -39,6 +43,15 @@ WMS del servidor THREDDS, producto PPI (`https://thredds.meteogalicia.gal/thredd
 |---|---|---|
 | `get_times(day)` | `GetMetadata&item=timesteps` | Pasadas de un día UTC. Si el fichero del día aún no existe, el servidor da 500 |
 | `get_frame(time, bbox, width, height)` | `GetMap` | PNG en grises (10–70 dBZ) con transparencia, del recuadro pedido |
+
+## Calidad del aire, modelo CHIMERE (`ChimereClient`, sin clave)
+
+THREDDS de MeteoGalicia, `chimere_2d_gal`: una pasada al día con el ICA de cada hora (~76 h) en una malla de ~7 km.
+
+| Método | Petición | Devuelve |
+|---|---|---|
+| `get_latest_run()` | Catálogo de `chimere_2d_gal/fmrc/files` | Ruta del último fichero (el nombre lleva la fecha) |
+| `get_point(run, lat, lon)` | NCSS en CSV, `var=ica`, todas las horas | ICA de cada hora en el punto de malla más cercano |
 
 ## Criterios
 

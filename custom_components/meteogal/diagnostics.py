@@ -17,7 +17,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
 
 from . import MeteoGalConfigEntry
-from .const import CONF_CAMERA_ID
+from .const import CONF_AIR_STATION_ID, CONF_CAMERA_ID
 from .warnings import warning_details
 
 TO_REDACT = {CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE}
@@ -46,6 +46,16 @@ async def async_get_config_entry_diagnostics(
             "count": len(data.cameras.data or {}),
         }
         if data.cameras
+        else None,
+        "air_model": {
+            **_status(data.air_model),
+            "run": data.air_model.data.run if data.air_model.data else None,
+        },
+        "air_stations": {
+            **_status(data.air_stations),
+            "station_ids": sorted(data.air_stations.station_ids),
+        }
+        if data.air_stations
         else None,
         "locations": [_location(entry, subentry_id) for subentry_id in data.locations],
     }
@@ -93,6 +103,30 @@ def _location(entry: MeteoGalConfigEntry, subentry_id: str) -> dict[str, Any]:
             "time": str(images.time),
             "animation_bytes": len(images.animation),
             "latest_bytes": len(images.latest),
+        }
+    if air := data.air_model.data:
+        result["air_model"] = {
+            **_range([hour.time for hour in air.hours.get(subentry_id, [])]),
+            "forecast_days": [
+                str(day.date) for day in air.forecasts.get(subentry_id, [])
+            ],
+        }
+    if (air_station_id := subentry.data.get(CONF_AIR_STATION_ID)) and (
+        air_stations := data.air_stations
+    ):
+        station_id = int(air_station_id)
+        index = air_stations.data.indexes.get(station_id) if air_stations.data else None
+        measurements = (
+            air_stations.data.measurements.get(station_id)
+            if air_stations.data
+            else None
+        )
+        result["air_station"] = {
+            "station_id": station_id,
+            "index": index.index if index else None,
+            "index_time": str(index.time) if index else None,
+            "measurements_time": str(measurements.time) if measurements else None,
+            "measurements": dict(measurements.values) if measurements else None,
         }
     if (camera_id := subentry.data.get(CONF_CAMERA_ID)) and data.cameras:
         camera = data.cameras.find(camera_id)

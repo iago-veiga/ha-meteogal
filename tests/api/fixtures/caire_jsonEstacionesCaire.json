@@ -1,0 +1,2672 @@
+{
+ "estaciones": [
+  {
+   "concello": "SANTIAGO DE COMPOSTELA",
+   "direccion": "Monte da Condesa, Campus Sur (USC)",
+   "idConcello": 15078,
+   "idEstacion": 2,
+   "idProvincia": 15,
+   "latitud": "42.875971",
+   "longitud": "-8.559157",
+   "nombre": "Campus",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "Santiago de Compostela",
+   "provincia": "La Coruña",
+   "tipo": "Fondo",
+   "tipoArea": "Suburbana",
+   "utmx": "536007",
+   "utmy": "4747140"
+  },
+  {
+   "concello": "VIGO",
+   "direccion": "Avenida de Castelao, S/N",
+   "idConcello": 36057,
+   "idEstacion": 4,
+   "idProvincia": 36,
+   "latitud": "42.219014",
+   "longitud": "-8.742082",
+   "nombre": "Coia",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 30,
+     "nombre": "BEN",
+     "tecnica": "Cromatografía de gases",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "Vigo",
+   "provincia": "Pontevedra",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "521289",
+   "utmy": "4674124"
+  },
+  {
+   "concello": "FERROL",
+   "direccion": "Parque Raíña Sofía, S/N",
+   "idConcello": 15036,
+   "idEstacion": 5,
+   "idProvincia": 15,
+   "latitud": "43.481510",
+   "longitud": "-8.2431197",
+   "nombre": "Raíña Sofía",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "Ferrol",
+   "provincia": "La Coruña",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "561337",
+   "utmy": "4814473"
+  },
+  {
+   "concello": "LAZA",
+   "direccion": "Lugar de As Eiras, S/N",
+   "idConcello": 32039,
+   "idEstacion": 6,
+   "idProvincia": 32,
+   "latitud": "42.061605",
+   "longitud": "-7.408852",
+   "nombre": "Laza",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "As Eiras",
+   "provincia": "Orense",
+   "tipo": "Fondo",
+   "tipoArea": "Rural",
+   "utmx": "631660",
+   "utmy": "4657844"
+  },
+  {
+   "concello": "LUGO",
+   "direccion": "Avenida Fingoi, S/N",
+   "idConcello": 27028,
+   "idEstacion": 7,
+   "idProvincia": 27,
+   "latitud": "42.997929",
+   "longitud": "-7.5509094",
+   "nombre": "Fingoi",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "Lugo",
+   "provincia": "Lugo",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "618133",
+   "utmy": "4761603"
+  },
+  {
+   "concello": "OURENSE",
+   "direccion": "Rúa Gómez Franqueira, S/N",
+   "idConcello": 32054,
+   "idEstacion": 9,
+   "idProvincia": 32,
+   "latitud": "42.35301",
+   "longitud": "-7.8778791",
+   "nombre": "Gómez Franqueira",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 30,
+     "nombre": "BEN",
+     "tecnica": "Cromatografía de gases",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "Ourense",
+   "provincia": "Orense",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "592434",
+   "utmy": "4689584"
+  },
+  {
+   "concello": "PONTEAREAS",
+   "direccion": "Centro de Interpretación a Granxa, S/N",
+   "idConcello": 36042,
+   "idEstacion": 10,
+   "idProvincia": 36,
+   "latitud": "42.180661",
+   "longitud": "-8.522600",
+   "nombre": "Ponteareas",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Ponterareas",
+   "provincia": "Pontevedra",
+   "tipo": "Fondo",
+   "tipoArea": "Suburbana",
+   "utmx": "539335",
+   "utmy": "4670026"
+  },
+  {
+   "concello": "CORUÑA (A)",
+   "direccion": "Rúa de Gregorio Hernández, Nº2",
+   "idConcello": 15030,
+   "idEstacion": 12,
+   "idProvincia": 15,
+   "latitud": "43.367091",
+   "longitud": "-8.420599",
+   "nombre": "Riazor",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "A Coruña",
+   "provincia": "La Coruña",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "546944",
+   "utmy": "4801744"
+  },
+  {
+   "concello": "SANTIAGO DE COMPOSTELA",
+   "direccion": "Avda. do Camiño Francés-As Cancelas S/N",
+   "idConcello": 15078,
+   "idEstacion": 13,
+   "idProvincia": 15,
+   "latitud": "42.88779",
+   "longitud": "-8.531154",
+   "nombre": "San Caetano",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Santiago",
+   "provincia": "La Coruña",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "538290",
+   "utmy": "4748457"
+  },
+  {
+   "concello": "CORUÑA (A)",
+   "direccion": "Paseo Marítimo-IES Anxel Casal",
+   "idConcello": 15030,
+   "idEstacion": 14,
+   "idProvincia": 15,
+   "latitud": "43.382786",
+   "longitud": "-8.409211",
+   "nombre": "Torre Hércules",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "A Coruña",
+   "provincia": "La Coruña",
+   "tipo": "Fondo",
+   "tipoArea": "Suburbana",
+   "utmx": "547965",
+   "utmy": "4803717"
+  },
+  {
+   "concello": "PONTEVEDRA",
+   "direccion": "Calle Iglesias Villarelle",
+   "idConcello": 36038,
+   "idEstacion": 17,
+   "idProvincia": 36,
+   "latitud": "42.425934",
+   "longitud": "-8.6439933",
+   "nombre": "Campolongo",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    },
+    {
+     "idParametro": 30,
+     "nombre": "BEN",
+     "tecnica": "Cromatografía de gases",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Pontevedra",
+   "provincia": "Pontevedra",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "529277",
+   "utmy": "4697130"
+  },
+  {
+   "concello": "VIGO",
+   "direccion": "CEIP Lope de Vega, Rúa Emilia Pardo Bazá",
+   "idConcello": 36057,
+   "idEstacion": 18,
+   "idProvincia": 36,
+   "latitud": "42.222449",
+   "longitud": "-8.711088",
+   "nombre": "Lope de Vega",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Vigo",
+   "provincia": "Pontevedra",
+   "tipo": "Tráfico",
+   "tipoArea": "Urbana",
+   "utmx": "523845",
+   "utmy": "4674514"
+  },
+  {
+   "concello": "XINZO DE LIMIA",
+   "direccion": "Parque do Toural",
+   "idConcello": 32032,
+   "idEstacion": 19,
+   "idProvincia": 32,
+   "latitud": "42.060731",
+   "longitud": "-7.729869",
+   "nombre": "Xinzo de Limia",
+   "parametros": [
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 30,
+     "nombre": "BEN",
+     "tecnica": "Cromatografía de gases",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Xinzo de Limia",
+   "provincia": "Orense",
+   "tipo": "Tráfico",
+   "tipoArea": "Suburbana",
+   "utmx": "605069",
+   "utmy": "4657298"
+  },
+  {
+   "concello": "LALÍN",
+   "direccion": "Rúa 7, SN",
+   "idConcello": 36024,
+   "idEstacion": 20,
+   "idProvincia": 36,
+   "latitud": "42.656288",
+   "longitud": "-8.107122",
+   "nombre": "Lalín",
+   "parametros": [
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 70,
+     "nombre": "RUI",
+     "tecnica": "Desconocida",
+     "unidad": "dBA"
+    }
+   ],
+   "poblacion": "Lalin",
+   "provincia": "Pontevedra",
+   "tipo": "Fondo",
+   "tipoArea": "Suburbana",
+   "utmx": "573173",
+   "utmy": "4723014"
+  },
+  {
+   "concello": "FERROL",
+   "direccion": "A Cabana, Enseada da Malata",
+   "idConcello": 15036,
+   "idEstacion": 21,
+   "idProvincia": 15,
+   "latitud": "43.491615",
+   "longitud": "-8.252179",
+   "nombre": "A Cabana",
+   "parametros": [
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Ferrol ",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "560450",
+   "utmy": "4815779"
+  },
+  {
+   "concello": "CERVO",
+   "direccion": "Urbanización Embalse de Rio Cobo S/N",
+   "idConcello": 27013,
+   "idEstacion": 35,
+   "idProvincia": 27,
+   "latitud": "43.682562",
+   "longitud": "-7.433673",
+   "nombre": "Río Cobo",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 54,
+     "nombre": "HF",
+     "tecnica": "Potenciometría",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Cervo",
+   "provincia": "Lugo",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "626247",
+   "utmy": "4837809"
+  },
+  {
+   "concello": "XOVE",
+   "direccion": "Rúa Camiño a Agramonte S/N",
+   "idConcello": 27025,
+   "idEstacion": 36,
+   "idProvincia": 27,
+   "latitud": "43.686274",
+   "longitud": "-7.507784",
+   "nombre": "Xove",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 54,
+     "nombre": "HF",
+     "tecnica": "Potenciometría",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Xove",
+   "provincia": "Lugo",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "620277",
+   "utmy": "4838043"
+  },
+  {
+   "concello": "ARTEIXO",
+   "direccion": "A Poza, Estrada a Caión-Arteixo S/N",
+   "idConcello": 15005,
+   "idEstacion": 43,
+   "idProvincia": 15,
+   "latitud": "43.259775",
+   "longitud": " -8.554653",
+   "nombre": "Paiosaco ",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Paiosaco",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "536255.575",
+   "utmy": "4789975.809"
+  },
+  {
+   "concello": "ARTEIXO",
+   "direccion": "Contorna do Paseo do Balneario, S/N",
+   "idConcello": 15005,
+   "idEstacion": 49,
+   "idProvincia": 15,
+   "latitud": "43.302295",
+   "longitud": "-8.505986",
+   "nombre": "Centro cívico",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 99,
+     "nombre": "TIN",
+     "tecnica": "Meteorología",
+     "unidad": "ºC"
+    }
+   ],
+   "poblacion": "Arteixo",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "540068",
+   "utmy": "4794504"
+  },
+  {
+   "concello": "ARTEIXO",
+   "direccion": "Lugar de A Pastoriza, S/N",
+   "idConcello": 15005,
+   "idEstacion": 50,
+   "idProvincia": 15,
+   "latitud": "43.335241",
+   "longitud": "-8.472004",
+   "nombre": "Pastoriza ",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 99,
+     "nombre": "TIN",
+     "tecnica": "Meteorología",
+     "unidad": "ºC"
+    }
+   ],
+   "poblacion": "A Pastoriza",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "542801",
+   "utmy": "4798179"
+  },
+  {
+   "concello": "CORUÑA (A)",
+   "direccion": "Recinto do LMAG - C/ Torres Quevedo, 3-5",
+   "idConcello": 15030,
+   "idEstacion": 51,
+   "idProvincia": 15,
+   "latitud": "43.354172",
+   "longitud": "-8.424946",
+   "nombre": "A Grela (S)",
+   "parametros": [
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Pol. Ind., A Grela-Bens",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Urbana",
+   "utmx": "545867",
+   "utmy": "4800307"
+  },
+  {
+   "concello": "PONTES DE GARCÍA RODRÖGUEZ (AS)",
+   "direccion": "Contorna do Encoro da Ribeira S/N",
+   "idConcello": 15070,
+   "idEstacion": 71,
+   "idProvincia": 15,
+   "latitud": "43.405399",
+   "longitud": "-7.988619",
+   "nombre": "Fraga Redonda",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "ng/m3"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "San Pedro do Eume",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "581892",
+   "utmy": "4806332"
+  },
+  {
+   "concello": "PONTES DE GARCÍA RODRÖGUEZ (AS)",
+   "direccion": "Contorna do Polígono de Penapurreira",
+   "idConcello": 15070,
+   "idEstacion": 81,
+   "idProvincia": 15,
+   "latitud": "43.444480",
+   "longitud": "-7.917933",
+   "nombre": "Maciñeira",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "As Pontes",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "587548",
+   "utmy": "4810833"
+  },
+  {
+   "concello": "PONTES DE GARCÍA RODRÖGUEZ (AS)",
+   "direccion": "Poboado da Magdalena, S/N",
+   "idConcello": 15070,
+   "idEstacion": 82,
+   "idProvincia": 15,
+   "latitud": "43.453888",
+   "longitud": "-7.847812",
+   "nombre": "Magdalena",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "As Pontes ",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "593273",
+   "utmy": "4811434"
+  },
+  {
+   "concello": "VILALBA",
+   "direccion": "San Xiao de Mourence, S/N",
+   "idConcello": 27065,
+   "idEstacion": 85,
+   "idProvincia": 27,
+   "latitud": "43.31295",
+   "longitud": "-7.693699",
+   "nombre": "Mourence",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Vilalba",
+   "provincia": "Lugo",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "605971",
+   "utmy": "4796378"
+  },
+  {
+   "concello": "CERCEDA",
+   "direccion": "Aparcadoiro Centro de Saúde de Cerceda",
+   "idConcello": 15024,
+   "idEstacion": 101,
+   "idProvincia": 15,
+   "latitud": "43.186426",
+   "longitud": "-8.470826",
+   "nombre": "Cerceda",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Cerceda",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "543182",
+   "utmy": "4781589"
+  },
+  {
+   "concello": "ORDES",
+   "direccion": "Encoro de Vilagudín",
+   "idConcello": 15059,
+   "idEstacion": 107,
+   "idProvincia": 15,
+   "latitud": "43.093474",
+   "longitud": "-8.496432",
+   "nombre": "Presa de Vilagudín",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³N"
+    }
+   ],
+   "poblacion": "Ordes",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "541121",
+   "utmy": "4771488"
+  },
+  {
+   "concello": "SARRIA",
+   "direccion": "Recinto da empresa Cementos Cosmos",
+   "idConcello": 27057,
+   "idEstacion": 114,
+   "idProvincia": 27,
+   "latitud": "42.713419",
+   "longitud": "-7.451081",
+   "nombre": "Sur",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Oural",
+   "provincia": "Lugo",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "626827",
+   "utmy": "4730156"
+  },
+  {
+   "concello": "VIGO",
+   "direccion": "Recinto da empresa PSA Peugeot-Citroen",
+   "idConcello": 36057,
+   "idEstacion": 116,
+   "idProvincia": 36,
+   "latitud": "42.210265",
+   "longitud": "-8.736512",
+   "nombre": "1-Este",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Vigo",
+   "provincia": "Pontevedra",
+   "tipo": "Industrial",
+   "tipoArea": "Urbana",
+   "utmx": "521714",
+   "utmy": "4673157"
+  },
+  {
+   "concello": "VIGO",
+   "direccion": "Recinto da empresa PSA Peugeot-Citroen",
+   "idConcello": 36057,
+   "idEstacion": 117,
+   "idProvincia": 36,
+   "latitud": "42.202878",
+   "longitud": "-8.746963",
+   "nombre": "2-Oeste",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Vigo",
+   "provincia": "Pontevedra",
+   "tipo": "Industrial",
+   "tipoArea": "Urbana",
+   "utmx": "520891",
+   "utmy": "4672322"
+  },
+  {
+   "concello": "PONTEVEDRA",
+   "direccion": "Estación Fitopatolóxica do Areeiro ",
+   "idConcello": 36038,
+   "idEstacion": 118,
+   "idProvincia": 36,
+   "latitud": "42.404318",
+   "longitud": "-8.674931",
+   "nombre": "Areeiro",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 65,
+     "nombre": "H2S",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Areeiro",
+   "provincia": "Pontevedra",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "527133",
+   "utmy": "4694766"
+  },
+  {
+   "concello": "POIO",
+   "direccion": "Camiño Canteira próximo colegio Público de Campelo",
+   "idConcello": 36041,
+   "idEstacion": 120,
+   "idProvincia": 36,
+   "latitud": "42.427332",
+   "longitud": "-8.676617",
+   "nombre": "Campelo",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 65,
+     "nombre": "H2S",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Poio",
+   "provincia": "Pontevedra",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "526711.129",
+   "utmy": "4697490.184"
+  },
+  {
+   "concello": "CEE",
+   "direccion": "Avda. Fernando Blanco S/N",
+   "idConcello": 15023,
+   "idEstacion": 123,
+   "idProvincia": 15,
+   "latitud": "42.953652",
+   "longitud": "-9.186098",
+   "nombre": "Cee",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Cee",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Urbana",
+   "utmx": "484901",
+   "utmy": "4755677"
+  },
+  {
+   "concello": "DUMBRÍA",
+   "direccion": "Lugar de Buxán, S/N",
+   "idConcello": 15034,
+   "idEstacion": 128,
+   "idProvincia": 15,
+   "latitud": "43.008885",
+   "longitud": "-9.118884",
+   "nombre": "Dumbría",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Troitín",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "490313",
+   "utmy": "4761809"
+  },
+  {
+   "concello": "SANTIAGO DE COMPOSTELA",
+   "direccion": " Calle Brañas de Formarís s/n",
+   "idConcello": 15078,
+   "idEstacion": 132,
+   "idProvincia": 15,
+   "latitud": "42.909176",
+   "longitud": "-8.506762",
+   "nombre": "Campo de Fútbol ",
+   "parametros": [
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": " Santiago de Compostela",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "540272",
+   "utmy": "4750538"
+  },
+  {
+   "concello": "ORDES",
+   "direccion": " Uzás 15685",
+   "idConcello": 15059,
+   "idEstacion": 144,
+   "idProvincia": 15,
+   "latitud": "43.115982",
+   "longitud": "-8.351337",
+   "nombre": "Buscás",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 14,
+     "nombre": "O3",
+     "tecnica": "Absorción ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": " Buscás, Ordes",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "552700",
+   "utmy": "4773943"
+  },
+  {
+   "concello": "CERCEDA",
+   "direccion": "Monte Xalo",
+   "idConcello": 15024,
+   "idEstacion": 146,
+   "idProvincia": 15,
+   "latitud": "43.203611",
+   "longitud": "-8.413889",
+   "nombre": "Monte Xalo",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "O Arroio",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "547615",
+   "utmy": "4783593"
+  },
+  {
+   "concello": "NEDA",
+   "direccion": "Galicia Textil S.A - Avda. do Xubia, N°1",
+   "idConcello": 15055,
+   "idEstacion": 155,
+   "idProvincia": 15,
+   "latitud": "43.519697",
+   "longitud": "-8.150189",
+   "nombre": "Xubia",
+   "parametros": [
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Neda",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "568595",
+   "utmy": "4818951"
+  },
+  {
+   "concello": "CORUÑA (A)",
+   "direccion": "Monte de San Pedro, Coruña",
+   "idConcello": 15030,
+   "idEstacion": 156,
+   "idProvincia": 15,
+   "latitud": "43.377452",
+   "longitud": "-8.436899",
+   "nombre": "San Pedro",
+   "parametros": [
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Coruña",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Urbana",
+   "utmx": "545616",
+   "utmy": "4802886"
+  },
+  {
+   "concello": "CORUÑA (A)",
+   "direccion": "Recinto do LMAG - C/ Torres Quevedo, 3-5",
+   "idConcello": 15030,
+   "idEstacion": 157,
+   "idProvincia": 15,
+   "latitud": "43.354172",
+   "longitud": "-8.424946",
+   "nombre": "A Grela (C)",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Pol. Ind., A Grela-Bens",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Urbana",
+   "utmx": "546602",
+   "utmy": "4800307"
+  },
+  {
+   "concello": "CURTIS",
+   "direccion": "PARQUE ÁNXELES PENA. RÚA FARANGULLA S/N",
+   "idConcello": 15032,
+   "idEstacion": 161,
+   "idProvincia": 15,
+   "latitud": "43.140738",
+   "longitud": "-8.033065",
+   "nombre": "Teixeiro",
+   "parametros": [
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Curtis",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "578655.75",
+   "utmy": "4776815.91"
+  },
+  {
+   "concello": "ARTEIXO",
+   "direccion": "Avenida do Embalse",
+   "idConcello": 15005,
+   "idEstacion": 162,
+   "idProvincia": 15,
+   "latitud": "43.3223",
+   "longitud": "-8.4997",
+   "nombre": "Sabón-Embalse",
+   "parametros": [
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Sabón",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "540564",
+   "utmy": "4796728"
+  },
+  {
+   "concello": "SARRIA",
+   "direccion": "Rúa da igrexa",
+   "idConcello": 27057,
+   "idEstacion": 164,
+   "idProvincia": 27,
+   "latitud": "42.7172",
+   "longitud": "-7.4456",
+   "nombre": "Est-Ou",
+   "parametros": [
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Microbalanza",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 99,
+     "nombre": "TIN",
+     "tecnica": "Desconocida",
+     "unidad": "m³N/h"
+    }
+   ],
+   "poblacion": "Oural",
+   "provincia": "Lugo",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "627387",
+   "utmy": "4730798"
+  },
+  {
+   "concello": "BURELA",
+   "direccion": "Rúa do Cancelo 33",
+   "idConcello": 27902,
+   "idEstacion": 165,
+   "idProvincia": 27,
+   "latitud": "43.659065",
+   "longitud": "-7.363232",
+   "nombre": "Escola de Música",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 54,
+     "nombre": "HF",
+     "tecnica": "Potenciometría",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Absorción beta",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Burela",
+   "provincia": "Lugo",
+   "tipo": "Fondo",
+   "tipoArea": "Rural",
+   "utmx": "632089.402",
+   "utmy": "4835529.69"
+  },
+  {
+   "concello": "ARTEIXO",
+   "direccion": "Parque da Cega, Meicende",
+   "idConcello": 15005,
+   "idEstacion": 166,
+   "idProvincia": 15,
+   "latitud": "43.344832",
+   "longitud": "-8.447805",
+   "nombre": "Parque da Cega",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 65,
+     "nombre": "H2S",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Arteixo",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "544865",
+   "utmy": "4799473"
+  },
+  {
+   "concello": "MUGARDOS",
+   "direccion": "Calle Cruz, Mehá",
+   "idConcello": 15051,
+   "idEstacion": 167,
+   "idProvincia": 15,
+   "latitud": "43.4592",
+   "longitud": "-8.2442",
+   "nombre": "Penedo",
+   "parametros": [
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 6,
+     "nombre": "CO",
+     "tecnica": "Absorción infrarroja",
+     "unidad": "mg/m³"
+    }
+   ],
+   "poblacion": "Mugardos",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Suburbana",
+   "utmx": "561253.022",
+   "utmy": "4812304.418"
+  },
+  {
+   "concello": "LUGO",
+   "direccion": "Vilar, Parroquia Cuiña",
+   "idConcello": 27028,
+   "idEstacion": 168,
+   "idProvincia": 27,
+   "latitud": "42.9573",
+   "longitud": "-7.5047",
+   "nombre": "Cuíña",
+   "parametros": [
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³"
+    }
+   ],
+   "poblacion": "Vilar",
+   "provincia": "Lugo",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "621964.81",
+   "utmy": "4757157.72"
+  },
+  {
+   "concello": "ORDES",
+   "direccion": "Presa Vilagudín; 15684; Ordes",
+   "idConcello": 15059,
+   "idEstacion": 169,
+   "idProvincia": 15,
+   "latitud": "43.094894",
+   "longitud": "-8.490188",
+   "nombre": "Vilagudín",
+   "parametros": [
+    {
+     "idParametro": 1,
+     "nombre": "SO2",
+     "tecnica": "Fluorescencia ultravioleta",
+     "unidad": "µg/m³N"
+    },
+    {
+     "idParametro": 7,
+     "nombre": "NO",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³N"
+    },
+    {
+     "idParametro": 8,
+     "nombre": "NO2",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³N"
+    },
+    {
+     "idParametro": 12,
+     "nombre": "NOX",
+     "tecnica": "Quimioluminiscencia",
+     "unidad": "µg/m³N"
+    },
+    {
+     "idParametro": 10,
+     "nombre": "PM10",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³N"
+    },
+    {
+     "idParametro": 9,
+     "nombre": "PM25",
+     "tecnica": "Efecto scatering",
+     "unidad": "µg/m³N"
+    },
+    {
+     "idParametro": 99,
+     "nombre": "TIN",
+     "tecnica": "Desconocida",
+     "unidad": "ºC"
+    }
+   ],
+   "poblacion": "Ordes",
+   "provincia": "La Coruña",
+   "tipo": "Industrial",
+   "tipoArea": "Rural",
+   "utmx": "541599.386",
+   "utmy": "4771695.101"
+  }
+ ],
+ "idConcello": 0,
+ "idEstacion": 0,
+ "idParametro": 0,
+ "idProvincia": 0
+}

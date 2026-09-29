@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="THREDDS - Servidor de datos de MeteoGalicia/Feature Collection/CHIMERE_2D Galicia" version="1.2">
+  <service name="AllServices" serviceType="compound" base="">
+    <service name="dapService" serviceType="OpenDAP" base="/thredds/dodsC/" />
+    <service name="HTTPServer" serviceType="HTTPServer" base="/thredds/fileServer/" />
+    <service name="ncss" serviceType="NetcdfSubset" base="/thredds/ncss/grid/" />
+    <service name="wms" serviceType="WMS" base="/thredds/wms/" />
+    <service name="wcsService" serviceType="WCS" base="/thredds/wcs/" />
+  </service>
+  <service name="Resolver" serviceType="Resolver" base="" />
+  <dataset name="files">
+    <metadata inherited="true">
+      <serviceName>AllServices</serviceName>
+    </metadata>
+    <dataset name="Latest CHIMERE_2D Galicia File" ID="latest.xml" urlPath="latest.xml">
+      <serviceName>Resolver</serviceName>
+    </dataset>
+    <dataset name="20260925/chimere_surface_gal3_20260925_00.nc" ID="chimere_2d_gal/fmrc/files/20260925/chimere_surface_gal3_20260925_00.nc" urlPath="chimere_2d_gal/fmrc/files/20260925/chimere_surface_gal3_20260925_00.nc">
+      <dataSize units="Mbytes">71.90</dataSize>
+      <variableMap xlink:title="variables" xlink:href="/thredds/metadata/chimere_2d_gal/fmrc/files/20260925/chimere_surface_gal3_20260925_00.nc?metadata=variableMap" />
+    </dataset>
+    <dataset name="20260926/chimere_surface_gal3_20260926_00.nc" ID="chimere_2d_gal/fmrc/files/20260926/chimere_surface_gal3_20260926_00.nc" urlPath="chimere_2d_gal/fmrc/files/20260926/chimere_surface_gal3_20260926_00.nc">
+      <dataSize units="Mbytes">71.90</dataSize>
+      <variableMap xlink:title="variables" xlink:href="/thredds/metadata/chimere_2d_gal/fmrc/files/20260926/chimere_surface_gal3_20260926_00.nc?metadata=variableMap" />
+    </dataset>
+    <dataset name="20260927/chimere_surface_gal3_20260927_00.nc" ID="chimere_2d_gal/fmrc/files/20260927/chimere_surface_gal3_20260927_00.nc" urlPath="chimere_2d_gal/fmrc/files/20260927/chimere_surface_gal3_20260927_00.nc">
+      <dataSize units="Mbytes">71.90</dataSize>
+      <variableMap xlink:title="variables" xlink:href="/thredds/metadata/chimere_2d_gal/fmrc/files/20260927/chimere_surface_gal3_20260927_00.nc?metadata=variableMap" />
+    </dataset>
+    <dataset name="20260928/chimere_surface_gal3_20260928_00.nc" ID="chimere_2d_gal/fmrc/files/20260928/chimere_surface_gal3_20260928_00.nc" urlPath="chimere_2d_gal/fmrc/files/20260928/chimere_surface_gal3_20260928_00.nc">
+      <dataSize units="Mbytes">71.90</dataSize>
+      <variableMap xlink:title="variables" xlink:href="/thredds/metadata/chimere_2d_gal/fmrc/files/20260928/chimere_surface_gal3_20260928_00.nc?metadata=variableMap" />
+    </dataset>
+  </dataset>
+</catalog>

@@ -99,6 +99,8 @@ Para añadir más ubicaciones o cambiar una, entra en la integración y usa **A�
 | Ubicación | Estación | Estaciones de la más cercana a la más lejana, o ninguna | La más cercana |
 | Ubicación | Usar la estación para el tiempo actual | Sí / No | Sí |
 | Ubicación | Cámara | Cámaras de la más cercana a la más lejana, o ninguna | La de la estación, si tiene |
+| Ubicación | Estación de calidad del aire | Estaciones de la más cercana a la más lejana, con su tipo, o ninguna | La más cercana si está a menos de 10 km; si no, ninguna |
+| Ubicación | Usar la estación para la calidad del aire actual | Sí / No | Sí |
 | Entrada MeteoGal → **Configurar** | Periodo de la animación del radar | 1, 2, 3 o 6 horas | 2 horas |
 | Entrada MeteoGal → **Configurar** | Encuadre del radar | 50 km, 100 km, toda Galicia | 100 km |
 | Entrada MeteoGal → **Reconfigurar** | Clave de MeteoSIX | Clave o vacío | Sin clave |
@@ -119,6 +121,8 @@ Cada ubicación que configures es un dispositivo con el nombre oficial de su con
 | `image.a_coruna_radar_ultima_pasada` | Última pasada del radar, fija | — | Desactivada |
 | `sensor.a_coruna_temperatura`, `…_lluvia_hoy`… | Lo medido en la estación elegida ([lista](#estación)) | Estación | Según el sensor |
 | `image.a_coruna_camara` | Última foto de la cámara elegida | Cámara | Activada |
+| `sensor.a_coruna_calidad_del_aire` | Calidad del aire ahora: de la estación de aire o, si no, del modelo de MeteoGalicia ([detalle](#calidad-del-aire)) | — | Activada |
+| `sensor.a_coruna_pm2_5`, `…_pm10`, `…_dioxido_de_nitrogeno`, `…_ozono`… | Contaminantes medidos en la estación de aire | Estación de aire | Según el contaminante |
 | `sensor.a_coruna_lluvia_esta_hora`, `…_proxima_lluvia` | Lluvia prevista | Clave de MeteoSIX | Activadas |
 | `sensor.a_coruna_cota_de_nieve` | Cota de nieve prevista | Clave de MeteoSIX | Desactivada |
 
@@ -210,6 +214,26 @@ Detalle en [docs/estaciones.md](docs/estaciones.md).
 
 <img src="docs/images/camara.jpg" width="480" alt="Cámara de Coruña-Dique de noche en Home Assistant">
 
+## Calidad del aire
+
+`sensor.<ubicación>_calidad_del_aire`: cómo está el aire **ahora**, con los niveles del índice de calidad del aire: **buena, adecuada, moderada, desfavorable, muy desfavorable y extremadamente desfavorable**. Como el tiempo, sale de la mejor fuente disponible:
+
+| Orden | Fuente | Cuándo |
+|---|---|---|
+| 1 | **Estación de calidad del aire** de la Xunta | Si la ubicación tiene una, está marcado **Usar la estación para la calidad del aire actual** y su dato tiene menos de 3 horas |
+| 2 | **Modelo de MeteoGalicia** (CHIMERE) en tu punto, a la hora en curso | Si no hay estación o no la usas: cubre cualquier punto de Galicia |
+| 3 | Predicción del día para tu concello | Si el modelo no responde |
+
+El atributo «Origen» dice de cuál ha salido, y «Contaminante principal», cuál manda (con el modelo, no se sabe).
+
+**Estación de calidad del aire (opcional).** Al añadir o cambiar una ubicación eliges una de las ~46 estaciones, de la más cercana a la más lejana, con su tipo. Por defecto se propone la más cercana **si está a menos de 10 km**; si no, ninguna, y el nivel sale del modelo. Con estación, además, sensores de lo que mide: **PM2,5, PM10, dióxido de nitrógeno y ozono** (activados) y dióxido de azufre, monóxido de carbono y monóxido de nitrógeno (desactivados), en µg/m³ (CO en mg/m³). Son sensores normales de Home Assistant, así que funcionan con sus disparadores y condiciones de calidad del aire.
+
+- **El tipo importa:** una estación de **tráfico** o **industrial** mide la calle o la fábrica, no el barrio. Si no representa tu punto, desmarca **Usar la estación para la calidad del aire actual**: sus sensores siguen y el nivel sale del modelo.
+- **Previsión:** la acción `meteogal.get_air_quality` devuelve el nivel de cada hora del modelo (unos 2 días) y de cada día para tu concello (hoy y dos más). Ver [ejemplos](#ejemplos).
+- `sensor.<ubicación>_indice_de_calidad_del_aire` (desactivado): el número del índice, de 0 a 6.
+
+Detalle en [docs/calidad-aire.md](docs/calidad-aire.md).
+
 ## Clave de MeteoSIX (opcional)
 
 [MeteoSIX](https://www.meteogalicia.gal/web/modelos-numericos/meteosix) es el servicio de predicción numérica de MeteoGalicia. Da, hora a hora y en el punto exacto de tu ubicación, lo que la previsión pública no trae: cuánta lluvia va a caer, la velocidad del viento, la humedad y la presión. Es **gratuita**, pero pide una clave personal.
@@ -258,6 +282,7 @@ Home Assistant te avisa arriba del todo en **Ajustes**, como una reparación: «
 | Acción | Qué hace |
 |---|---|
 | `meteogal.get_warnings` | Devuelve todos los avisos de una ubicación, vigentes y próximos, con tipo, nivel, inicio y fin. Se usa sobre el sensor de nivel de aviso ([ejemplo](#ejemplos), [detalle](docs/avisos.md#acción-meteogalget_warnings)) |
+| `meteogal.get_air_quality` | Devuelve la calidad del aire de una ubicación: ahora, cada hora prevista por el modelo y cada día previsto para el concello. Se usa sobre el sensor de calidad del aire ([ejemplo](#ejemplos), [detalle](docs/calidad-aire.md#acción-meteogalget_air_quality)) |
 
 ## Ejemplos
 
@@ -335,6 +360,30 @@ value_template: >
   {{ lluvia is not none and lluvia <= now() + timedelta(hours=1) }}
 ```
 
+**Cerrar ventanas si el aire empeora** (calidad del aire):
+
+```yaml
+triggers:
+  - trigger: state
+    entity_id: sensor.a_coruna_calidad_del_aire
+    to: [poor, very_poor, extremely_poor]
+```
+
+**Calidad del aire de mañana** (acción `meteogal.get_air_quality`):
+
+```yaml
+actions:
+  - action: meteogal.get_air_quality
+    target:
+      entity_id: sensor.a_coruna_calidad_del_aire
+    response_variable: aire
+  - action: notify.mobile_app_mi_movil
+    data:
+      message: >
+        {% set manana = aire['sensor.a_coruna_calidad_del_aire'].daily[1] %}
+        Mañana, calidad del aire {{ manana.level }} ({{ manana.main_pollutant }}).
+```
+
 ## Cada cuánto se actualiza
 
 MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
@@ -346,6 +395,8 @@ MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
 | MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
 | Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
 | Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
+| Calidad del aire: estaciones | 30 minutos (publican cada hora) | Índice de todas las estaciones y medidas de las elegidas | El nivel sale del modelo; los contaminantes quedan «No disponible» |
+| Calidad del aire: modelo y predicción | 1 hora (el modelo sale una vez al día; solo se descarga si hay pasada nueva) | Nivel de cada hora en tu punto y de cada día en tu concello | Se sigue con lo último bueno |
 
 Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguiente consulta. Al arrancar Home Assistant, si MeteoGalicia no responde, Home Assistant reintenta la configuración él solo.
 
@@ -357,6 +408,7 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 - **Con clave, la previsión diaria solo gana lluvia y viento:** MeteoSIX llega a 4 días y no trae probabilidad de lluvia ni índice UV.
 - **La estación no está en tu casa:** mide donde está (a 6 km de mediana del centro de cada concello, hasta 18 km). Por eso su uso en el tiempo actual es opcional.
 - **Radar:** muestra lo observado, no lo que va a llover; lejos del radar (el este de Ourense y Lugo) puede no ver la lluvia débil.
+- **Calidad del aire sin estación cerca:** el nivel sale de un modelo, no de una medida. Solo se usa su nivel, no sus concentraciones, que están por validar frente a las estaciones.
 
 ## Problemas frecuentes
 
@@ -370,6 +422,7 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 | El radar está «No disponible» | El servidor del radar de MeteoGalicia no responde | Nada: vuelve solo; el resto de MeteoGal funciona |
 | En el radar no se ve la lluvia en el este de Ourense o Lugo | Está lejos del radar y la lluvia débil no llega a verse | Es una [limitación](#limitaciones) del radar |
 | La entidad del tiempo está «No disponible» | MeteoGalicia no responde | Nada: se reintenta cada 30 minutos |
+| No tengo sensores de PM2,5, ozono… | Solo existen con una estación de calidad del aire, y por defecto solo se propone si hay una a menos de 10 km | Reconfigura la ubicación y elige una. Si está lejos o es de tráfico, desmarca **Usar la estación para la calidad del aire actual** |
 
 Para ver qué pasa por dentro, activa el registro de depuración: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Habilitar el registro de depuración**. Al desactivarlo, Home Assistant te descarga el registro.
 
@@ -392,7 +445,7 @@ Las automatizaciones y tarjetas que usaban entidades de MeteoGal no se borran so
 Cómo funciona cada parte, con las decisiones tomadas y los datos con que se validaron:
 
 - [Diseño](docs/diseno.md): principios, estructura y decisiones.
-- [El tiempo](docs/weather.md), [avisos](docs/avisos.md), [radar](docs/radar.md), [estación y cámara](docs/estaciones.md).
+- [El tiempo](docs/weather.md), [avisos](docs/avisos.md), [radar](docs/radar.md), [estación y cámara](docs/estaciones.md), [calidad del aire](docs/calidad-aire.md).
 - [Servicios de MeteoGalicia](docs/api.md) que usa MeteoGal.
 - [Concello a partir de coordenadas](docs/concello-por-coordenadas.md) y [nombres de concello](docs/toponimos.md).
 

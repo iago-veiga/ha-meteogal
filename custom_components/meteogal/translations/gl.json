@@ -18,13 +18,17 @@
           "concello_id": "Concello",
           "station_id": "Estación meteorolóxica",
           "station_weather": "Usar a estación para o tempo actual",
-          "camera_id": "Cámara"
+          "camera_id": "Cámara",
+          "air_station_id": "Estación de calidade do aire",
+          "air_station_use": "Usar a estación para a calidade do aire actual"
         },
         "data_description": {
           "concello_id": "A previsión e os avisos son os deste concello.",
           "station_id": "Opcional. Engade datos medidos en tempo real. Xunto a cada unha indícase se non mide vento ou presión, ou se non envía datos agora. Déixao baleiro se non queres usar ningunha.",
           "station_weather": "Temperatura, humidade, presión e vento da entidade do tempo, medidos na estación. Desmárcao se a estación non representa ben o teu punto (altitude, costa): os sensores da estación seguirán, pero a entidade do tempo usará a previsión.",
-          "camera_id": "Opcional. Foto dunha cámara de MeteoGalicia, que se renova cada ~5 minutos. Se a estación ten cámara, xa vén escollida."
+          "camera_id": "Opcional. Foto dunha cámara de MeteoGalicia, que se renova cada ~5 minutos. Se a estación ten cámara, xa vén escollida.",
+          "air_station_id": "Opcional. Mide a calidade do aire cada hora (PM2,5, PM10, NO₂, ozono…). Xunto a cada unha, a súa distancia e tipo: as de tráfico ou industriais miden a rúa ou a fábrica, non o barrio. Sen estación, a calidade do aire sae do modelo de MeteoGalicia no teu punto.",
+          "air_station_use": "A calidade do aire actual, medida na estación. Desmárcao se non representa ben o teu punto: os seus sensores seguirán, pero o nivel sairá do modelo."
         }
       },
       "reconfigure": {
@@ -86,13 +90,17 @@
             "concello_id": "Concello",
             "station_id": "Estación meteorolóxica",
             "station_weather": "Usar a estación para o tempo actual",
-            "camera_id": "Cámara"
+            "camera_id": "Cámara",
+            "air_station_id": "Estación de calidade do aire",
+            "air_station_use": "Usar a estación para a calidade do aire actual"
           },
           "data_description": {
             "concello_id": "A previsión e os avisos son os deste concello.",
             "station_id": "Opcional. Engade datos medidos en tempo real. Xunto a cada unha indícase se non mide vento ou presión, ou se non envía datos agora. Déixao baleiro se non queres usar ningunha.",
             "station_weather": "Temperatura, humidade, presión e vento da entidade do tempo, medidos na estación. Desmárcao se a estación non representa ben o teu punto (altitude, costa): os sensores da estación seguirán, pero a entidade do tempo usará a previsión.",
-            "camera_id": "Opcional. Foto dunha cámara de MeteoGalicia, que se renova cada ~5 minutos. Se a estación ten cámara, xa vén escollida."
+            "camera_id": "Opcional. Foto dunha cámara de MeteoGalicia, que se renova cada ~5 minutos. Se a estación ten cámara, xa vén escollida.",
+            "air_station_id": "Opcional. Mide a calidade do aire cada hora (PM2,5, PM10, NO₂, ozono…). Xunto a cada unha, a súa distancia e tipo: as de tráfico ou industriais miden a rúa ou a fábrica, non o barrio. Sen estación, a calidade do aire sae do modelo de MeteoGalicia no teu punto.",
+            "air_station_use": "A calidade do aire actual, medida na estación. Desmárcao se non representa ben o teu punto: os seus sensores seguirán, pero o nivel sairá do modelo."
           }
         }
       },
@@ -287,6 +295,62 @@
             "name": "Distancia (km)"
           }
         }
+      },
+      "air_quality": {
+        "name": "Calidade do aire",
+        "state": {
+          "good": "Boa",
+          "fair": "Favorable",
+          "moderate": "Regular",
+          "poor": "Desfavorable",
+          "very_poor": "Moi desfavorable",
+          "extremely_poor": "Extremadamente desfavorable"
+        },
+        "state_attributes": {
+          "source": {
+            "name": "Orixe",
+            "state": {
+              "station": "Estación de aire",
+              "model": "Modelo de MeteoGalicia",
+              "forecast": "Predición do día"
+            }
+          },
+          "main_pollutant": {
+            "name": "Contaminante principal",
+            "state": {
+              "no2": "Dióxido de nitróxeno",
+              "o3": "Ozono",
+              "pm25": "PM2,5",
+              "pm10": "PM10",
+              "so2": "Dióxido de xofre"
+            }
+          }
+        }
+      },
+      "air_quality_index": {
+        "name": "Índice de calidade do aire"
+      },
+      "air_station_updated": {
+        "name": "Estación de aire: última medida",
+        "state_attributes": {
+          "station_id": {
+            "name": "Estación (código)"
+          },
+          "station_name": {
+            "name": "Estación"
+          },
+          "station_type": {
+            "name": "Tipo",
+            "state": {
+              "traffic": "Tráfico",
+              "industrial": "Industrial",
+              "background": "Fondo"
+            }
+          },
+          "distance": {
+            "name": "Distancia (km)"
+          }
+        }
       }
     },
     "image": {
@@ -310,6 +374,10 @@
     "get_warnings": {
       "name": "Obter avisos",
       "description": "Devolve todos os avisos meteorolóxicos da localización, vixentes e próximos, co seu tipo, nivel, inicio e fin."
+    },
+    "get_air_quality": {
+      "name": "Obter calidade do aire",
+      "description": "Devolve a calidade do aire da localización: agora, cada hora prevista polo modelo de MeteoGalicia e cada día previsto para o concello."
     }
   },
   "options": {
@@ -369,6 +437,18 @@
     },
     "cameras_update_failed": {
       "message": "Non se puideron consultar as cámaras: {error}"
+    },
+    "air_update_failed": {
+      "message": "Non se puido actualizar a calidade do aire prevista."
+    },
+    "air_stations_update_failed": {
+      "message": "Non se puideron consultar as estacións de calidade do aire: {error}"
+    },
+    "not_warning_level": {
+      "message": "Esta acción só vale para os sensores de nivel de aviso de MeteoGal."
+    },
+    "not_air_quality": {
+      "message": "Esta acción só vale para os sensores de calidade do aire de MeteoGal."
     }
   },
   "issues": {

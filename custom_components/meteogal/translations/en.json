@@ -18,13 +18,17 @@
           "concello_id": "Municipality",
           "station_id": "Weather station",
           "station_weather": "Use the station for current weather",
-          "camera_id": "Camera"
+          "camera_id": "Camera",
+          "air_station_id": "Air quality station",
+          "air_station_use": "Use the station for the current air quality"
         },
         "data_description": {
           "concello_id": "The forecast and weather warnings are for this municipality.",
           "station_id": "Optional. Adds measured, real-time data. Each one shows whether it lacks wind or pressure, or is not sending data now. Leave it empty if you don't want to use one.",
           "station_weather": "Temperature, humidity, pressure and wind of the weather entity, measured at the station. Untick it if the station doesn't represent your point well (altitude, coast): the station sensors stay, but the weather entity uses the forecast.",
-          "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected."
+          "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected.",
+          "air_station_id": "Optional. Measures air quality every hour (PM2.5, PM10, NO₂, ozone…). Each one shows its distance and type: traffic and industrial stations measure the street or the plant, not the neighbourhood. Without a station, air quality comes from the MeteoGalicia model at your point.",
+          "air_station_use": "The current air quality, measured at the station. Untick it if it does not represent your point well: its sensors stay, but the level will come from the model."
         }
       },
       "reconfigure": {
@@ -86,13 +90,17 @@
             "concello_id": "Municipality",
             "station_id": "Weather station",
             "station_weather": "Use the station for current weather",
-            "camera_id": "Camera"
+            "camera_id": "Camera",
+            "air_station_id": "Air quality station",
+            "air_station_use": "Use the station for the current air quality"
           },
           "data_description": {
             "concello_id": "The forecast and weather warnings are for this municipality.",
             "station_id": "Optional. Adds measured, real-time data. Each one shows whether it lacks wind or pressure, or is not sending data now. Leave it empty if you don't want to use one.",
             "station_weather": "Temperature, humidity, pressure and wind of the weather entity, measured at the station. Untick it if the station doesn't represent your point well (altitude, coast): the station sensors stay, but the weather entity uses the forecast.",
-            "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected."
+            "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected.",
+            "air_station_id": "Optional. Measures air quality every hour (PM2.5, PM10, NO₂, ozone…). Each one shows its distance and type: traffic and industrial stations measure the street or the plant, not the neighbourhood. Without a station, air quality comes from the MeteoGalicia model at your point.",
+            "air_station_use": "The current air quality, measured at the station. Untick it if it does not represent your point well: its sensors stay, but the level will come from the model."
           }
         }
       },
@@ -287,6 +295,62 @@
             "name": "Distance (km)"
           }
         }
+      },
+      "air_quality": {
+        "name": "Air quality",
+        "state": {
+          "good": "Good",
+          "fair": "Fair",
+          "moderate": "Moderate",
+          "poor": "Poor",
+          "very_poor": "Very poor",
+          "extremely_poor": "Extremely poor"
+        },
+        "state_attributes": {
+          "source": {
+            "name": "Source",
+            "state": {
+              "station": "Air quality station",
+              "model": "MeteoGalicia model",
+              "forecast": "Daily forecast"
+            }
+          },
+          "main_pollutant": {
+            "name": "Main pollutant",
+            "state": {
+              "no2": "Nitrogen dioxide",
+              "o3": "Ozone",
+              "pm25": "PM2.5",
+              "pm10": "PM10",
+              "so2": "Sulphur dioxide"
+            }
+          }
+        }
+      },
+      "air_quality_index": {
+        "name": "Air quality index"
+      },
+      "air_station_updated": {
+        "name": "Air station: last measurement",
+        "state_attributes": {
+          "station_id": {
+            "name": "Station (code)"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "station_type": {
+            "name": "Type",
+            "state": {
+              "traffic": "Traffic",
+              "industrial": "Industrial",
+              "background": "Background"
+            }
+          },
+          "distance": {
+            "name": "Distance (km)"
+          }
+        }
       }
     },
     "image": {
@@ -310,6 +374,10 @@
     "get_warnings": {
       "name": "Get warnings",
       "description": "Returns all weather warnings for the location, active and upcoming, with their type, level, start and end."
+    },
+    "get_air_quality": {
+      "name": "Get air quality",
+      "description": "Returns the air quality for the location: now, each hour forecast by the MeteoGalicia model and each day forecast for the municipality."
     }
   },
   "options": {
@@ -369,6 +437,18 @@
     },
     "cameras_update_failed": {
       "message": "Could not query the cameras: {error}"
+    },
+    "air_update_failed": {
+      "message": "Could not update the air quality forecast."
+    },
+    "air_stations_update_failed": {
+      "message": "Could not query the air quality stations: {error}"
+    },
+    "not_warning_level": {
+      "message": "This action only works on MeteoGal warning level sensors."
+    },
+    "not_air_quality": {
+      "message": "This action only works on MeteoGal air quality sensors."
     }
   },
   "issues": {

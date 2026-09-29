@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from typing import Any
 
 from homeassistant.config_entries import ConfigSubentry
 from homeassistant.core import CALLBACK_TYPE, callback
+from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.event import (
     async_track_point_in_utc_time,
@@ -14,9 +16,15 @@ from homeassistant.helpers.event import (
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from .api import MeteoSixHour
-from .const import ATTRIBUTION, DOMAIN
-from .coordinator import LocationCoordinator, MeteoSixCoordinator
+from .air import CurrentAir, current_air
+from .api import AirDayForecast, AirModelHour, MeteoSixHour
+from .const import ATTRIBUTION, CONF_AIR_STATION_ID, CONF_AIR_STATION_USE, DOMAIN
+from .coordinator import (
+    AirModelCoordinator,
+    AirStationCoordinator,
+    LocationCoordinator,
+    MeteoSixCoordinator,
+)
 from .warnings import next_change
 
 ONE_HOUR = timedelta(hours=1)
@@ -94,6 +102,92 @@ class MeteoSixEntity(CoordinatorEntity[MeteoSixCoordinator]):
     @property
     def _start(self) -> datetime:
         return current_hour(dt_util.now())
+
+
+class EnumActions:
+    """Acciones de MeteoGal sobre sus sensores enum.
+
+    Las dos acciones se ofrecen sobre cualquier sensor enum de MeteoGal (HA no
+    filtra por más): cada sensor responde a la suya y rechaza la otra con un error
+    claro en vez de fallar.
+    """
+
+    def get_warnings(self) -> dict[str, Any]:
+        raise ServiceValidationError(
+            translation_domain=DOMAIN, translation_key="not_warning_level"
+        )
+
+    def get_air_quality(self) -> dict[str, Any]:
+        raise ServiceValidationError(
+            translation_domain=DOMAIN, translation_key="not_air_quality"
+        )
+
+
+class AirEntity(CoordinatorEntity[AirModelCoordinator]):
+    """Entidad de calidad del aire de una ubicación (sin clave).
+
+    Combina el modelo y la predicción (su coordinador) con la estación de aire, si
+    la ubicación tiene y la usa. Se recalcula en cada cambio de hora: el modelo va
+    por horas.
+    """
+
+    _attr_has_entity_name = True
+    _attr_attribution = ATTRIBUTION
+
+    def __init__(
+        self,
+        coordinator: AirModelCoordinator,
+        stations: AirStationCoordinator | None,
+        subentry: ConfigSubentry,
+        key: str,
+    ) -> None:
+        super().__init__(coordinator)
+        self._subentry_id = subentry.subentry_id
+        self._stations = stations
+        station_id = subentry.data.get(CONF_AIR_STATION_ID)
+        use = subentry.data.get(CONF_AIR_STATION_USE, True)
+        self._station_id = int(station_id) if station_id and use else None
+        self._attr_translation_key = key
+        self._attr_unique_id = f"{subentry.subentry_id}_{key}"
+        self._attr_device_info = location_device(subentry)
+
+    async def async_added_to_hass(self) -> None:
+        await super().async_added_to_hass()
+        if self._stations is not None:
+            self.async_on_remove(
+                self._stations.async_add_listener(self._handle_coordinator_update)
+            )
+        self.async_on_remove(
+            async_track_time_change(
+                self.hass, self._handle_new_hour, minute=0, second=0
+            )
+        )
+
+    @callback
+    def _handle_new_hour(self, now: datetime) -> None:
+        self.async_write_ha_state()
+
+    @property
+    def available(self) -> bool:
+        # No depende de un solo coordinador: basta con que alguna fuente tenga dato.
+        return self._current is not None
+
+    @property
+    def _model_hours(self) -> list[AirModelHour]:
+        data = self.coordinator.data
+        return data.hours.get(self._subentry_id, []) if data else []
+
+    @property
+    def _forecast(self) -> list[AirDayForecast]:
+        data = self.coordinator.data
+        return data.forecasts.get(self._subentry_id, []) if data else []
+
+    @property
+    def _current(self) -> CurrentAir | None:
+        station = None
+        if self._station_id is not None and self._stations and self._stations.data:
+            station = self._stations.data.indexes.get(self._station_id)
+        return current_air(station, self._model_hours, self._forecast, dt_util.now())
 
 
 class WarningsEntity(CoordinatorEntity[LocationCoordinator]):

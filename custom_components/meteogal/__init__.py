@@ -11,10 +11,18 @@ from homeassistant.helpers import config_validation as cv, issue_registry as ir
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
-from .api import MeteoGalClient, MeteoSixClient
+from .api import ChimereClient, MeteoGalClient, MeteoSixClient
 from .api.radar import RadarClient
-from .const import CONF_CAMERA_ID, CONF_STATION_ID, DOMAIN, SUBENTRY_LOCATION
+from .const import (
+    CONF_AIR_STATION_ID,
+    CONF_CAMERA_ID,
+    CONF_STATION_ID,
+    DOMAIN,
+    SUBENTRY_LOCATION,
+)
 from .coordinator import (
+    AirModelCoordinator,
+    AirStationCoordinator,
     CameraCoordinator,
     LocationCoordinator,
     MeteoSixCoordinator,
@@ -43,6 +51,10 @@ class MeteoGalData:
     stations: dict[str, StationCoordinator]
     # Solo si alguna ubicación tiene cámara.
     cameras: CameraCoordinator | None
+    # Calidad del aire prevista (modelo y concello) de todas las ubicaciones.
+    air_model: AirModelCoordinator
+    # Solo si alguna ubicación tiene estación de aire.
+    air_stations: AirStationCoordinator | None
 
 
 type MeteoGalConfigEntry = ConfigEntry[MeteoGalData]
@@ -92,6 +104,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
     if any(subentry.data.get(CONF_CAMERA_ID) for subentry in locations):
         cameras = CameraCoordinator(hass, entry, client)
         await cameras.async_refresh()
+    # Calidad del aire, complemento como el radar.
+    air_model = AirModelCoordinator(
+        hass, entry, locations, client, ChimereClient(session)
+    )
+    await air_model.async_refresh()
+    air_stations = None
+    if any(subentry.data.get(CONF_AIR_STATION_ID) for subentry in locations):
+        air_stations = AirStationCoordinator(hass, entry, locations, client)
+        await air_stations.async_refresh()
     async_clean_issues(hass, entry)
     entry.runtime_data = MeteoGalData(
         locations=coordinators,
@@ -99,6 +120,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
         radar=radar,
         stations=stations,
         cameras=cameras,
+        air_model=air_model,
+        air_stations=air_stations,
     )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

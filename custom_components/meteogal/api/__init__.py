@@ -1,5 +1,6 @@
 """Cliente de MeteoGalicia sin dependencias de Home Assistant."""
 
+from .chimere import ChimereClient
 from .client import MeteoGalClient
 from .exceptions import (
     MeteoGalConnectionError,
@@ -11,6 +12,12 @@ from .exceptions import (
 )
 from .meteosix import MeteoSixClient
 from .models import (
+    AirDayForecast,
+    AirIndex,
+    AirMeasurements,
+    AirModelHour,
+    AirStation,
+    AirStationIndex,
     Camera,
     Concello,
     ConcelloObservation,
@@ -27,7 +34,14 @@ from .models import (
 )
 
 __all__ = [
+    "AirDayForecast",
+    "AirIndex",
+    "AirMeasurements",
+    "AirModelHour",
+    "AirStation",
+    "AirStationIndex",
     "Camera",
+    "ChimereClient",
     "Concello",
     "ConcelloObservation",
     "DailyForecast",

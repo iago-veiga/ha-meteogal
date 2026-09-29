@@ -1,6 +1,6 @@
 # Diseño de MeteoGal
 
-Principios, estructura y decisiones. El detalle de cada función está en su documento: [weather.md](weather.md), [avisos.md](avisos.md), [radar.md](radar.md), [estaciones.md](estaciones.md); los servicios de MeteoGalicia, en [api.md](api.md).
+Principios, estructura y decisiones. El detalle de cada función está en su documento: [weather.md](weather.md), [avisos.md](avisos.md), [radar.md](radar.md), [estaciones.md](estaciones.md), [calidad-aire.md](calidad-aire.md); los servicios de MeteoGalicia, en [api.md](api.md).
 
 ## 1. Objetivo
 
@@ -30,6 +30,7 @@ Una sola integración para lo que ofrece MeteoGalicia, publicable en HACS:
 | Avisos | Por concello, hasta pasado mañana (`jsonAvisosConcellos`) | Igual |
 | Radar | Observado, THREDDS de MeteoGalicia | Igual |
 | Estación y cámara | `ultimos10minEstacionsMeteo`, `datosDiariosEstacionsMeteo`, `jsonCamaras` | Igual |
+| Calidad del aire | Estación de aire opcional (`caire/`) y, si no, modelo CHIMERE en el punto (THREDDS); predicción diaria por concello | Igual |
 | Lluvia prevista | — | Lluvia esta hora, próxima lluvia, cota de nieve |
 
 ## 4. Configuración
@@ -79,4 +80,5 @@ Cumple todas las reglas de la escala de calidad de Home Assistant, de bronce a p
 | D8 | ¿Sensores de previsión (lluvia en 24 h, máxima de mañana…)? | No: para eso está `weather.get_forecasts`, como pide HA. Solo lluvia esta hora, próxima lluvia y cota de nieve |
 | D9 | ¿Cómo exponer los avisos? | Nivel vigente y próximo (enum), contadores desactivados y la acción `meteogal.get_warnings`, como GeoSphere en el núcleo ([avisos.md](avisos.md)) |
 | D10 | ¿La estación manda en el tiempo actual? | Sí por defecto, como AEMET, pero es una opción por ubicación: no siempre representa el punto |
+| D12 | ¿Calidad del aire dentro de MeteoGal o aparte? | Dentro: mismo proveedor, servidor y ubicación. Como el tiempo, lo medido primero (estación de aire opcional) y, si no, el modelo CHIMERE en el punto; previsión con una acción ([calidad-aire.md](calidad-aire.md)) |
 | D11 | ¿Radar como imagen de MeteoGalicia o dibujado? | Dibujado por MeteoGal a partir de los datos en grises: escala, mapa y leyenda propios, centrado en cada ubicación ([radar.md](radar.md)) |

@@ -18,6 +18,7 @@ from pytest_homeassistant_custom_component.test_util.aiohttp import (
 )
 
 from custom_components.meteogal.api import MeteoGalClient
+from custom_components.meteogal.api.chimere import BASE_URL as CHIMERE_URL
 from custom_components.meteogal.api.client import BASE_URL
 from custom_components.meteogal.api.meteosix import BASE_URL as METEOSIX_URL
 
@@ -36,6 +37,33 @@ CAMERAS = f"{BASE_URL}/observacion/jsonCamaras.action"
 STATION_NOW = f"{BASE_URL}/observacion/ultimos10minEstacionsMeteo.action"
 STATION_DAY = f"{BASE_URL}/observacion/datosDiariosEstacionsMeteo.action"
 WARNINGS = f"{BASE_URL}/predicion/adversos/jsonAvisosConcellos.action"
+AIR_STATIONS = f"{BASE_URL}/caire/jsonEstacionesCaire.action"
+AIR_INDEXES = f"{BASE_URL}/caire/jsonICAActual.action"
+AIR_MEASUREMENTS = f"{BASE_URL}/caire/jsonDatosActualesEstacion.action"
+AIR_FORECAST = f"{BASE_URL}/caire/jsonPrediccionIcaDiarioConcello.action"
+CHIMERE_CATALOG = f"{CHIMERE_URL}/catalog/chimere_2d_gal/fmrc/files/catalog.xml"
+CHIMERE_POINT = re.compile(re.escape(f"{CHIMERE_URL}/ncss/grid/") + ".*")
+
+
+def mock_air(aioclient_mock: AiohttpClientMocker) -> None:
+    """Calidad del aire (2026-09-29, ~08:00 hora local): estaciones, ICA actual,
+    medidas de Torre Hércules (14) para cualquier estación, predicción de Santiago
+    para cualquier concello y el CHIMERE del 2026-09-28 en Santiago para cualquier
+    punto."""
+    aioclient_mock.get(AIR_STATIONS, json=load("caire_jsonEstacionesCaire.json"))
+    aioclient_mock.get(AIR_INDEXES, json=load("caire_jsonICAActual.json"))
+    aioclient_mock.get(
+        AIR_MEASUREMENTS, json=load("caire_jsonDatosActualesEstacion_14.json")
+    )
+    aioclient_mock.get(
+        AIR_FORECAST, json=load("caire_jsonPrediccionIcaDiarioConcello_15078.json")
+    )
+    aioclient_mock.get(
+        CHIMERE_CATALOG, text=(FIXTURES / "chimere_catalog.xml").read_text()
+    )
+    aioclient_mock.get(
+        CHIMERE_POINT, text=(FIXTURES / "chimere_point_santiago.csv").read_text()
+    )
 
 
 def load(name: str) -> Any:
@@ -99,6 +127,7 @@ def mock_meteogalicia(
     )
     # Todas a la vez (2026-09-28, 15:30Z).
     aioclient_mock.get(STATION_NOW, json=load("ultimos10minEstacionsMeteo.json"))
+    mock_air(aioclient_mock)
     aioclient_mock.get(STATION_DAY, json=load("datosDiariosEstacionsMeteo_14000.json"))
 
 

@@ -19,7 +19,13 @@ from homeassistant.helpers.update_coordinator import (
 from homeassistant.util import dt as dt_util
 
 from .api import (
+    AirDayForecast,
+    AirMeasurements,
+    AirModelHour,
+    AirStation,
+    AirStationIndex,
     Camera,
+    ChimereClient,
     ConcelloObservation,
     DailyForecast,
     HourlyForecast,
@@ -37,6 +43,7 @@ from .api import (
 from .api.meteosix import MAX_POINTS
 from .api.radar import RadarClient
 from .const import (
+    CONF_AIR_STATION_ID,
     CONF_CONCELLO_ID,
     CONF_RADAR_HOURS,
     CONF_RADAR_ZOOM,
@@ -508,3 +515,183 @@ class CameraCoordinator(TimestampDataUpdateCoordinator[dict[str, Camera]]):
         if camera := cameras.get(str(camera_id)):
             return camera
         return next((c for c in cameras.values() if str(c.id) == str(camera_id)), None)
+
+
+# CHIMERE sale una vez al día y la predicción diaria de aire también: cada hora se
+# mira si hay pasada nueva (el catálogo pesa ~3 KB) y solo entonces se piden los
+# puntos.
+AIR_MODEL_UPDATE_INTERVAL = timedelta(hours=1)
+
+
+@dataclass(frozen=True, slots=True)
+class AirModelData:
+    """Modelo CHIMERE en el punto de cada ubicación y predicción diaria del concello,
+    por id de subentrada."""
+
+    run: str | None
+    hours: dict[str, list[AirModelHour]]
+    forecasts: dict[str, list[AirDayForecast]]
+
+
+class AirModelCoordinator(TimestampDataUpdateCoordinator[AirModelData]):
+    """Calidad del aire prevista de todas las ubicaciones (sin clave).
+
+    Cada parte falla por su cuenta: si CHIMERE o la predicción de un concello no
+    responden, se sigue con lo último bueno.
+    """
+
+    config_entry: MeteoGalConfigEntry
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: MeteoGalConfigEntry,
+        subentries: list[ConfigSubentry],
+        client: MeteoGalClient,
+        chimere: ChimereClient,
+    ) -> None:
+        super().__init__(
+            hass,
+            _LOGGER,
+            config_entry=entry,
+            name=f"{DOMAIN} calidad del aire",
+            update_interval=AIR_MODEL_UPDATE_INTERVAL,
+        )
+        self._subentries = subentries
+        self._client = client
+        self._chimere = chimere
+
+    async def _async_update_data(self) -> AirModelData:
+        previous = self.data or AirModelData(None, {}, {})
+        forecasts = await self._forecasts(previous)
+        run, hours = await self._model(previous)
+        if not any(forecasts.values()) and not hours:
+            raise UpdateFailed(
+                translation_domain=DOMAIN, translation_key="air_update_failed"
+            )
+        return AirModelData(run, hours, forecasts)
+
+    async def _forecasts(
+        self, previous: AirModelData
+    ) -> dict[str, list[AirDayForecast]]:
+        concellos = sorted({int(s.data[CONF_CONCELLO_ID]) for s in self._subentries})
+        results = await asyncio.gather(
+            *(self._client.get_air_forecast(c) for c in concellos),
+            return_exceptions=True,
+        )
+        by_concello: dict[int, list[AirDayForecast]] = {}
+        for concello, result in zip(concellos, results, strict=True):
+            if isinstance(result, MeteoGalError):
+                _LOGGER.debug("Sin predicción de aire de %s: %s", concello, result)
+            elif isinstance(result, BaseException):
+                raise result
+            else:
+                by_concello[concello] = result
+        return {
+            s.subentry_id: by_concello.get(
+                int(s.data[CONF_CONCELLO_ID]),
+                previous.forecasts.get(s.subentry_id, []),
+            )
+            for s in self._subentries
+        }
+
+    async def _model(
+        self, previous: AirModelData
+    ) -> tuple[str | None, dict[str, list[AirModelHour]]]:
+        try:
+            run = await self._chimere.get_latest_run()
+        except MeteoGalError as err:
+            _LOGGER.debug("Sin catálogo de CHIMERE: %s", err)
+            return previous.run, previous.hours
+        wanted = {s.subentry_id for s in self._subentries}
+        if run == previous.run and wanted <= previous.hours.keys():
+            return run, previous.hours
+        hours: dict[str, list[AirModelHour]] = {}
+        for subentry in self._subentries:
+            try:
+                hours[subentry.subentry_id] = await self._chimere.get_point(
+                    run, subentry.data[CONF_LATITUDE], subentry.data[CONF_LONGITUDE]
+                )
+            except MeteoGalError as err:
+                _LOGGER.debug("Sin CHIMERE en %s: %s", subentry.title, err)
+                if subentry.subentry_id in previous.hours:
+                    hours[subentry.subentry_id] = previous.hours[subentry.subentry_id]
+        # Si falló algún punto, se vuelve a intentar en la siguiente actualización.
+        return (run if hours.keys() == wanted else previous.run), hours
+
+
+# Las estaciones de aire publican cada hora, con retraso variable.
+AIR_STATION_UPDATE_INTERVAL = timedelta(minutes=30)
+
+
+@dataclass(frozen=True, slots=True)
+class AirStationData:
+    """ICA actual de todas las estaciones y medidas de las elegidas, por id."""
+
+    indexes: dict[int, AirStationIndex]
+    measurements: dict[int, AirMeasurements]
+
+
+class AirStationCoordinator(TimestampDataUpdateCoordinator[AirStationData]):
+    """Estaciones de aire de las ubicaciones que tienen una (sin clave)."""
+
+    config_entry: MeteoGalConfigEntry
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: MeteoGalConfigEntry,
+        subentries: list[ConfigSubentry],
+        client: MeteoGalClient,
+    ) -> None:
+        super().__init__(
+            hass,
+            _LOGGER,
+            config_entry=entry,
+            name=f"{DOMAIN} estaciones de aire",
+            update_interval=AIR_STATION_UPDATE_INTERVAL,
+        )
+        self.station_ids: set[int] = {
+            int(s.data[CONF_AIR_STATION_ID])
+            for s in subentries
+            if s.data.get(CONF_AIR_STATION_ID)
+        }
+        # Nombre, tipo y coordenadas (una vez; para los atributos y el diagnóstico).
+        self.stations: dict[int, AirStation] = {}
+        self._client = client
+
+    async def _async_update_data(self) -> AirStationData:
+        if not self.stations:
+            try:
+                stations = await self._client.get_air_stations()
+            except MeteoGalError as err:
+                _LOGGER.debug("Sin la lista de estaciones de aire: %s", err)
+            else:
+                self.stations = {s.id: s for s in stations}
+        try:
+            indexes = await self._client.get_air_indexes()
+        except MeteoGalError as err:
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="air_stations_update_failed",
+                translation_placeholders={"error": str(err)},
+            ) from err
+        ids = sorted(self.station_ids)
+        results = await asyncio.gather(
+            *(self._client.get_air_measurements(i) for i in ids),
+            return_exceptions=True,
+        )
+        previous = self.data.measurements if self.data else {}
+        measurements: dict[int, AirMeasurements] = {}
+        for station_id, result in zip(ids, results, strict=True):
+            if isinstance(result, MeteoGalError):
+                _LOGGER.debug("Sin medidas de la estación %s: %s", station_id, result)
+                if station_id in previous:
+                    measurements[station_id] = previous[station_id]
+            elif isinstance(result, BaseException):
+                raise result
+            elif result is not None:
+                measurements[station_id] = result
+        return AirStationData(
+            indexes={i.station_id: i for i in indexes}, measurements=measurements
+        )
