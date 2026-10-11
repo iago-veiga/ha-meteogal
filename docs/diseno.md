@@ -61,7 +61,7 @@ Objetivo: **cero escritura**. Todo sale de unas coordenadas y el usuario solo co
 | `coordinator.py` | Un coordinador por ubicación (previsión, observación y avisos) y por estación; uno por entrada para MeteoSIX, radar y cámaras |
 | `weather.py`, `sensor.py`, `image.py` | Entidades, todas en el dispositivo de su ubicación |
 | `radar.py`, `station.py`, `warnings.py`, `codes.py` | Lógica sin HA: dibujo del radar, sensores de estación, avisos y códigos de cielo |
-| `repairs.py` | Aviso y arreglo cuando la estación deja de enviar |
+| `repairs.py` | Aviso y arreglo cuando la estación meteorológica o la de aire deja de enviar |
 | `diagnostics.py` | Estado de cada fuente, sin clave ni coordenadas |
 
 Cumple todas las reglas de la escala de calidad de Home Assistant, de bronce a platino (`quality_scale.yaml`), con tipado estricto (mypy) en la CI.

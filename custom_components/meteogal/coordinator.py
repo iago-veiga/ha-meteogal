@@ -57,7 +57,7 @@ from .const import (
 )
 from .geo import load_polygons
 from .radar import Marker, RadarRenderer, animation, area_around, galicia_area, still
-from .repairs import async_check_station
+from .repairs import async_check_air_station, async_check_station
 from .station import MAX_AGE, SUMS, evening, local_day
 from .warnings import concello_zones, describe, load_zones
 
@@ -733,6 +733,7 @@ class AirStationCoordinator(TimestampDataUpdateCoordinator[AirStationData]):
             for s in subentries
             if s.data.get(CONF_AIR_STATION_ID)
         }
+        self._subentries = [s for s in subentries if s.data.get(CONF_AIR_STATION_ID)]
         # Nombre, tipo y coordenadas (una vez; para los atributos y el diagnóstico).
         self.stations: dict[int, AirStation] = {}
         self._client = client
@@ -769,6 +770,17 @@ class AirStationCoordinator(TimestampDataUpdateCoordinator[AirStationData]):
                 raise result
             elif result is not None:
                 measurements[station_id] = result
-        return AirStationData(
-            indexes={i.station_id: i for i in indexes}, measurements=measurements
-        )
+        by_id = {i.station_id: i for i in indexes}
+        now = dt_util.utcnow()
+        for subentry in self._subentries:
+            station_id = int(subentry.data[CONF_AIR_STATION_ID])
+            station = self.stations.get(station_id)
+            async_check_air_station(
+                self.hass,
+                self.config_entry,
+                subentry,
+                station.name if station else str(station_id),
+                by_id.get(station_id),
+                now,
+            )
+        return AirStationData(indexes=by_id, measurements=measurements)

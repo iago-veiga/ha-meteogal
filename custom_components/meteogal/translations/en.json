@@ -27,8 +27,8 @@
           "station_id": "Optional. Adds measured, real-time data. Each one shows whether it lacks wind or pressure, or is not sending data now. Leave it empty if you don't want to use one.",
           "station_weather": "Temperature, humidity, pressure and wind of the weather entity, measured at the station. Untick it if the station doesn't represent your point well (altitude, coast): the station sensors stay, but the weather entity uses the forecast.",
           "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected.",
-          "air_station_id": "Optional. Measures air quality every hour (PM2.5, PM10, NO₂, ozone…). Each one shows its distance and type: traffic and industrial stations measure the street or the plant, not the neighbourhood. Without a station, air quality comes from the MeteoGalicia model at your point.",
-          "air_station_use": "The current air quality, measured at the station. Untick it if it does not represent your point well: its sensors stay, but the level will come from the model."
+          "air_station_id": "Optional. Measures air quality every hour (PM2.5, PM10, NO₂, ozone…). Each one shows its distance and type: traffic and industrial stations measure the street or the plant, not the neighbourhood. Without a station, air quality comes from MeteoGalicia's forecast for your municipality.",
+          "air_station_use": "The current air quality, measured at the station. Untick it if it does not represent your point well: its sensors stay, but the level will come from the municipality's forecast."
         }
       },
       "reconfigure": {
@@ -99,8 +99,8 @@
             "station_id": "Optional. Adds measured, real-time data. Each one shows whether it lacks wind or pressure, or is not sending data now. Leave it empty if you don't want to use one.",
             "station_weather": "Temperature, humidity, pressure and wind of the weather entity, measured at the station. Untick it if the station doesn't represent your point well (altitude, coast): the station sensors stay, but the weather entity uses the forecast.",
             "camera_id": "Optional. Picture from a MeteoGalicia camera, refreshed about every 5 minutes. If the station has a camera, it's already selected.",
-            "air_station_id": "Optional. Measures air quality every hour (PM2.5, PM10, NO₂, ozone…). Each one shows its distance and type: traffic and industrial stations measure the street or the plant, not the neighbourhood. Without a station, air quality comes from the MeteoGalicia model at your point.",
-            "air_station_use": "The current air quality, measured at the station. Untick it if it does not represent your point well: its sensors stay, but the level will come from the model."
+            "air_station_id": "Optional. Measures air quality every hour (PM2.5, PM10, NO₂, ozone…). Each one shows its distance and type: traffic and industrial stations measure the street or the plant, not the neighbourhood. Without a station, air quality comes from MeteoGalicia's forecast for your municipality.",
+            "air_station_use": "The current air quality, measured at the station. Untick it if it does not represent your point well: its sensors stay, but the level will come from the municipality's forecast."
           }
         }
       },
@@ -476,6 +476,29 @@
             },
             "data_description": {
               "station_id": "From nearest to farthest. Each one shows whether it lacks wind or pressure, or is not sending data now."
+            }
+          }
+        },
+        "error": {
+          "cannot_connect": "Could not connect to MeteoGalicia to get the list of stations. Try again in a few minutes."
+        },
+        "abort": {
+          "location_removed": "That location no longer exists."
+        }
+      }
+    },
+    "air_station_stale": {
+      "title": "The air quality station for {location} is not sending data",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Choose another air quality station",
+            "description": "The air quality station {station}, for the location **{location}**, has not sent data since {since}. Its sensors stay «Unknown» and the air quality level comes from MeteoGalicia's forecast for the municipality.\n\nChoose another station, or leave the field empty to use none. You can ignore this notice if you prefer to wait for it to come back: it goes away by itself when the station sends data again.",
+            "data": {
+              "air_station_id": "Air quality station"
+            },
+            "data_description": {
+              "air_station_id": "From nearest to farthest. Each one shows its type and whether it has no data now."
             }
           }
         },

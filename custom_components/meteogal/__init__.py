@@ -29,7 +29,7 @@ from .coordinator import (
     RadarCoordinator,
     StationCoordinator,
 )
-from .repairs import ISSUE_PREFIX, async_clean_issues
+from .repairs import ISSUE_PREFIXES, async_clean_issues
 from .services import async_setup_services
 
 PLATFORMS = [Platform.IMAGE, Platform.SENSOR, Platform.WEATHER]
@@ -137,7 +137,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) ->
 async def async_remove_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> None:
     """Al borrar MeteoGal, sus avisos de reparación también."""
     for subentry_id in entry.subentries:
-        ir.async_delete_issue(hass, DOMAIN, f"{ISSUE_PREFIX}{subentry_id}")
+        for prefix in ISSUE_PREFIXES:
+            ir.async_delete_issue(hass, DOMAIN, f"{prefix}{subentry_id}")
 
 
 async def _async_reload(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> None:

@@ -72,7 +72,7 @@ Con **Usar la estación para el tiempo actual** (dato de la ubicación `station_
 
 ## Estación que deja de enviar (reparación)
 
-Si la última lectura de la estación tiene **más de un día**, se abre un aviso en Ajustes → Reparaciones (`repairs.py`): «La estación de A Coruña no envía datos», con la estación y desde cuándo. Pasa de verdad: el 2026-09-28, Marroxo llevaba sin enviar desde el 19 y Serra do Faro desde el 23; el servicio sigue devolviendo esa última lectura vieja, con su hora.
+Si la última lectura de la estación tiene **más de un día**, se abre un aviso en Ajustes → Reparaciones (`repairs.py`): «La estación de A Coruña no envía datos», con la estación y desde cuándo. Pasa de verdad: el 2026-09-28, Marroxo llevaba sin enviar desde el 19 y Serra do Faro desde el 23; el servicio sigue devolviendo esa última lectura vieja, con su hora. La estación de aire tiene su propio aviso ([calidad-aire.md](calidad-aire.md#estación-de-aire-que-deja-de-enviar)).
 
 - Al arreglarlo se ofrece la lista de estaciones con sus marcas; la propuesta es la más cercana que envía datos, sin contar la actual. Vacía, la ubicación se queda sin estación. Se guarda en la ubicación y MeteoGal se recarga.
 - El aviso se cierra solo cuando la estación vuelve a enviar, al quitar la estación o la ubicación, y al borrar MeteoGal.

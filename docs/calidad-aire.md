@@ -81,8 +81,11 @@ Sin sensores por día ni por hora, como con el tiempo (`weather.get_forecasts`) 
 
 La única red pública y abierta en Galicia es la de la Xunta (la que republican WAQI, IQAir, la EEA y MITECO). La red municipal de A Coruña tiene API, pero pide credenciales; Sensor.Community no tiene sensores en Galicia.
 
+## Estación de aire que deja de enviar
+
+Si el último ICA de la estación (`jsonICAActual`, con su hora local) tiene **más de un día**, se abre un aviso en Ajustes → Reparaciones (`repairs.py`, `air_station_stale_<ubicación>`): «La estación de aire de A Coruña no envía datos», con la estación y desde cuándo. Es independiente del de la estación meteorológica, con las mismas reglas: se arregla eligiendo otra estación de aire (se propone la más cercana con dato que no sea la actual) o ninguna, y desaparece solo si la estación vuelve a enviar, si se quita la estación de la ubicación o si se borra MeteoGal. Si la estación no aparece en la lista de ICA no se avisa (no se sabe desde cuándo). Probado con las respuestas del 2026-09-29 avanzando el reloj; **sin ejemplo real todavía** de una estación de aire parada: en las capturas de dos semanas todas enviaron cada hora.
+
 ## Pendiente
 
 - Repetir la validación con un mes y en invierno (menos ozono, más partículas).
 - Confirmar los textos de MeteoGalicia de los niveles 4–6 cuando aparezcan.
-- Aviso de reparación si la estación de aire deja de enviar, como con la meteorológica.

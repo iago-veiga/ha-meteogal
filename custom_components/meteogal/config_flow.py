@@ -319,7 +319,7 @@ def station_options(
     return stations
 
 
-def _air_station_options(
+def air_station_options(
     hass: HomeAssistant, candidate: Candidate
 ) -> list[SelectOptionDict]:
     """«Torre Hércules (A Coruña) · 3,4 km · fondo», y «sin datos ahora» si no tiene."""
@@ -341,7 +341,7 @@ def _air_station_options(
 def _confirm_schema(hass: HomeAssistant, candidate: Candidate) -> vol.Schema:
     concellos = sorted(candidate.toponyms.items(), key=lambda item: _sort_key(item[1]))
     stations = station_options(hass, candidate)
-    air_stations = _air_station_options(hass, candidate)
+    air_stations = air_station_options(hass, candidate)
     cameras = [
         SelectOptionDict(
             value=camera.key,
