@@ -33,8 +33,8 @@ LEVELS: Final = (
 
 # Origen del dato actual, del mejor al peor.
 SOURCE_STATION: Final = "station"
-SOURCE_MODEL: Final = "model"
 SOURCE_FORECAST: Final = "forecast"
+SOURCE_MODEL: Final = "model"
 
 # Las estaciones publican cada hora, con retraso. Más de 3 h: ha dejado de enviar.
 STATION_MAX_AGE: Final = timedelta(hours=3)
@@ -159,8 +159,12 @@ def current_air(
     forecast: list[AirDayForecast],
     now: datetime,
 ) -> CurrentAir | None:
-    """Lo medido en la estación si es reciente; si no, el modelo en el punto a la hora
-    en curso; si no, el previsto para hoy en el concello. None si no hay nada.
+    """Lo medido en la estación si es reciente; si no, el previsto para hoy en el
+    concello; si no, el modelo en el punto a la hora en curso. None si no hay nada.
+
+    El modelo en el punto no distingue unos sitios de otros y sube el nivel (el mismo
+    nivel que la estación en el 49 % de las horas); la predicción del concello, que
+    es el máximo del día, acierta el nivel en el 65 % (docs/calidad-aire.md).
 
     `station` ya viene filtrada: None si la ubicación no tiene estación o no la usa.
     """
@@ -171,10 +175,6 @@ def current_air(
             pollutant(station.pollutant),
             SOURCE_STATION,
         )
-    hour = now.astimezone(UTC).replace(minute=0, second=0, microsecond=0)
-    for item in model:
-        if item.time == hour and item.index is not None:
-            return CurrentAir(level(item.index), item.index, None, SOURCE_MODEL)
     today = now.date()
     for day in forecast:
         if day.date == today and day.index is not None:
@@ -184,4 +184,8 @@ def current_air(
                 pollutant(day.pollutant),
                 SOURCE_FORECAST,
             )
+    hour = now.astimezone(UTC).replace(minute=0, second=0, microsecond=0)
+    for item in model:
+        if item.time == hour and item.index is not None:
+            return CurrentAir(level(item.index), item.index, None, SOURCE_MODEL)
     return None

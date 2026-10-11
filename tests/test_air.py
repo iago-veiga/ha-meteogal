@@ -35,7 +35,7 @@ from custom_components.meteogal.api import (
 from custom_components.meteogal.api.chimere import _parse_point
 from custom_components.meteogal.const import DOMAIN
 
-from .api.conftest import CHIMERE_POINT, FIXTURES, load, mock_meteogalicia
+from .api.conftest import AIR_FORECAST, FIXTURES, load, mock_meteogalicia
 
 MADRID = ZoneInfo("Europe/Madrid")
 AIR = "sensor.a_coruna_air_quality"
@@ -123,21 +123,23 @@ def test_current_air_order() -> None:
     ]
 
     assert current_air(station, model, forecast, now).source == SOURCE_STATION
-    # Sin estación, o con su dato de hace más de 3 horas: el modelo.
-    assert current_air(None, model, forecast, now).source == SOURCE_MODEL
-    later = datetime(2026, 9, 29, 11, 30, tzinfo=MADRID)
-    model_later = [AirModelHour(time=datetime(2026, 9, 29, 9, tzinfo=UTC), index=2.5)]
-    result = current_air(station, model_later, forecast, later)
-    assert result.source == SOURCE_MODEL
-    assert result.level == "moderate"
-    assert result.pollutant is None
-    # Sin modelo para esta hora: lo previsto para hoy.
-    result = current_air(None, [], forecast, now)
+    # Sin estación, o con su dato de hace más de 3 horas: lo previsto para hoy.
+    result = current_air(None, model, forecast, now)
     assert (result.source, result.level, result.pollutant) == (
         SOURCE_FORECAST,
         "good",
         "o3",
     )
+    later = datetime(2026, 9, 29, 11, 30, tzinfo=MADRID)
+    model_later = [AirModelHour(time=datetime(2026, 9, 29, 9, tzinfo=UTC), index=2.5)]
+    assert current_air(station, model_later, forecast, later).source == SOURCE_FORECAST
+    # Sin predicción de hoy: el modelo en el punto, a la hora en curso.
+    result = current_air(None, model_later, [], later)
+    assert result.source == SOURCE_MODEL
+    assert result.level == "moderate"
+    assert result.pollutant is None
+    # Ni predicción ni modelo para esta hora.
+    assert current_air(None, model, [], later) is None
     assert current_air(None, [], [], now) is None
 
 
@@ -236,41 +238,41 @@ async def test_station_source(hass: HomeAssistant, aioclient_mock) -> None:
         assert entity.disabled_by is er.RegistryEntryDisabler.INTEGRATION
 
 
-async def test_model_without_station(hass: HomeAssistant, aioclient_mock) -> None:
+async def test_forecast_without_station(hass: HomeAssistant, aioclient_mock) -> None:
+    await setup(hass, aioclient_mock, air_station_id=None)
+
+    state = hass.states.get(AIR)
+    assert state.state == "fair"  # máximo del día en el concello: 1,8
+    assert state.attributes["source"] == "forecast"
+    assert state.attributes["main_pollutant"] == "o3"
+    assert hass.states.get("sensor.a_coruna_pm2_5") is None
+
+
+async def test_station_not_used(hass: HomeAssistant, aioclient_mock) -> None:
+    """«Usar la estación» desmarcado: el nivel del concello, los sensores siguen."""
+    await setup(hass, aioclient_mock, air_station_use=False)
+
+    assert hass.states.get(AIR).attributes["source"] == "forecast"
+    assert hass.states.get("sensor.a_coruna_pm2_5").state == "10.0"
+
+
+@pytest.mark.freeze_time("2026-09-29T12:00:00+00:00")
+async def test_station_stale(hass: HomeAssistant, aioclient_mock) -> None:
+    """Dato de la estación de hace 6 horas: el concello, y las medidas desconocidas."""
+    await setup(hass, aioclient_mock)
+
+    assert hass.states.get(AIR).attributes["source"] == "forecast"
+    assert hass.states.get("sensor.a_coruna_pm2_5").state == "unknown"
+
+
+async def test_model_when_no_forecast(hass: HomeAssistant, aioclient_mock) -> None:
+    aioclient_mock.get(AIR_FORECAST, status=500)
     await setup(hass, aioclient_mock, air_station_id=None)
 
     state = hass.states.get(AIR)
     assert state.state == "fair"  # CHIMERE 1,5 a las 06:00Z
     assert state.attributes["source"] == "model"
     assert state.attributes["main_pollutant"] is None
-    assert hass.states.get("sensor.a_coruna_pm2_5") is None
-
-
-async def test_station_not_used(hass: HomeAssistant, aioclient_mock) -> None:
-    """«Usar la estación» desmarcado: el nivel del modelo, los sensores siguen."""
-    await setup(hass, aioclient_mock, air_station_use=False)
-
-    assert hass.states.get(AIR).attributes["source"] == "model"
-    assert hass.states.get("sensor.a_coruna_pm2_5").state == "10.0"
-
-
-@pytest.mark.freeze_time("2026-09-29T12:00:00+00:00")
-async def test_station_stale(hass: HomeAssistant, aioclient_mock) -> None:
-    """Dato de la estación de hace 6 horas: el modelo, y las medidas desconocidas."""
-    await setup(hass, aioclient_mock)
-
-    assert hass.states.get(AIR).attributes["source"] == "model"
-    assert hass.states.get("sensor.a_coruna_pm2_5").state == "unknown"
-
-
-async def test_forecast_when_no_model(hass: HomeAssistant, aioclient_mock) -> None:
-    aioclient_mock.get(CHIMERE_POINT, status=500)
-    await setup(hass, aioclient_mock, air_station_id=None)
-
-    state = hass.states.get(AIR)
-    assert state.state == "fair"
-    assert state.attributes["source"] == "forecast"
-    assert state.attributes["main_pollutant"] == "o3"
 
 
 async def test_get_air_quality(hass: HomeAssistant, aioclient_mock) -> None:

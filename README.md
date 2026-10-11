@@ -121,7 +121,7 @@ Cada ubicación que configures es un dispositivo con el nombre oficial de su con
 | `image.a_coruna_radar_ultima_pasada` | Última pasada del radar, fija | — | Desactivada |
 | `sensor.a_coruna_temperatura`, `…_lluvia_hoy`… | Lo medido en la estación elegida ([lista](#estación)) | Estación | Según el sensor |
 | `image.a_coruna_camara` | Última foto de la cámara elegida | Cámara | Activada |
-| `sensor.a_coruna_calidad_del_aire` | Calidad del aire ahora: de la estación de aire o, si no, del modelo de MeteoGalicia ([detalle](#calidad-del-aire)) | — | Activada |
+| `sensor.a_coruna_calidad_del_aire` | Calidad del aire ahora: de la estación de aire o, si no, de la predicción de MeteoGalicia ([detalle](#calidad-del-aire)) | — | Activada |
 | `sensor.a_coruna_pm2_5`, `…_pm10`, `…_dioxido_de_nitrogeno`, `…_ozono`… | Contaminantes medidos en la estación de aire | Estación de aire | Según el contaminante |
 | `sensor.a_coruna_lluvia_esta_hora`, `…_proxima_lluvia` | Lluvia prevista | Clave de MeteoSIX | Activadas |
 | `sensor.a_coruna_cota_de_nieve` | Cota de nieve prevista | Clave de MeteoSIX | Desactivada |
@@ -221,14 +221,16 @@ Detalle en [docs/estaciones.md](docs/estaciones.md).
 | Orden | Fuente | Cuándo |
 |---|---|---|
 | 1 | **Estación de calidad del aire** de la Xunta | Si la ubicación tiene una, está marcado **Usar la estación para la calidad del aire actual** y su dato tiene menos de 3 horas |
-| 2 | **Modelo de MeteoGalicia** (CHIMERE) en tu punto, a la hora en curso | Si no hay estación o no la usas: cubre cualquier punto de Galicia |
-| 3 | Predicción del día para tu concello | Si el modelo no responde |
+| 2 | **Predicción del día** para tu concello (el nivel más alto que se espera hoy) | Si no hay estación o no la usas |
+| 3 | **Modelo de MeteoGalicia** (CHIMERE) en tu punto, a la hora en curso | Si no hay predicción del día para tu concello |
 
 El atributo «Origen» dice de cuál ha salido, y «Contaminante principal», cuál manda (con el modelo, no se sabe).
 
-**Estación de calidad del aire (opcional).** Al añadir o cambiar una ubicación eliges una de las ~46 estaciones, de la más cercana a la más lejana, con su tipo. Por defecto se propone la más cercana **si está a menos de 10 km**; si no, ninguna, y el nivel sale del modelo. Con estación, además, sensores de lo que mide: **PM2,5, PM10, dióxido de nitrógeno y ozono** (activados) y dióxido de azufre, monóxido de carbono y monóxido de nitrógeno (desactivados), en µg/m³ (CO en mg/m³). Son sensores normales de Home Assistant, así que funcionan con sus disparadores y condiciones de calidad del aire.
+Sin estación el nivel es aproximado y no cambia a lo largo del día: la predicción del concello es el máximo de hoy. Se comparó con las estaciones durante dos semanas y acierta el nivel en dos de cada tres casos, frente a uno de cada dos del modelo en tu punto, que además da casi el mismo nivel en todos los sitios y lo sube con frecuencia. Para ver el nivel hora a hora del modelo, usa la acción `meteogal.get_air_quality`.
 
-- **El tipo importa:** una estación de **tráfico** o **industrial** mide la calle o la fábrica, no el barrio. Si no representa tu punto, desmarca **Usar la estación para la calidad del aire actual**: sus sensores siguen y el nivel sale del modelo.
+**Estación de calidad del aire (opcional).** Al añadir o cambiar una ubicación eliges una de las ~46 estaciones, de la más cercana a la más lejana, con su tipo. Por defecto se propone la más cercana **si está a menos de 10 km**; si no, ninguna, y el nivel sale de la predicción del concello. Con estación, además, sensores de lo que mide: **PM2,5, PM10, dióxido de nitrógeno y ozono** (activados) y dióxido de azufre, monóxido de carbono y monóxido de nitrógeno (desactivados), en µg/m³ (CO en mg/m³). Son sensores normales de Home Assistant, así que funcionan con sus disparadores y condiciones de calidad del aire.
+
+- **El tipo importa:** una estación de **tráfico** o **industrial** mide la calle o la fábrica, no el barrio. Si no representa tu punto, desmarca **Usar la estación para la calidad del aire actual**: sus sensores siguen y el nivel sale de la predicción del concello.
 - **Previsión:** la acción `meteogal.get_air_quality` devuelve el nivel de cada hora del modelo (2 o 3 días) y de cada día para tu concello (hoy y 2 o 3 más). Ver [ejemplos](#ejemplos).
 - `sensor.<ubicación>_indice_de_calidad_del_aire` (desactivado): el número del índice, de 0 a 6.
 
@@ -396,7 +398,7 @@ MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
 | MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
 | Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
 | Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
-| Calidad del aire: estaciones | 30 minutos (publican cada hora) | Índice de todas las estaciones y medidas de las elegidas | El nivel sale del modelo; los contaminantes quedan «No disponible» |
+| Calidad del aire: estaciones | 30 minutos (publican cada hora) | Índice de todas las estaciones y medidas de las elegidas | El nivel sale de la predicción del concello; los contaminantes quedan «No disponible» |
 | Calidad del aire: modelo y predicción | 1 hora (el modelo sale una vez al día; solo se descarga si hay pasada nueva) | Nivel de cada hora en tu punto y de cada día en tu concello | Se sigue con lo último bueno |
 
 Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguiente consulta. Al arrancar Home Assistant, si MeteoGalicia no responde, Home Assistant reintenta la configuración él solo.
@@ -409,7 +411,7 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 - **Con clave, la previsión diaria solo gana lluvia y viento:** MeteoSIX llega a 4 días y no trae probabilidad de lluvia ni índice UV.
 - **La estación no está en tu casa:** mide donde está (a 6 km de mediana del centro de cada concello, hasta 18 km). Por eso su uso en el tiempo actual es opcional.
 - **Radar:** muestra lo observado, no lo que va a llover; lejos del radar (el este de Ourense y Lugo) puede no ver la lluvia débil.
-- **Calidad del aire sin estación cerca:** el nivel sale de un modelo, no de una medida. Solo se usa su nivel, no sus concentraciones, que están por validar frente a las estaciones.
+- **Calidad del aire sin estación cerca:** el nivel sale de una predicción, no de una medida, y es el máximo de hoy. Acierta el nivel en el 65 % de los casos; el modelo en tu punto, en el 49 %. No se usan sus concentraciones: las partículas y el SO₂ no se parecen a lo medido.
 
 ## Problemas frecuentes
 

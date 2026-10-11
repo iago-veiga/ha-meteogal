@@ -26,7 +26,7 @@ El ICA es un número de 0 a 6: 0–1 `good`, 1–2 `fair`, 2–3 `moderate`, 3�
 
 | Entidad | Estado | Por defecto |
 |---|---|---|
-| `sensor.<ubicación>_calidad_del_aire` | `enum` con los seis niveles. Atributos: `source` (`station`, `model` o `forecast`) y `main_pollutant` (`no2`, `o3`, `pm25`, `pm10`, `so2`; sin él con el modelo) | Activada |
+| `sensor.<ubicación>_calidad_del_aire` | `enum` con los seis niveles. Atributos: `source` (`station`, `forecast` o `model`) y `main_pollutant` (`no2`, `o3`, `pm25`, `pm10`, `so2`; sin él con el modelo) | Activada |
 | `sensor.<ubicación>_indice_de_calidad_del_aire` | El número (clase `aqi`) | Desactivada |
 | Con estación de aire: PM2,5, PM10, NO₂, O₃ | µg/m³, con la clase de dispositivo de cada contaminante (así valen los disparadores y condiciones de calidad del aire de HA) | Activadas |
 | Con estación de aire: SO₂, CO (mg/m³), NO | Ídem | Desactivadas |
@@ -39,21 +39,21 @@ Solo se crean los contaminantes que mide la estación. Medidas de más de 3 hora
 Como la entidad del tiempo, **lo medido primero**:
 
 1. **Estación de aire**, si la ubicación la tiene, la usa (**Usar la estación para la calidad del aire actual**) y su dato tiene menos de 3 horas.
-2. **Modelo CHIMERE** en el punto de la ubicación, a la hora en curso.
-3. **Predicción del día** para el concello.
+2. **Predicción del día** para el concello (el nivel más alto que se espera hoy).
+3. **Modelo CHIMERE** en el punto de la ubicación, a la hora en curso.
 
-Si no hay ninguno, la entidad queda no disponible. Se recalcula en cada cambio de hora.
+El modelo va el último porque, validado con 2 semanas de estaciones (`docs/analysis/validacion-chimere.md` del workspace, 2026-09-29 a 10-11), da el mismo nivel que la estación en el 49 % de las horas (más alto en el 46 %) y casi igual en todas partes (1,3–1,5 de media, cuando lo medido va de 0,15 a 1,74); la predicción del concello acierta el nivel en el 65–67 % (hoy y los tres días siguientes), con un sesgo de +0,2, porque el máximo del día es más fácil de acertar que cada hora. La contrapartida es que el nivel no cambia a lo largo del día. Si no hay ninguno, la entidad queda no disponible. Se recalcula en cada cambio de hora.
 
-**Del modelo solo se usa el nivel**, no las concentraciones: el 2026-09-29 a las 07:00Z acertaba el nivel en A Coruña («Adecuada») pero daba PM2,5 1,3 µg/m³ frente a los 10 medidos en Torre Hércules. Se está validando contra las estaciones.
+**Del modelo solo se usa el nivel**, no las concentraciones: el 2026-09-29 a las 07:00Z acertaba el nivel en A Coruña («Adecuada») pero daba PM2,5 1,3 µg/m³ frente a los 10 medidos en Torre Hércules. Validado: NO₂ y O₃ siguen algo el ciclo del día (correlación ~0,5, el O₃ con +12 µg/m³ de sesgo); PM2,5, PM10 y SO₂ no (correlación 0–0,2, y las PM10 la mitad de lo medido).
 
 ## Configuración
 
 En la confirmación de cada ubicación:
 
-- **Estación de calidad del aire:** de la más cercana a la más lejana, con concello, distancia, tipo y «sin datos ahora» si no tiene ICA. Solo las que calculan el ICA (las de un solo contaminante de la industria, no). Por defecto, **la más cercana con datos si está a menos de 10 km**; si no, ninguna: de mediana, la más cercana está a 17 km del concello (hasta 56 km) y el modelo cubre la ubicación.
-- **Usar la estación para la calidad del aire actual** (por defecto sí). Una de tráfico o industrial mide la calle o la fábrica, no el barrio: desmarcándolo, sus sensores siguen y el nivel sale del modelo.
+- **Estación de calidad del aire:** de la más cercana a la más lejana, con concello, distancia, tipo y «sin datos ahora» si no tiene ICA. Solo las que calculan el ICA (las de un solo contaminante de la industria, no). Por defecto, **la más cercana con datos si está a menos de 10 km**; si no, ninguna: de mediana, la más cercana está a 17 km del concello (hasta 56 km) y la predicción del concello y el modelo cubren la ubicación.
+- **Usar la estación para la calidad del aire actual** (por defecto sí). Una de tráfico o industrial mide la calle o la fábrica, no el barrio: desmarcándolo, sus sensores siguen y el nivel sale de la predicción del concello.
 
-Ubicaciones configuradas antes de la calidad del aire: sin estación de aire, con el nivel del modelo; al reconfigurarlas se propone como en una nueva.
+Ubicaciones configuradas antes de la calidad del aire: sin estación de aire, con el nivel de la predicción del concello; al reconfigurarlas se propone como en una nueva.
 
 ## Acción `meteogal.get_air_quality`
 
@@ -83,6 +83,6 @@ La única red pública y abierta en Galicia es la de la Xunta (la que republican
 
 ## Pendiente
 
-- Validar CHIMERE frente a las estaciones (capturas en marcha) antes de usar sus concentraciones o darle más peso.
+- Repetir la validación con un mes y en invierno (menos ozono, más partículas).
 - Confirmar los textos de MeteoGalicia de los niveles 4–6 cuando aparezcan.
 - Aviso de reparación si la estación de aire deja de enviar, como con la meteorológica.
