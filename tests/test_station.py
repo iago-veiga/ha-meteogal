@@ -383,3 +383,13 @@ def test_local_day_without_hours() -> None:
 
     assert local_day(day, None, SUMMER, now) == day.values
     assert local_day(None, None, SUMMER, now) is None
+
+
+async def test_station_position(hass: HomeAssistant) -> None:
+    """Todas las entidades de la estación llevan su posición, para un mapa."""
+    await setup(hass)
+
+    for entity_id in (PREFIX + "temperature", PREFIX + "station_last_reading"):
+        attributes = hass.states.get(entity_id).attributes
+        assert attributes["latitude"] == 43.36506, entity_id
+        assert attributes["longitude"] == -8.374706, entity_id

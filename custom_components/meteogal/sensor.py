@@ -13,6 +13,8 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.config_entries import ConfigSubentry
 from homeassistant.const import (
+    ATTR_LATITUDE,
+    ATTR_LONGITUDE,
     CONF_LATITUDE,
     CONF_LONGITUDE,
     MATCH_ALL,
@@ -210,6 +212,9 @@ class StationEntity(CoordinatorEntity[StationCoordinator]):
 
     _attr_has_entity_name = True
     _attr_attribution = ATTRIBUTION
+    # Dónde está la estación, para ponerla en una tarjeta de mapa. No cambia, así que
+    # no se guarda en el historial.
+    _unrecorded_attributes = frozenset({ATTR_LATITUDE, ATTR_LONGITUDE})
 
     def __init__(self, coordinator: StationCoordinator, key: str) -> None:
         super().__init__(coordinator)
@@ -217,6 +222,13 @@ class StationEntity(CoordinatorEntity[StationCoordinator]):
         self._attr_translation_key = f"station_{key}"
         self._attr_unique_id = f"{subentry.subentry_id}_station_{key}"
         self._attr_device_info = location_device(subentry)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        station = self.coordinator.station
+        if station is None:
+            return {}
+        return {ATTR_LATITUDE: station.latitude, ATTR_LONGITUDE: station.longitude}
 
 
 class StationValueSensor(StationEntity, SensorEntity):
@@ -269,7 +281,10 @@ class StationUpdatedSensor(StationEntity, SensorEntity):
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
         station = self.coordinator.station
-        attributes: dict[str, Any] = {"station_id": self.coordinator.station_id}
+        attributes: dict[str, Any] = {
+            **super().extra_state_attributes,
+            "station_id": self.coordinator.station_id,
+        }
         if station:
             location = self.coordinator.subentry.data
             attributes["station_name"] = station.name
@@ -475,6 +490,7 @@ class AirStationEntity(CoordinatorEntity[AirStationCoordinator]):
 
     _attr_has_entity_name = True
     _attr_attribution = ATTRIBUTION
+    _unrecorded_attributes = frozenset({ATTR_LATITUDE, ATTR_LONGITUDE})
 
     def __init__(
         self,
@@ -488,6 +504,13 @@ class AirStationEntity(CoordinatorEntity[AirStationCoordinator]):
         self._station_id = station_id
         self._attr_unique_id = f"{subentry.subentry_id}_air_{key}"
         self._attr_device_info = location_device(subentry)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        station = self.coordinator.stations.get(self._station_id)
+        if station is None:
+            return {}
+        return {ATTR_LATITUDE: station.latitude, ATTR_LONGITUDE: station.longitude}
 
     @property
     def _measurements(self) -> AirMeasurements | None:
@@ -550,7 +573,10 @@ class AirStationUpdatedSensor(AirStationEntity, SensorEntity):
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        attributes: dict[str, Any] = {"station_id": self._station_id}
+        attributes: dict[str, Any] = {
+            **super().extra_state_attributes,
+            "station_id": self._station_id,
+        }
         station = self.coordinator.stations.get(self._station_id)
         if station:
             location = self._subentry.data

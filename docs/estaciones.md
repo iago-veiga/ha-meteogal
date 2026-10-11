@@ -49,6 +49,10 @@ Solo se crean los de los códigos que la estación manda en su primera lectura (
 - Lectura de más de **1 hora**: valores «Desconocido» (la estación ha dejado de enviar).
 - **Viento todo a cero** (velocidad, racha y desviación de la dirección exactamente 0): se quita el viento de esa lectura. Visto en Coruña-Dique el 2026-09-27 a las 21:40Z con la dirección de la racha en 13°, cuando las horas de antes y después tenían rachas de 2–5 m/s.
 
+## En un mapa
+
+Las entidades de la estación (los sensores de medidas y el de última lectura) llevan los atributos `latitude` y `longitude` de la estación (`listaEstacionsMeteo`), para usarlas en una tarjeta de mapa o en `zone`/`distance`. Van en `_unrecorded_attributes`: no cambian y no tiene sentido guardarlas en cada estado. Hasta que se descarga la lista de estaciones (una vez, al arrancar) no están. Lo mismo para la estación de aire (`jsonEstacionesCaire`). Las entidades de la ubicación (el tiempo, los avisos, el radar) no las llevan: no son de ningún punto distinto del de la ubicación.
+
 ## Elegir la estación
 
 En el paso de confirmación, cada estación de la lista lleva lo que le falta de lo que usa el [tiempo actual](#tiempo-actual), según su última lectura (`station_gaps` en `station.py`):

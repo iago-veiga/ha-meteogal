@@ -331,3 +331,18 @@ async def test_actions_on_the_wrong_sensor(hass: HomeAssistant, aioclient_mock) 
             return_response=True,
         )
     assert err.value.translation_key == "not_warning_level"
+
+
+async def test_air_station_position(hass: HomeAssistant, aioclient_mock) -> None:
+    """Las entidades de la estación de aire llevan su posición, para un mapa."""
+    await setup(hass, aioclient_mock)
+
+    for entity_id in (
+        "sensor.a_coruna_pm2_5",
+        "sensor.a_coruna_air_station_last_measurement",
+    ):
+        attributes = hass.states.get(entity_id).attributes
+        assert attributes["latitude"] == 43.382786, entity_id
+        assert attributes["longitude"] == -8.409211, entity_id
+    # Lo que no es de la estación, no.
+    assert "latitude" not in hass.states.get(AIR).attributes

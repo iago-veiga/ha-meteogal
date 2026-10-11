@@ -204,6 +204,7 @@ Si eliges una estación, sus medidas aparecen como sensores en el dispositivo de
 - MeteoGalicia cierra el día de las estaciones en hora UTC; MeteoGal lo pasa a tu día (de medianoche a medianoche) con los datos por horas. Justo después de medianoche la lluvia de hoy es 0 y la máxima y la mínima quedan en «Desconocido» hasta que acaba la primera hora. El viento máximo de hoy es el del día UTC (de 02:00 a 02:00 en verano, de 01:00 a 01:00 en invierno).
 - Una lectura con el viento exactamente a cero en todo (velocidad, racha y variación) se toma como dato ausente, no como calma: pasa a veces en estaciones que el resto del día miden bien.
 - La estación también puede alimentar el [tiempo actual](#el-tiempo) (opción de la ubicación).
+- **En un mapa:** todas las entidades de la estación (y las de la estación de aire, en [Calidad del aire](#calidad-del-aire)) llevan los atributos `latitude` y `longitude` con la posición de la estación, así que valen en una tarjeta de mapa ([ejemplo](#ejemplos)). No se guardan en el historial.
 - **Si la estación deja de enviar datos durante más de un día**, Home Assistant lo avisa en **Ajustes → Reparaciones**: «La estación de A Coruña no envía datos». Al abrir el aviso puedes elegir otra estación, de la más cercana a la más lejana y con lo que le falta a cada una, o dejarla vacía para no usar ninguna. Si prefieres esperar, no hagas nada: el aviso desaparece solo cuando la estación vuelve a enviar.
 
 Detalle en [docs/estaciones.md](docs/estaciones.md).
@@ -386,6 +387,17 @@ actions:
       message: >
         {% set manana = aire['sensor.a_coruna_calidad_del_aire'].daily[1] %}
         Mañana, calidad del aire {{ manana.level }} ({{ manana.main_pollutant }}).
+```
+
+Estaciones en un mapa (cada una aparece donde está la estación, no donde está tu casa):
+
+```yaml
+type: map
+entities:
+  - entity: sensor.a_coruna_temperatura
+    label_mode: state
+  - entity: sensor.a_coruna_pm2_5
+    label_mode: state
 ```
 
 ## Cada cuánto se actualiza
