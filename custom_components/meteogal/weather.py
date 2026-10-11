@@ -3,6 +3,10 @@
 Sin clave, con los servicios públicos de MeteoGalicia. Con clave de MeteoSIX, la
 previsión por horas sale entera de MeteoSIX (sin mezclar fuentes en una misma hora)
 y el estado actual gana humedad, presión, nubosidad y viento (docs/weather.md).
+
+El WRF de 4 km (THREDDS, sin clave) da la racha prevista, que MeteoSIX no da, y hace de
+respaldo de viento, humedad y presión donde no hay ni estación ni MeteoSIX. No aporta ni
+lluvia ni cielo: sus lluvias chocan con los iconos públicos (docs/wrf.md).
 """
 
 from __future__ import annotations
@@ -31,6 +35,7 @@ from .api import (
     HourlyForecast,
     MediumTermForecast,
     MeteoSixHour,
+    WrfHour,
 )
 from .api.client import TIMEZONE
 from .codes import (
@@ -46,6 +51,7 @@ from .coordinator import (
     LocationData,
     MeteoSixCoordinator,
     StationCoordinator,
+    WrfCoordinator,
 )
 from .entity import location_device
 from .station import clean
@@ -65,12 +71,13 @@ async def async_setup_entry(
 ) -> None:
     """Una entidad del tiempo por ubicación."""
     meteosix = entry.runtime_data.meteosix
+    wrf = entry.runtime_data.wrf
     for subentry_id, coordinator in entry.runtime_data.locations.items():
         measured = None
         if coordinator.subentry.data.get(CONF_STATION_WEATHER, True):
             measured = entry.runtime_data.stations.get(subentry_id)
         async_add_entities(
-            [MeteoGalWeather(coordinator, meteosix, measured)],
+            [MeteoGalWeather(coordinator, meteosix, measured, wrf)],
             config_subentry_id=subentry_id,
         )
 
@@ -94,9 +101,11 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
         coordinator: LocationCoordinator,
         meteosix: MeteoSixCoordinator | None,
         station: StationCoordinator | None = None,
+        wrf: WrfCoordinator | None = None,
     ) -> None:
         super().__init__(coordinator)
         self._meteosix = meteosix
+        self._wrf = wrf
         # Solo si la ubicación usa su estación para el tiempo actual.
         self._station = station
         subentry = coordinator.subentry
@@ -104,9 +113,9 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
         self._attr_device_info = location_device(subentry)
 
     async def async_added_to_hass(self) -> None:
-        """También se actualiza con datos nuevos de MeteoSIX y de la estación."""
+        """También se actualiza con datos nuevos de MeteoSIX, la estación y el WRF."""
         await super().async_added_to_hass()
-        for other in (self._meteosix, self._station):
+        for other in (self._meteosix, self._station, self._wrf):
             if other:
                 self.async_on_remove(
                     other.async_add_listener(self._handle_coordinator_update)
@@ -130,6 +139,20 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
         nearest = min(
             self._meteosix_hours, key=lambda h: abs(h.time - now), default=None
         )
+        return nearest if nearest and abs(nearest.time - now) <= ONE_HOUR else None
+
+    @property
+    def _wrf_hours(self) -> list[WrfHour]:
+        """Horas del WRF de esta ubicación; vacío si el THREDDS no ha respondido."""
+        if not self._wrf or not self._wrf.data:
+            return []
+        return self._wrf.data.hours.get(self.coordinator.subentry.subentry_id, [])
+
+    @property
+    def _wrf_now(self) -> WrfHour | None:
+        """La hora del WRF más cercana a ahora, si está a menos de una hora."""
+        now = dt_util.now()
+        nearest = min(self._wrf_hours, key=lambda h: abs(h.time - now), default=None)
         return nearest if nearest and abs(nearest.time - now) <= ONE_HOUR else None
 
     @property
@@ -176,6 +199,8 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
             return wind[1]
         if meteosix := self._meteosix_now:
             return meteosix.wind_bearing
+        if (wrf := self._wrf_now) and wrf.wind_bearing is not None:
+            return wrf.wind_bearing
         observation = self._data.observation
         if observation and observation.wind is not None:
             return wind_bearing(observation.wind)
@@ -187,13 +212,22 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
         if (wind := self._measured_wind) is not None:
             return wind[0]
         meteosix = self._meteosix_now
-        return _round(meteosix.wind_speed) if meteosix else None
+        if meteosix and meteosix.wind_speed is not None:
+            return _round(meteosix.wind_speed)
+        wrf = self._wrf_now
+        return _round(wrf.wind_speed) if wrf else None
 
     @property
     def native_wind_gust_speed(self) -> float | None:
-        """Solo de la estación: ni la previsión pública ni MeteoSIX dan rachas."""
+        """De la estación; sin ella, del WRF (ni la pública ni MeteoSIX dan rachas),
+        nunca por debajo del viento medio que se muestra."""
         gust = self._measured.get(station.WIND_GUST)
-        return None if gust is None else _round(gust * MS_TO_KMH)
+        if gust is not None:
+            return _round(gust * MS_TO_KMH)
+        wrf = self._wrf_now
+        if wrf is None or wrf.gust is None:
+            return None
+        return _round(max(wrf.gust, self.native_wind_speed or 0.0))
 
     @property
     def _measured_wind(self) -> tuple[float, float] | None:
@@ -210,14 +244,20 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
         if (measured := self._measured.get(station.HUMIDITY)) is not None:
             return measured
         meteosix = self._meteosix_now
-        return meteosix.humidity if meteosix else None
+        if meteosix and meteosix.humidity is not None:
+            return meteosix.humidity
+        wrf = self._wrf_now
+        return wrf.humidity if wrf else None
 
     @property
     def native_pressure(self) -> float | None:
         if (measured := self._measured.get(station.PRESSURE)) is not None:
             return measured
         meteosix = self._meteosix_now
-        return meteosix.pressure if meteosix else None
+        if meteosix and meteosix.pressure is not None:
+            return meteosix.pressure
+        wrf = self._wrf_now
+        return wrf.pressure if wrf else None
 
     @property
     def native_dew_point(self) -> float | None:
@@ -230,19 +270,28 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
 
     @callback
     def _async_forecast_daily(self) -> list[Forecast]:
-        return daily_forecast(self._data, dt_util.now(), self._meteosix_hours)
+        return daily_forecast(
+            self._data, dt_util.now(), self._meteosix_hours, self._wrf_hours
+        )
 
     @callback
     def _async_forecast_hourly(self) -> list[Forecast]:
-        return hourly_forecast(self._data, dt_util.now(), self._meteosix_hours)
+        return hourly_forecast(
+            self._data, dt_util.now(), self._meteosix_hours, self._wrf_hours
+        )
 
 
 def daily_forecast(
-    data: LocationData, now: datetime, meteosix: list[MeteoSixHour] | None = None
+    data: LocationData,
+    now: datetime,
+    meteosix: list[MeteoSixHour] | None = None,
+    wrf: list[WrfHour] | None = None,
 ) -> list[Forecast]:
     """Corto plazo (días 0-3) seguido del medio plazo, desde hoy.
 
-    Con MeteoSIX, los días que cubre ganan la lluvia total y el viento máximo.
+    Con MeteoSIX, los días que cubre ganan la lluvia total y el viento máximo. Con el
+    WRF, los días que cubre entero ganan la racha máxima y, si no los había puesto
+    MeteoSIX, el viento máximo.
     """
     today = now.date()
     forecast = [_from_daily(day) for day in data.daily if day.date >= today]
@@ -256,17 +305,26 @@ def daily_forecast(
         start = now.replace(minute=0, second=0, microsecond=0)
         for day in forecast:
             _add_meteosix_day(day, meteosix, start)
+    if wrf:
+        start = now.replace(minute=0, second=0, microsecond=0)
+        for day in forecast:
+            _add_wrf_day(day, wrf, start)
     return forecast
 
 
 def hourly_forecast(
-    data: LocationData, now: datetime, meteosix: list[MeteoSixHour] | None = None
+    data: LocationData,
+    now: datetime,
+    meteosix: list[MeteoSixHour] | None = None,
+    wrf: list[WrfHour] | None = None,
 ) -> list[Forecast]:
     """Desde la hora en curso: MeteoGalicia empieza siempre a las 00:00 de hoy.
 
     Con MeteoSIX, cada hora sale entera de una sola fuente: las que tiene MeteoSIX,
     de MeteoSIX, y solo las anteriores a su primera hora útil (la en curso, a
-    veces), de la previsión pública.
+    veces), de la previsión pública. El WRF añade a todas las horas la racha y, a las
+    que no la tienen de MeteoSIX, el viento, la humedad y la presión; nunca la lluvia
+    ni el cielo.
     """
     start = now.replace(minute=0, second=0, microsecond=0)
     enriched = _from_meteosix(meteosix, start) if meteosix else []
@@ -282,7 +340,10 @@ def hourly_forecast(
         for hour in data.hourly
         if hour.time >= start and (first is None or hour.time < first)
     ]
-    return public + enriched
+    forecast = public + enriched
+    if wrf:
+        _add_wrf_hours(forecast, wrf)
+    return forecast
 
 
 def _from_meteosix(hours: list[MeteoSixHour], start: datetime) -> list[Forecast]:
@@ -317,6 +378,58 @@ def _from_meteosix(hours: list[MeteoSixHour], start: datetime) -> list[Forecast]
     return forecast
 
 
+def _day_periods(day: Forecast, start: datetime) -> list[datetime]:
+    """Las horas (UTC) que empiezan dentro del día: de 00:00 a 23:00 (hoy, desde la
+    hora en curso; 23 o 25 el día del cambio de hora)."""
+    midnight = datetime.fromisoformat(day["datetime"])
+    # En horas reales (UTC): el día del cambio de hora tiene 23 o 25.
+    end = datetime.combine(midnight.date() + timedelta(days=1), time(), TIMEZONE)
+    first = max(midnight, start).astimezone(UTC)
+    return [first + timedelta(hours=n) for n in range(int((end - first) / ONE_HOUR))]
+
+
+def _add_wrf_hours(forecast: list[Forecast], hours: list[WrfHour]) -> None:
+    """Racha de cada hora y, donde falten, viento, humedad y presión del WRF.
+
+    Todo es instantáneo en la hora de la entrada (validado: la racha casa con la
+    medida de esa hora). La racha nunca queda por debajo del viento medio de la hora:
+    el WRF de 4 km se queda corto en un 13 % de las horas frente a MeteoSIX. Con la
+    velocidad del WRF, el rumbo sigue siendo el de la previsión pública.
+    """
+    by_time = {hour.time: hour for hour in hours}
+    for item in forecast:
+        hour = by_time.get(datetime.fromisoformat(item["datetime"]).astimezone(UTC))
+        if hour is None:
+            continue
+        speed = item.get("native_wind_speed")
+        if speed is None and hour.wind_speed is not None:
+            speed = item["native_wind_speed"] = _round(hour.wind_speed)
+        if item.get("humidity") is None and hour.humidity is not None:
+            item["humidity"] = hour.humidity
+        if item.get("native_pressure") is None and hour.pressure is not None:
+            item["native_pressure"] = hour.pressure
+        if hour.gust is not None:
+            item["native_wind_gust_speed"] = _round(max(hour.gust, speed or 0.0))
+
+
+def _add_wrf_day(day: Forecast, hours: list[WrfHour], start: datetime) -> None:
+    """Racha máxima del día y, si falta, viento máximo, si el WRF cubre el día entero
+    (hoy, desde la hora en curso), como con MeteoSIX."""
+    periods = _day_periods(day, start)
+    by_time = {hour.time: hour for hour in hours}
+    if not periods or any(period not in by_time for period in periods):
+        return
+    day_hours = [by_time[period] for period in periods]
+    speeds = [h.wind_speed for h in day_hours if h.wind_speed is not None]
+    if "native_wind_speed" not in day and speeds:
+        day["native_wind_speed"] = _round(max(speeds))
+    gusts = [h.gust for h in day_hours if h.gust is not None]
+    if gusts:
+        day["native_wind_gust_speed"] = _round(
+            max(max(gusts), day.get("native_wind_speed") or 0.0)
+        )
+
+
 def _add_meteosix_day(
     day: Forecast, hours: list[MeteoSixHour], start: datetime
 ) -> None:
@@ -327,11 +440,7 @@ def _add_meteosix_day(
     dato de la hora siguiente, como en la previsión por horas. Velocidad y rumbo,
     de la misma hora: la de más viento.
     """
-    midnight = datetime.fromisoformat(day["datetime"])
-    # En horas reales (UTC): el día del cambio de hora tiene 23 o 25.
-    end = datetime.combine(midnight.date() + timedelta(days=1), time(), TIMEZONE)
-    first = max(midnight, start).astimezone(UTC)
-    periods = [first + timedelta(hours=n) for n in range(int((end - first) / ONE_HOUR))]
+    periods = _day_periods(day, start)
     by_time = {hour.time: hour for hour in hours}
     rain = [
         hour.precipitation if (hour := by_time.get(period + ONE_HOUR)) else None

@@ -57,8 +57,8 @@ Objetivo: **cero escritura**. Todo sale de unas coordenadas y el usuario solo co
 
 | Pieza | Qué hace |
 |---|---|
-| `api/` | Clientes de MeteoGalicia, MeteoSIX y radar, sin nada de HA |
-| `coordinator.py` | Un coordinador por ubicación (previsión, observación y avisos) y por estación; uno por entrada para MeteoSIX, radar y cámaras |
+| `api/` | Clientes de MeteoGalicia, MeteoSIX, radar, CHIMERE y WRF, sin nada de HA |
+| `coordinator.py` | Un coordinador por ubicación (previsión, observación y avisos) y por estación; uno por entrada para MeteoSIX, radar, cámaras, calidad del aire y el modelo WRF |
 | `weather.py`, `sensor.py`, `image.py` | Entidades, todas en el dispositivo de su ubicación |
 | `radar.py`, `station.py`, `warnings.py`, `codes.py` | Lógica sin HA: dibujo del radar, sensores de estación, avisos y códigos de cielo |
 | `repairs.py` | Aviso y arreglo cuando la estación meteorológica o la de aire deja de enviar |

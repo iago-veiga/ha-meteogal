@@ -142,15 +142,25 @@ Cada dato del estado actual sale de la mejor fuente disponible, en este orden:
 |---|---|
 | Cielo | Observación del concello → previsión de la hora |
 | Temperatura | **Estación** → observación del concello → previsión de la hora |
-| Humedad, presión | **Estación** → MeteoSIX |
-| Punto de rocío, rachas | **Estación** |
-| Viento (velocidad y dirección, siempre de la misma fuente) | **Estación** → MeteoSIX → observación del concello (solo dirección) |
+| Humedad, presión | **Estación** → MeteoSIX → modelo WRF |
+| Punto de rocío | **Estación** |
+| Racha | **Estación** → modelo WRF |
+| Viento (velocidad y dirección, siempre de la misma fuente) | **Estación** → MeteoSIX → modelo WRF → observación del concello (solo dirección) |
 | Sensación térmica | Observación del concello |
 | Nubosidad | MeteoSIX |
 
 La estación solo se usa si has marcado **Usar la estación para el tiempo actual** y su lectura tiene menos de 1 hora. Si la estación no representa bien tu punto (está en la costa y tú no, o a otra altitud), desmárcalo: sus sensores seguirán, pero la entidad del tiempo usará lo demás.
 
 La previsión diaria sale de MeteoGalicia (corto y medio plazo); la previsión por horas, de la previsión horaria de MeteoGalicia o, con clave, de MeteoSIX. Detalle en [docs/weather.md](docs/weather.md).
+
+**Rachas y respaldo con el modelo WRF (sin clave).** MeteoGal también consulta el modelo meteorológico **WRF de 4 km** de MeteoGalicia (el mismo sistema que MeteoSIX, que lo da en malla de 1 km y con clave). Con él:
+
+- **La previsión por horas y por días gana la racha de viento** (`wind_gust_speed`), que ni la previsión pública ni MeteoSIX dan. La racha nunca sale por debajo del viento medio de esa hora. En la diaria, la racha máxima del día, en los días que el modelo cubre enteros (hoy y los tres siguientes).
+- **El estado actual usa su racha si no hay estación** (o si la estación no mide racha).
+- **Sin clave de MeteoSIX, la previsión por horas gana además la velocidad del viento, la humedad y la presión**, que antes solo tenía con clave; el cielo, la temperatura y el rumbo siguen siendo los de la previsión pública. **No aporta lluvia ni cielo**: sus lluvias no coinciden con los iconos de la previsión pública (en casi la mitad de las horas de lluvia del modelo, el icono público no es de lluvia), y MeteoGal no mezcla fuentes dentro de una misma hora.
+- **Es respaldo, no sustituto:** donde hay estación o MeteoSIX, mandan ellos. Si el servidor del modelo no responde, todo queda como antes.
+
+Validado con 6 estaciones durante 13 días: la racha prevista con 24–47 horas de antelación tiene un error medio de 8 km/h y un sesgo de +0,9 km/h, y acierta mejor el día que la hora; en la costa se queda algo corta y en el interior algo larga. Detalle en [docs/wrf.md](docs/wrf.md).
 
 ## Avisos
 
@@ -412,6 +422,7 @@ MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
 | Previsión, observación y avisos del concello | 30 minutos | Previsión diaria y por horas, estado actual del concello, avisos | La entidad del tiempo queda «No disponible» hasta que responda. Si fallan solo los avisos, la observación o el medio plazo, se mantiene lo último bueno |
 | Estación | 10 minutos (publica cada 10, con ~5 de retraso) | Lectura de 10 minutos y datos de hoy | Sus sensores quedan «No disponible»; el tiempo actual usa MeteoSIX o la observación del concello |
 | MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
+| Modelo WRF (racha y respaldo) | Mira el catálogo cada hora; hay dos pasadas al día (00 y 12 UTC) y solo descarga si hay una nueva | Racha, viento, humedad y presión de las próximas ~84 horas en tu punto | Se sigue con la última pasada; sin ninguna, la racha queda vacía y el resto como sin el modelo |
 | Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
 | Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
 | Calidad del aire: estaciones | 30 minutos (publican cada hora) | Índice de todas las estaciones y medidas de las elegidas | El nivel sale de la predicción del concello; los contaminantes quedan «No disponible» |
@@ -422,7 +433,7 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 ## Limitaciones
 
 - **Solo Galicia:** MeteoGalicia no da datos de otros lugares.
-- **Viento sin velocidad (sin estación ni clave):** la previsión pública da la dirección y un tramo de intensidad (flojo, moderado…), no una cifra.
+- **Viento sin velocidad medida:** la previsión pública da la dirección y un tramo de intensidad (flojo, moderado…), no una cifra. Sin estación ni clave, la cifra sale del modelo WRF de 4 km, que es una previsión, no una medida, y no ve el relieve fino (en la costa tiende a quedarse corto y en el interior a pasarse).
 - **Sin probabilidad de lluvia por hora:** no la da ni la previsión pública ni MeteoSIX. Con clave, tienes la cantidad prevista (mm).
 - **Con clave, la previsión diaria solo gana lluvia y viento:** MeteoSIX llega a 4 días y no trae probabilidad de lluvia ni índice UV.
 - **La estación no está en tu casa:** mide donde está (a 6 km de mediana del centro de cada concello, hasta 18 km). Por eso su uso en el tiempo actual es opcional.
@@ -464,7 +475,7 @@ Las automatizaciones y tarjetas que usaban entidades de MeteoGal no se borran so
 Cómo funciona cada parte, con las decisiones tomadas y los datos con que se validaron:
 
 - [Diseño](docs/diseno.md): principios, estructura y decisiones.
-- [El tiempo](docs/weather.md), [avisos](docs/avisos.md), [radar](docs/radar.md), [estación y cámara](docs/estaciones.md), [calidad del aire](docs/calidad-aire.md).
+- [El tiempo](docs/weather.md), [modelo WRF](docs/wrf.md), [avisos](docs/avisos.md), [radar](docs/radar.md), [estación y cámara](docs/estaciones.md), [calidad del aire](docs/calidad-aire.md).
 - [Servicios de MeteoGalicia](docs/api.md) que usa MeteoGal.
 - [Concello a partir de coordenadas](docs/concello-por-coordenadas.md) y [nombres de concello](docs/toponimos.md).
 

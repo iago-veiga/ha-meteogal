@@ -461,6 +461,9 @@
     },
     "not_air_quality": {
       "message": "Esta acción só vale para os sensores de calidade do aire de MeteoGal."
+    },
+    "wrf_update_failed": {
+      "message": "Non se puido actualizar a predición do WRF."
     }
   },
   "issues": {

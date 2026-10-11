@@ -51,6 +51,10 @@ async def async_get_config_entry_diagnostics(
             **_status(data.air_model),
             "run": data.air_model.data.run if data.air_model.data else None,
         },
+        "wrf": {
+            **_status(data.wrf),
+            "run": data.wrf.data.run if data.wrf.data else None,
+        },
         "air_stations": {
             **_status(data.air_stations),
             "station_ids": sorted(data.air_stations.station_ids),
@@ -112,6 +116,11 @@ def _location(entry: MeteoGalConfigEntry, subentry_id: str) -> dict[str, Any]:
             "forecast_days": [
                 str(day.date) for day in air.forecasts.get(subentry_id, [])
             ],
+        }
+    if wrf := data.wrf.data:
+        result["wrf"] = {
+            **_range([hour.time for hour in wrf.hours.get(subentry_id, [])]),
+            "run": wrf.run,
         }
     if (air_station_id := subentry.data.get(CONF_AIR_STATION_ID)) and (
         air_stations := data.air_stations

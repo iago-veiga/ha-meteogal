@@ -132,6 +132,23 @@ class MeteoSixHour:
 
 
 @dataclass(frozen=True, slots=True)
+class WrfHour:
+    """Previsión del modelo WRF de 4 km de MeteoGalicia en un punto, para una hora.
+
+    `time` en UTC. Todo instantáneo en esa hora: viento medio y racha en km/h, rumbo
+    del que viene el viento en grados (la misma convención que MeteoSIX), humedad en
+    % y presión reducida al nivel del mar en hPa. Cada campo puede faltar.
+    """
+
+    time: datetime
+    gust: float | None = None
+    wind_speed: float | None = None
+    wind_bearing: float | None = None
+    humidity: float | None = None
+    pressure: float | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class WeatherWarning:
     """Aviso meteorológico de un concello (`jsonAvisosConcellos`).
 

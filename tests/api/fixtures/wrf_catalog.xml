@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="THREDDS - Servidor de datos de MeteoGalicia/Feature Collection/WRF_2D 04km" version="1.2">
+  <service name="allServices" serviceType="compound" base="">
+    <service name="dapService" serviceType="OpenDAP" base="/thredds/dodsC/" />
+    <service name="httpService" serviceType="HTTPServer" base="/thredds/fileServer/" />
+    <service name="wcsService" serviceType="WCS" base="/thredds/wcs/" />
+    <service name="ncss" serviceType="NetcdfSubset" base="/thredds/ncss/grid/" />
+    <service name="wms" serviceType="WMS" base="/thredds/wms/" />
+  </service>
+  <service name="Resolver" serviceType="Resolver" base="" />
+  <dataset name="files">
+    <metadata inherited="true">
+      <serviceName>allServices</serviceName>
+    </metadata>
+    <dataset name="Latest WRF_2D 04km File" ID="latest.xml" urlPath="latest.xml">
+      <serviceName>Resolver</serviceName>
+    </dataset>
+    <dataset name="20260927/wrf_arw_det_history_d03_20260927_0000.nc4" ID="wrf_2d_04km/fmrc/files/20260927/wrf_arw_det_history_d03_20260927_0000.nc4" urlPath="wrf_2d_04km/fmrc/files/20260927/wrf_arw_det_history_d03_20260927_0000.nc4">
+      <dataSize units="Mbytes">98.76</dataSize>
+      <variableMap xlink:title="variables" xlink:href="/thredds/metadata/wrf_2d_04km/fmrc/files/20260927/wrf_arw_det_history_d03_20260927_0000.nc4?metadata=variableMap" />
+    </dataset>
+  </dataset>
+</catalog>

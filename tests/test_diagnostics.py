@@ -17,6 +17,7 @@ from .api.conftest import (
     mock_meteogalicia,
     mock_meteosix,
     mock_radar,
+    mock_wrf,
     radar_steps,
 )
 
@@ -29,6 +30,7 @@ async def test_diagnostics(hass: HomeAssistant, hass_client, aioclient_mock) -> 
     mock_meteogalicia(aioclient_mock)
     mock_meteogalicia(aioclient_mock, concello=15030)
     mock_meteosix(aioclient_mock)
+    mock_wrf(aioclient_mock)
     mock_radar(aioclient_mock, {"20260927": radar_steps("00:05", "21:35")})
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -76,8 +78,11 @@ async def test_diagnostics(hass: HomeAssistant, hass_client, aioclient_mock) -> 
     assert location["station"]["reading"]["TA_AVG_1.5m"] == 17.03
     assert location["meteosix"]["count"] == 87
     assert location["radar"]["time"] == "2026-09-27 21:35:00+00:00"
+    assert location["wrf"]["count"] == 96
+    assert location["wrf"]["run"].endswith("20260927_0000.nc4")
     assert location["camera"]["name"] == "Coruña-Dique"
     assert result["radar"]["zoom"] == "50"
     assert result["radar"]["step"] == "0:10:00"
     assert result["cameras"]["count"] == 33  # dos pares comparten identificador
     assert result["meteosix"]["last_update_success"] is True
+    assert result["wrf"]["last_update_success"] is True

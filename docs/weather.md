@@ -32,6 +32,19 @@ Tabla oficial: anexos II y III de `JSON_Pred_Concello`, en `codes.py`. Decisione
 
 Si la ubicación tiene estación y **Usar la estación para el tiempo actual**, el estado actual toma primero lo medido en ella (temperatura, humedad, presión, punto de rocío, rachas y viento). Orden completo en el README y detalle en [estaciones.md](estaciones.md).
 
+## Con el WRF de 4 km (sin clave)
+
+Ver [wrf.md](wrf.md). Aporta la **racha** y hace de respaldo de viento, humedad y presión; nunca lluvia ni cielo.
+
+| Dato | Qué hace el WRF |
+|---|---|
+| Racha actual | La de la estación; si no hay estación o no mide racha, la del WRF de la hora más cercana, nunca por debajo del viento medio que se muestra |
+| Viento, humedad y presión actuales | Después de la estación y de MeteoSIX; velocidad y rumbo, de la misma fuente |
+| Previsión por horas | **Racha** en todas las horas que cubre el modelo (≥ viento medio de esa hora). **Viento, humedad y presión** solo en las horas que no son de MeteoSIX (sin clave, todas); el rumbo sigue siendo el de la previsión pública |
+| Previsión por días | **Racha máxima** y, si MeteoSIX no lo puso, **viento máximo** del día, solo si el modelo lo cubre entero (hoy desde la hora en curso y tres días más) |
+
+Todo es instantáneo en la hora de la entrada, como la temperatura y el viento de MeteoSIX. La entidad se actualiza también cuando llega una pasada nueva.
+
 ## Con clave de MeteoSIX
 
 La clave suma, no sustituye: las mismas entidades y `unique_id`, solo se rellenan más campos. Si MeteoSIX falla o sus datos se quedan viejos, todo sale de la previsión pública.

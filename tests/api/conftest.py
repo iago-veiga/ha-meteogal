@@ -21,6 +21,7 @@ from custom_components.meteogal.api import MeteoGalClient
 from custom_components.meteogal.api.chimere import BASE_URL as CHIMERE_URL
 from custom_components.meteogal.api.client import BASE_URL
 from custom_components.meteogal.api.meteosix import BASE_URL as METEOSIX_URL
+from custom_components.meteogal.api.wrf import BASE_URL as WRF_URL
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -44,7 +45,9 @@ AIR_INDEXES = f"{BASE_URL}/caire/jsonICAActual.action"
 AIR_MEASUREMENTS = f"{BASE_URL}/caire/jsonDatosActualesEstacion.action"
 AIR_FORECAST = f"{BASE_URL}/caire/jsonPrediccionIcaDiarioConcello.action"
 CHIMERE_CATALOG = f"{CHIMERE_URL}/catalog/chimere_2d_gal/fmrc/files/catalog.xml"
-CHIMERE_POINT = re.compile(re.escape(f"{CHIMERE_URL}/ncss/grid/") + ".*")
+CHIMERE_POINT = re.compile(re.escape(f"{CHIMERE_URL}/ncss/grid/chimere_2d_gal/") + ".*")
+WRF_CATALOG = f"{WRF_URL}/catalog/wrf_2d_04km/fmrc/files/catalog.xml"
+WRF_POINT = re.compile(re.escape(f"{WRF_URL}/ncss/grid/wrf_2d_04km/") + ".*")
 
 
 def mock_air(aioclient_mock: AiohttpClientMocker) -> None:
@@ -65,6 +68,16 @@ def mock_air(aioclient_mock: AiohttpClientMocker) -> None:
     )
     aioclient_mock.get(
         CHIMERE_POINT, text=(FIXTURES / "chimere_point_santiago.csv").read_text()
+    )
+
+
+def mock_wrf(aioclient_mock: AiohttpClientMocker) -> None:
+    """WRF de 4 km: catálogo con la pasada de las 00 UTC del 2026-09-27 y, para
+    cualquier punto, la de Santiago (96 horas, del 27/09 a la 01:00Z al 01/10 a las
+    00:00Z)."""
+    aioclient_mock.get(WRF_CATALOG, text=(FIXTURES / "wrf_catalog.xml").read_text())
+    aioclient_mock.get(
+        WRF_POINT, text=(FIXTURES / "wrf_point_santiago.csv").read_text()
     )
 
 

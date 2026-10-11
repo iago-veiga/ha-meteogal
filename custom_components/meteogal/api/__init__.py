@@ -33,7 +33,9 @@ from .models import (
     StationReading,
     WarningText,
     WeatherWarning,
+    WrfHour,
 )
+from .wrf import WrfClient
 
 __all__ = [
     "AirDayForecast",
@@ -66,4 +68,6 @@ __all__ = [
     "StationReading",
     "WarningText",
     "WeatherWarning",
+    "WrfClient",
+    "WrfHour",
 ]

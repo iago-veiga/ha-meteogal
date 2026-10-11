@@ -11,7 +11,7 @@ from homeassistant.helpers import config_validation as cv, issue_registry as ir
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
-from .api import ChimereClient, MeteoGalClient, MeteoSixClient
+from .api import ChimereClient, MeteoGalClient, MeteoSixClient, WrfClient
 from .api.radar import RadarClient
 from .const import (
     CONF_AIR_STATION_ID,
@@ -28,6 +28,7 @@ from .coordinator import (
     MeteoSixCoordinator,
     RadarCoordinator,
     StationCoordinator,
+    WrfCoordinator,
 )
 from .repairs import ISSUE_PREFIXES, async_clean_issues
 from .services import async_setup_services
@@ -55,6 +56,8 @@ class MeteoGalData:
     air_model: AirModelCoordinator
     # Solo si alguna ubicación tiene estación de aire.
     air_stations: AirStationCoordinator | None
+    # Previsión del WRF de 4 km (racha y respaldo de viento, humedad y presión).
+    wrf: WrfCoordinator
 
 
 type MeteoGalConfigEntry = ConfigEntry[MeteoGalData]
@@ -113,6 +116,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
     if any(subentry.data.get(CONF_AIR_STATION_ID) for subentry in locations):
         air_stations = AirStationCoordinator(hass, entry, locations, client)
         await air_stations.async_refresh()
+    # WRF de 4 km, complemento como el radar y el CHIMERE.
+    wrf = WrfCoordinator(hass, entry, locations, WrfClient(session))
+    await wrf.async_refresh()
     async_clean_issues(hass, entry)
     entry.runtime_data = MeteoGalData(
         locations=coordinators,
@@ -122,6 +128,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
         cameras=cameras,
         air_model=air_model,
         air_stations=air_stations,
+        wrf=wrf,
     )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

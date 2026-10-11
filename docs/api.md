@@ -45,6 +45,15 @@ WMS del servidor THREDDS, producto PPI (`https://thredds.meteogalicia.gal/thredd
 | `get_times(day)` | `GetMetadata&item=timesteps` | Pasadas de un día UTC. Si el fichero del día aún no existe, el servidor da 500 |
 | `get_frame(time, bbox, width, height)` | `GetMap` | PNG en grises (10–70 dBZ) con transparencia, del recuadro pedido |
 
+## Modelo WRF de 4 km (`WrfClient`, sin clave)
+
+THREDDS de MeteoGalicia, `wrf_2d_04km`: WRF determinista (nido de 4 km), de hora en hora, ~84 h, **dos pasadas al día (00 y 12 UTC)**. Se consulta por punto con NCSS en CSV ([wrf.md](wrf.md)).
+
+| Método | Endpoint | Qué devuelve |
+|---|---|---|
+| `get_latest_run()` | Catálogo de `wrf_2d_04km/fmrc/files` | Ruta del último fichero (`…/AAAAMMDD/wrf_arw_det_history_d03_AAAAMMDD_HH00.nc4`) |
+| `get_point(run, lat, lon)` | `ncss/grid/<fichero>?var=wind_gust,mod,dir,rh,mslp&temporal=all&accept=csv` | `WrfHour` de cada hora: racha, viento medio y rumbo (km/h y grados), humedad (%) y presión (hPa). Llegan en m/s, fracción y Pa y se convierten |
+
 ## Calidad del aire, modelo CHIMERE (`ChimereClient`, sin clave)
 
 THREDDS de MeteoGalicia, `chimere_2d_gal`: una pasada al día con el ICA de cada hora (~76 h) en una malla de ~7 km.

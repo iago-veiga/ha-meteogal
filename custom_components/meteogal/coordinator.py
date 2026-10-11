@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 import logging
+import re
 from typing import TYPE_CHECKING
 
 from homeassistant.config_entries import ConfigSubentry
@@ -41,6 +42,8 @@ from .api import (
     StationReading,
     WarningText,
     WeatherWarning,
+    WrfClient,
+    WrfHour,
 )
 from .api.meteosix import MAX_POINTS
 from .api.radar import RadarClient
@@ -695,6 +698,101 @@ class AirModelCoordinator(TimestampDataUpdateCoordinator[AirModelData]):
                     hours[subentry.subentry_id] = previous.hours[subentry.subentry_id]
         # Si falló algún punto, se vuelve a intentar en la siguiente actualización.
         return (run if hours.keys() == wanted else previous.run), hours
+
+
+# El WRF sale dos veces al día (00 y 12 UTC): basta mirar el catálogo cada hora.
+WRF_UPDATE_INTERVAL = timedelta(hours=1)
+# Una pasada completa llega a unas 80 h. Si la última hora está a menos de esto de
+# su inicio, el fichero se estaba escribiendo: se vuelve a pedir en la siguiente.
+WRF_COMPLETE_AFTER = timedelta(hours=60)
+
+_WRF_RUN_TIME = re.compile(r"_(\d{8})_(\d{2})00\.nc4$")
+
+
+@dataclass(frozen=True, slots=True)
+class WrfData:
+    """Última pasada del WRF y sus horas en el punto de cada ubicación, por id de
+    subentrada."""
+
+    run: str | None
+    hours: dict[str, list[WrfHour]]
+
+
+def wrf_run_start(run: str) -> datetime | None:
+    """Inicio (UTC) de una pasada a partir del nombre de su fichero."""
+    match = _WRF_RUN_TIME.search(run)
+    if match is None:
+        return None
+    return datetime.strptime("".join(match.groups()), "%Y%m%d%H").replace(tzinfo=UTC)
+
+
+class WrfCoordinator(TimestampDataUpdateCoordinator[WrfData]):
+    """Previsión del WRF de 4 km en todas las ubicaciones (sin clave).
+
+    Complemento como el radar y el CHIMERE: si el THREDDS falla se sigue con la última
+    pasada buena, y MeteoGal funciona igual sin ella.
+    """
+
+    config_entry: MeteoGalConfigEntry
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: MeteoGalConfigEntry,
+        subentries: list[ConfigSubentry],
+        client: WrfClient,
+    ) -> None:
+        super().__init__(
+            hass,
+            _LOGGER,
+            config_entry=entry,
+            name=f"{DOMAIN} WRF",
+            update_interval=WRF_UPDATE_INTERVAL,
+        )
+        self._subentries = subentries
+        self._client = client
+
+    async def _async_update_data(self) -> WrfData:
+        previous = self.data or WrfData(None, {})
+        try:
+            run = await self._client.get_latest_run()
+        except MeteoGalError as err:
+            _LOGGER.debug("Sin catálogo del WRF: %s", err)
+            if not previous.hours:
+                raise UpdateFailed(
+                    translation_domain=DOMAIN, translation_key="wrf_update_failed"
+                ) from err
+            return previous
+        wanted = {s.subentry_id for s in self._subentries}
+        start = wrf_run_start(run)
+        if run == previous.run and wanted <= previous.hours.keys():
+            return previous
+        hours: dict[str, list[WrfHour]] = {}
+        complete = True
+        for subentry in self._subentries:
+            try:
+                point = await self._client.get_point(
+                    run, subentry.data[CONF_LATITUDE], subentry.data[CONF_LONGITUDE]
+                )
+            except MeteoGalError as err:
+                _LOGGER.debug("Sin WRF en %s: %s", subentry.title, err)
+                complete = False
+                if subentry.subentry_id in previous.hours:
+                    hours[subentry.subentry_id] = previous.hours[subentry.subentry_id]
+                continue
+            hours[subentry.subentry_id] = point
+            if (
+                start is None
+                or not point
+                or point[-1].time < start + WRF_COMPLETE_AFTER
+            ):
+                complete = False
+        if not hours:
+            raise UpdateFailed(
+                translation_domain=DOMAIN, translation_key="wrf_update_failed"
+            )
+        # Si falló o está a medias algún punto, se vuelve a pedir la próxima vez.
+        return WrfData(run if complete else previous.run, hours)
 
 
 # Las estaciones de aire publican cada hora, con retraso variable.
