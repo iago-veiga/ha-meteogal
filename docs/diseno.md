@@ -14,7 +14,7 @@ Una sola integración para lo que ofrece MeteoGalicia, publicable en HACS:
 1. **Un dominio, `meteogal`, para todo.** HACS admite una integración por repositorio.
 2. **La clave suma, no sustituye.** Añadir o quitar la clave no borra entidades ni cambia `unique_id`: como mucho, aparecen entidades nuevas o se rellenan datos que antes faltaban.
 3. **Estable desde el principio.** `unique_id` y datos de configuración pensados para no cambiar nunca; si hace falta, migraciones de la entrada.
-4. **Asíncrono y sin dependencias externas** salvo Pillow, para el radar: cliente HTTP propio con `aiohttp` y la sesión de HA.
+4. **Asíncrono y sin dependencias externas** salvo Pillow, para el radar (que ya trae Home Assistant, por eso no está en el manifiesto): cliente HTTP propio con `aiohttp` y la sesión de HA.
 5. **Paso a paso.** Cada función se valida con datos reales antes de proponerla, y se mira cómo lo resuelven otras integraciones del núcleo.
 6. **Por defecto, poco ruido.** Lo esencial activado; lo demás, desactivado y fácil de activar.
 7. **Complementos que no tumban nada.** MeteoSIX, radar, estación y cámaras pueden fallar sin que falle lo demás: solo la previsión pública es imprescindible para arrancar.
