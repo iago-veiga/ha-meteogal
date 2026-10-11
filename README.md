@@ -178,7 +178,10 @@ Detalle en [docs/avisos.md](docs/avisos.md).
 - Se actualiza con cada pasada nueva del radar, cada 10 minutos. El estado de la entidad es la hora de la última pasada.
 - Para verla, añade una tarjeta **Imagen** con la entidad (ver [ejemplos](#ejemplos)): la anima sola.
 - Opciones (en **Configurar**): periodo de **1, 2, 3 o 6 horas** (2 por defecto; con más horas, un fotograma cada 20 o 30 minutos para que no pese) y encuadre de **50 km o 100 km alrededor** o **toda Galicia** (100 km por defecto).
+- **Lejos del radar:** el radar está en el monte Xesteiras (Cuntis, Pontevedra). A más de 100 km, sobre todo en el este de Ourense y de Lugo, ve peor la lluvia. Esa zona sale **rayada**, con un círculo discontinuo en el límite y una línea en la leyenda («A más de 100 km del radar ve peor la lluvia»). Si en esa zona no se ve lluvia, no significa que no llueva. Se ve solo si la imagen llega más allá de los 100 km, y desaparece si estás cerca del radar con el encuadre de 50 km.
 - `image.<ubicación>_radar_ultima_pasada` (desactivada por defecto): solo la última pasada, fija.
+
+![Radar en el este de Ourense: la zona a más de 100 km del radar, rayada](docs/images/radar-lejos.png)
 
 Detalle en [docs/radar.md](docs/radar.md).
 
@@ -423,7 +426,7 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 - **Sin probabilidad de lluvia por hora:** no la da ni la previsión pública ni MeteoSIX. Con clave, tienes la cantidad prevista (mm).
 - **Con clave, la previsión diaria solo gana lluvia y viento:** MeteoSIX llega a 4 días y no trae probabilidad de lluvia ni índice UV.
 - **La estación no está en tu casa:** mide donde está (a 6 km de mediana del centro de cada concello, hasta 18 km). Por eso su uso en el tiempo actual es opcional.
-- **Radar:** muestra lo observado, no lo que va a llover; lejos del radar (el este de Ourense y Lugo) puede no ver la lluvia débil.
+- **Radar:** muestra lo observado, no lo que va a llover. A más de 100 km del radar (el este de Ourense y Lugo) se le escapa en torno a una de cada tres lluvias moderadas, y la lluvia débil (el orballo) la ve poco en cualquier sitio: de la lluvia de 0,1 a 0,5 mm/h detecta una de cada cinco.
 - **Calidad del aire sin estación cerca:** el nivel sale de una predicción, no de una medida, y es el máximo de hoy. Acierta el nivel en el 65 % de los casos; el modelo en tu punto, en el 49 %. No se usan sus concentraciones: las partículas y el SO₂ no se parecen a lo medido.
 
 ## Problemas frecuentes

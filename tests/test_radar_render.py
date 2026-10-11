@@ -10,12 +10,16 @@ from custom_components.meteogal.api.radar import DBZ_MAX, DBZ_MIN
 from custom_components.meteogal.radar import (
     FOOTER_HEIGHT,
     LEVELS,
+    NOTE_HEIGHT,
     RADAR_ALPHA,
+    RADAR_POSITION,
+    RELIABLE_KM,
     Marker,
     RadarRenderer,
     _colorize,
     animation,
     area_around,
+    distance_km,
     galicia_area,
     level_for,
     still,
@@ -83,7 +87,7 @@ def test_frame_layers_and_footer() -> None:
         gray_png(gray_for(60), size=(10, 10)), datetime(2026, 9, 27, 22, 5)
     )
 
-    assert frame.size == (area.width, area.height + FOOTER_HEIGHT)
+    assert frame.size == (area.width, area.height + renderer.footer_height)
     x, y = (round(v) for v in area.xy(*CORUNA))
     assert frame.getpixel((x, y)) == (255, 255, 255)  # centro del marcador
     assert frame.getpixel((x + 20, y)) != (255, 255, 255)  # radar alrededor
@@ -112,3 +116,46 @@ def test_areas() -> None:
     assert area.bbox.north - area.bbox.south == pytest.approx(1.8, abs=0.01)
     galicia = galicia_area()
     assert galicia.bbox.south < 42 and galicia.bbox.north > 43.7
+
+
+def test_distance_to_the_radar() -> None:
+    assert distance_km(*RADAR_POSITION) == 0
+    # De Cuntis a A Coruña: ~77 km al norte y 18 al este.
+    assert distance_km(*CORUNA) == pytest.approx(79, abs=3)
+
+
+def test_far_zone_is_marked() -> None:
+    """A más de 100 km del radar: rayas, círculo y una línea más en la franja."""
+    area = area_around(*CORUNA, 100)
+    renderer = RadarRenderer(area, square(area), [Marker(*CORUNA, main=True)], "es")
+    assert renderer.far
+    assert renderer.footer_height == FOOTER_HEIGHT + NOTE_HEIGHT
+    # Sin radar (transparente), se ve el mapa: rayas en la esquina lejana, y nada
+    # cerca del radar.
+    frame = renderer.frame(gray_png(200, alpha=0, size=(10, 10)), datetime(2026, 10, 1))
+    far_corner = frame.crop((0, 0, 40, 40))
+    near_radar = frame.crop(
+        tuple(
+            round(v)
+            for v in (
+                *(c - 12 for c in area.xy(*RADAR_POSITION)),
+                *(c + 12 for c in area.xy(*RADAR_POSITION)),
+            )
+        )
+    )
+    hatch = (184, 186, 188)  # el mar con las rayas por encima
+    assert hatch in [color for _, color in far_corner.getcolors(1000)]
+    assert hatch not in [color for _, color in near_radar.getcolors(1000)]
+    note = frame.crop((0, area.height + FOOTER_HEIGHT, area.width, frame.height))
+    assert len(note.getcolors(1000)) > 2  # la nota escrita
+
+
+def test_no_far_zone_close_to_the_radar() -> None:
+    area = area_around(*RADAR_POSITION, RELIABLE_KM / 2)
+    renderer = RadarRenderer(
+        area, square(area), [Marker(*RADAR_POSITION, main=True)], "es"
+    )
+    assert not renderer.far
+    assert renderer.footer_height == FOOTER_HEIGHT
+    frame = renderer.frame(gray_png(200, alpha=0, size=(10, 10)), datetime(2026, 10, 1))
+    assert frame.size == (area.width, area.height + FOOTER_HEIGHT)

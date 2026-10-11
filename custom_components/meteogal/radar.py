@@ -49,12 +49,27 @@ LABELS: Final = {
 }
 ATTRIBUTION: Final = "MeteoGalicia · CC BY-SA 4.0"
 
+# El radar está en el monte Xesteiras (Cuntis, Pontevedra), donde está la estación de
+# ese nombre. A más de 100 km deja de ver bien la lluvia: con los pluviómetros de
+# toda Galicia, de la lluvia de 1 mm/h o más, a 20 dBZ ve el 91 % a menos de 50 km, el
+# 84 a 87 % de 50 a 100 km y el 58 a 71 % de 100 a 150 km (docs/radar.md).
+RADAR_POSITION: Final = (42.675, -8.586)
+RELIABLE_KM: Final = 100.0
+FAR_NOTES: Final = {
+    "gl": "A máis de 100 km do radar ve peor a choiva",
+    "es": "A más de 100 km del radar ve peor la lluvia",
+    "en": "Over 100 km from the radar it sees rain less well",
+}
+HATCH: Final = (90, 90, 90, 90)  # rayas de lo lejano, tenues para no tapar el radar
+HATCH_STEP: Final = 9
+
 BACKGROUND: Final = (236, 238, 241, 255)  # mar y fuera de Galicia (sin distinguir)
 LAND: Final = (226, 229, 219, 255)
 BORDER: Final = (95, 95, 95, 255)
 FOOTER: Final = (255, 255, 255, 255)
 TEXT: Final = (30, 30, 30, 255)
 FOOTER_HEIGHT: Final = 22
+NOTE_HEIGHT: Final = 14  # línea extra de la franja inferior si hay zona lejana
 
 
 @dataclass(frozen=True, slots=True)
@@ -116,12 +131,21 @@ class RadarRenderer:
         for ring in rings:
             draw.polygon(ring, fill=LAND)
         self._overlay = Image.new("RGBA", (area.width, area.height), (0, 0, 0, 0))
+        self.far = _has_far_zone(area)
+        if self.far:
+            _draw_far_zone(self._overlay, area)
         draw = ImageDraw.Draw(self._overlay)
         for ring in rings:
             draw.line([*ring, ring[0]], fill=BORDER, width=1)
         for marker in sorted(markers, key=lambda m: m.main):
             _draw_marker(draw, area.xy(marker.latitude, marker.longitude), marker.main)
-        self._labels = LABELS.get(language.split("-")[0], LABELS["en"])
+        code = language.split("-")[0]
+        self._labels = LABELS.get(code, LABELS["en"])
+        self._far_note = FAR_NOTES.get(code, FAR_NOTES["en"])
+
+    @property
+    def footer_height(self) -> int:
+        return FOOTER_HEIGHT + (NOTE_HEIGHT if self.far else 0)
 
     def frame(self, gray_png: bytes, local_time: datetime) -> Image.Image:
         """Una pasada: mapa, radar con nuestros colores, contornos y rótulos."""
@@ -135,7 +159,7 @@ class RadarRenderer:
 
     def _with_footer(self, image: Image.Image, local_time: datetime) -> Image.Image:
         width, height = image.size
-        out = Image.new("RGBA", (width, height + FOOTER_HEIGHT), FOOTER)
+        out = Image.new("RGBA", (width, height + self.footer_height), FOOTER)
         out.paste(image, (0, 0))
         draw = ImageDraw.Draw(out)
         font = _font(11)
@@ -155,7 +179,52 @@ class RadarRenderer:
             stroke_width=2,
             stroke_fill=FOOTER,
         )
+        if self.far:
+            y += FOOTER_HEIGHT - 8
+            draw.rectangle((7, y + 1, 16, y + 10), fill=BACKGROUND, outline=BORDER)
+            for offset in range(-10, 10, 4):
+                draw.line((7 + offset + 10, y + 10, 7 + offset, y + 1), fill=BORDER)
+            draw.text((22, y), self._far_note, fill=TEXT, font=font)
         return out
+
+
+def distance_km(lat: float, lon: float) -> float:
+    """Distancia al radar, en km (plano local: sobra para 200 km)."""
+    dlat = (lat - RADAR_POSITION[0]) * KM_PER_DEGREE
+    dlon = (lon - RADAR_POSITION[1]) * KM_PER_DEGREE * math.cos(math.radians(lat))
+    return math.hypot(dlat, dlon)
+
+
+def _has_far_zone(area: Area) -> bool:
+    box = area.bbox
+    return any(
+        distance_km(lat, lon) > RELIABLE_KM
+        for lat in (box.south, box.north)
+        for lon in (box.west, box.east)
+    )
+
+
+def _draw_far_zone(overlay: Image.Image, area: Area) -> None:
+    """Rayas diagonales fuera de los 100 km del radar y el círculo, discontinuo."""
+    mid = RADAR_POSITION[0]
+    dlat = RELIABLE_KM / KM_PER_DEGREE
+    dlon = RELIABLE_KM / (KM_PER_DEGREE * math.cos(math.radians(mid)))
+    left, top = area.xy(mid + dlat, RADAR_POSITION[1] - dlon)
+    right, bottom = area.xy(mid - dlat, RADAR_POSITION[1] + dlon)
+    inside = Image.new("L", overlay.size, 0)
+    ImageDraw.Draw(inside).ellipse((left, top, right, bottom), fill=255)
+    hatch = Image.new("RGBA", overlay.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(hatch)
+    width, height = overlay.size
+    for start in range(-height, width, HATCH_STEP):
+        draw.line((start, height, start + height, 0), fill=HATCH, width=1)
+    hatch.putalpha(
+        ImageChops.multiply(hatch.getchannel("A"), ImageChops.invert(inside))
+    )
+    overlay.alpha_composite(hatch)
+    ring = ImageDraw.Draw(overlay)
+    for angle in range(0, 360, 12):
+        ring.arc((left, top, right, bottom), angle, angle + 7, fill=BORDER, width=1)
 
 
 def animation(frames: Sequence[Image.Image], frame_ms: int = 500) -> bytes:
