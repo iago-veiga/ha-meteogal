@@ -201,7 +201,7 @@ Si eliges una estación, sus medidas aparecen como sensores en el dispositivo de
 | Estación: última medida | Diagnóstico: hora de la última lectura, con el nombre de la estación y su distancia en los atributos | Activado |
 
 - Solo se usan datos válidos según MeteoGalicia; con una lectura de más de 1 hora (la estación ha dejado de enviar), los sensores quedan en «Desconocido».
-- Justo después de medianoche, MeteoGalicia publica el día nuevo sin valores todavía: los sensores «de hoy» quedan en «Desconocido» un rato, hasta que llegan los primeros datos del día.
+- MeteoGalicia cierra el día de las estaciones en hora UTC; MeteoGal lo pasa a tu día (de medianoche a medianoche) con los datos por horas. Justo después de medianoche la lluvia de hoy es 0 y la máxima y la mínima quedan en «Desconocido» hasta que acaba la primera hora. El viento máximo de hoy es el del día UTC (de 02:00 a 02:00 en verano, de 01:00 a 01:00 en invierno).
 - Una lectura con el viento exactamente a cero en todo (velocidad, racha y variación) se toma como dato ausente, no como calma: pasa a veces en estaciones que el resto del día miden bien.
 - La estación también puede alimentar el [tiempo actual](#el-tiempo) (opción de la ubicación).
 - **Si la estación deja de enviar datos durante más de un día**, Home Assistant lo avisa en **Ajustes → Reparaciones**: «La estación de A Coruña no envía datos». Al abrir el aviso puedes elegir otra estación, de la más cercana a la más lejana y con lo que le falta a cada una, o dejarla vacía para no usar ninguna. Si prefieres esperar, no hagas nada: el aviso desaparece solo cuando la estación vuelve a enviar.
@@ -417,7 +417,7 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 |---|---|---|
 | No aparecen los sensores de viento o de presión de la estación | Solo se crean los de lo que mide tu estación, y muchas no miden viento ni presión | Reconfigura la ubicación (**Cambiar ubicación**) y elige otra: la lista indica «sin viento» o «sin presión» |
 | Los sensores de la estación están en «Desconocido» | La última lectura tiene más de 1 hora: la estación ha dejado de enviar | Espera. Si pasa de un día, aparecerá un aviso en **Reparaciones** para elegir otra |
-| Los sensores «de hoy» están en «Desconocido» justo después de medianoche | MeteoGalicia publica el día nuevo antes de tener datos | Nada: se rellenan con la primera lectura del día |
+| La máxima y la mínima de hoy están en «Desconocido» justo después de medianoche | Aún no ha acabado ninguna hora del día | Nada: se rellenan al acabar la primera hora |
 | No tengo «Lluvia esta hora» ni «Próxima lluvia» | Necesitan la clave de MeteoSIX | [Añade la clave](#clave-de-meteosix-opcional) |
 | «Autenticación caducada para MeteoGal» en Ajustes | MeteoSIX ya no acepta tu clave | [Cambia la clave o quítala](#si-la-clave-deja-de-valer) |
 | El radar está «No disponible» | El servidor del radar de MeteoGalicia no responde | Nada: vuelve solo; el resto de MeteoGal funciona |

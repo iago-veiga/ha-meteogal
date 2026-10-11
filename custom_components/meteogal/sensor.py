@@ -240,10 +240,9 @@ class StationValueSensor(StationEntity, SensorEntity):
             return None
         description = self._description
         if description.source == TODAY:
-            day = data.day
-            if day is None or day.date != dt_util.now().date():
+            if data.today is None or data.today_date != dt_util.now().date():
                 return None  # aún no hay datos de hoy
-            values = day.values
+            values = data.today
         else:
             reading = data.fresh_reading(dt_util.utcnow())
             if reading is None:

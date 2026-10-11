@@ -8,7 +8,8 @@ Fechas: 2026-09-27 y 28. Uso para el usuario en el README (secciones «Estación
 |---|---|---|
 | `observacion/ultimos10minEstacionsMeteo.action?idEst=` | Última lectura de 10 min (hora en UTC) | Cada 10 min, ~5 min de retraso |
 | `observacion/ultimos10minEstacionsMeteo.action` (sin `idEst`) | La última lectura de las 166 estaciones (~320 KB, 0,2 s), solo al elegir la estación | Al abrir el formulario |
-| `observacion/datosDiariosEstacionsMeteo.action?idEst=` | Acumulados y extremos de hoy hasta ahora | Con cada lectura |
+| `observacion/datosDiariosEstacionsMeteo.action?idEst=` | Acumulados y extremos del día **UTC** hasta ahora (cambia de día a las ~00:24Z) | Con cada lectura |
+| `observacion/ultimosHorariosEstacions.action?idEst=&numHoras=` | Las últimas horas (hora del final, en UTC): lluvia, máxima, mínima, racha… | Solo las de la tarde UTC que ya son del día local, hasta tenerlas todas |
 | `observacion/listaEstacionsMeteo.action` | Nombre y coordenadas: para la lista de la configuración y de la reparación, y una vez al arrancar para el diagnóstico | Al abrir el formulario y al arrancar |
 | `observacion/jsonCamaras.action` | Las 33 cámaras con la URL y la hora de su última foto | Cada ~5 min |
 
@@ -40,8 +41,12 @@ Solo se crean los de los códigos que la estación manda en su primera lectura (
 | `station_updated` | — | 10 min | hora | Activado (diagnóstico) |
 
 - `station_updated`: hora de la última lectura; atributos `station_id`, `station_name` y `distance` (km desde la ubicación).
-- Justo después de medianoche el servicio diario ya devuelve el día nuevo, pero con todos los valores a `-9999` y código 9 (visto a las 00:09 del 2026-09-28): los de hoy quedan «Desconocido» hasta que hay datos. Si en ese momento el día no trae ninguna medida válida, los sensores de hoy se crean igual, deducidos de la lectura de 10 minutos (`requires` en `station.py`).
-- Lectura de más de **1 hora**: valores «Desconocido» (la estación ha dejado de enviar). Datos de hoy de otro día (justo después de medianoche): «Desconocido».
+- **El día de MeteoGalicia es UTC.** El servicio diario cambia de día a las ~00:24Z (02:24 locales en verano, 01:24 en invierno), y justo después trae todos los valores a `-9999` y código 9 hasta la primera lectura. Comprobado del 1 al 7 de octubre de 2026: «Lluvia hoy» quedaba «Desconocido» de 00:04 a 02:24 cada noche, y la lluvia de 00:00 a 02:00 locales contaba para el día anterior.
+- **Día local** (`local_day` en `station.py`): el día UTC más las horas de la tarde UTC anterior que ya son del día local (las que acaban a las 23 y 24Z en verano; a las 24Z en invierno). Lluvia: suma; máxima y mínima: la mayor y la menor. Entre la medianoche local y la llegada del día UTC, solo esas horas: la lluvia es 0 hasta que acaba la primera hora entera, y la máxima y la mínima quedan «Desconocido» hasta entonces. Horas de sol y evapotranspiración (las horas no las dan): 0 en ese hueco, que es de noche. **Viento máximo**: el del día UTC tal cual (las horas solo dan la racha, `VV_RACHA_10m`, que no es lo mismo que `VV_MAX_10m`).
+- Comprobado con la lluvia del 2026-10-07 en Coruña-Dique: las horas de las 02, 03 y 04Z (10,0 + 6,8 + 0,2) suman los 17,0 mm del día y cuadran con las lecturas de 10 minutos tomando la hora como su final.
+- Los acumulados de hoy nunca bajan dentro del día (si falta una fuente un rato, las estadísticas de HA lo tomarían como un reinicio). Las horas de la tarde se piden en cada actualización hasta tenerlas todas (hasta ~00:40Z) y luego no más ese día; si fallan, el día UTC solo.
+- Si al arrancar el día no trae ninguna medida válida, los sensores de hoy se crean igual, deducidos de la lectura de 10 minutos (`requires` en `station.py`).
+- Lectura de más de **1 hora**: valores «Desconocido» (la estación ha dejado de enviar).
 - **Viento todo a cero** (velocidad, racha y desviación de la dirección exactamente 0): se quita el viento de esa lectura. Visto en Coruña-Dique el 2026-09-27 a las 21:40Z con la dirección de la racha en 13°, cuando las horas de antes y después tenían rachas de 2–5 m/s.
 
 ## Elegir la estación

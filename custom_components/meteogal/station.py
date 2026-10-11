@@ -6,9 +6,9 @@ docs/estaciones.md.
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import UTC, date, datetime, time, timedelta
 from typing import Final
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
@@ -23,7 +23,7 @@ from homeassistant.const import (
     UnitOfTime,
 )
 
-from .api import StationReading
+from .api import StationDay, StationHour, StationReading
 
 # Lectura de 10 minutos ("now") o acumulados y extremos de hoy ("today").
 NOW: Final = "now"
@@ -40,6 +40,23 @@ WIND_BEARING: Final = "DV_AVG_10m"
 WIND_CODES: Final = frozenset(
     {WIND_SPEED, WIND_GUST, WIND_BEARING, "DV_SD_10m", "VV_SD_10m", "DV_CONDICION_10m"}
 )
+
+TEMPERATURE_MAX: Final = "TA_MAX_1.5m"
+TEMPERATURE_MIN: Final = "TA_MIN_1.5m"
+SUNSHINE: Final = "HSOL_SUM_1.5m"
+EVAPOTRANSPIRATION: Final = "ET0_SUM_1.5m"
+
+# Lo de hoy que también dan las horas, y cómo se juntan con el día UTC.
+HOURLY: Final[dict[str, Callable[[list[float]], float]]] = {
+    RAIN: sum,
+    TEMPERATURE_MAX: max,
+    TEMPERATURE_MIN: min,
+}
+# Acumulados que las horas no dan, pero que de noche son 0: tapan el hueco hasta
+# que llega el día UTC.
+NIGHT_SUMS: Final = frozenset({SUNSHINE, EVAPOTRANSPIRATION})
+# Acumulados de hoy: nunca bajan dentro del día.
+SUMS: Final = frozenset({RAIN}) | NIGHT_SUMS
 
 # Más antigua que esto, la lectura no vale: la estación ha dejado de enviar.
 MAX_AGE: Final = timedelta(hours=1)
@@ -150,7 +167,7 @@ SENSORS: Final = (
     StationSensor(
         key="temperature_max_today",
         requires=TEMPERATURE,
-        code="TA_MAX_1.5m",
+        code=TEMPERATURE_MAX,
         source=TODAY,
         device_class=SensorDeviceClass.TEMPERATURE,
         unit=UnitOfTemperature.CELSIUS,
@@ -160,7 +177,7 @@ SENSORS: Final = (
     StationSensor(
         key="temperature_min_today",
         requires=TEMPERATURE,
-        code="TA_MIN_1.5m",
+        code=TEMPERATURE_MIN,
         source=TODAY,
         device_class=SensorDeviceClass.TEMPERATURE,
         unit=UnitOfTemperature.CELSIUS,
@@ -179,8 +196,8 @@ SENSORS: Final = (
     ),
     StationSensor(
         key="sun_hours_today",
-        requires="HSOL_SUM_1.5m",
-        code="HSOL_SUM_1.5m",
+        requires=SUNSHINE,
+        code=SUNSHINE,
         source=TODAY,
         device_class=SensorDeviceClass.DURATION,
         unit=UnitOfTime.HOURS,
@@ -191,7 +208,7 @@ SENSORS: Final = (
     StationSensor(
         key="evapotranspiration_today",
         requires="RS_AVG_1.5m",
-        code="ET0_SUM_1.5m",
+        code=EVAPOTRANSPIRATION,
         source=TODAY,
         device_class=SensorDeviceClass.PRECIPITATION,
         unit=UnitOfPrecipitationDepth.MILLIMETERS,
@@ -302,3 +319,48 @@ def clean(reading: StationReading) -> dict[str, float]:
         for code in WIND_CODES:
             values.pop(code, None)
     return values
+
+
+def evening(start: datetime) -> tuple[datetime, datetime]:
+    """Horas del día UTC anterior que ya son del día local que empieza en `start`
+    (medianoche local): de 22:00Z a 24:00Z en verano y de 23:00Z a 24:00Z en
+    invierno. Devuelve el principio y el final, en UTC."""
+    end = datetime.combine(utc_day(start), time(), UTC)
+    return start.astimezone(UTC), end
+
+
+def utc_day(start: datetime) -> date:
+    """Día UTC del que MeteoGalicia da los datos diarios del día local que empieza
+    en `start`."""
+    return (start + timedelta(hours=12)).astimezone(UTC).date()
+
+
+def local_day(
+    day: StationDay | None,
+    hours: list[StationHour] | None,
+    start: datetime,
+    now: datetime,
+) -> dict[str, float] | None:
+    """Acumulados y extremos del día local que empieza en `start`, hasta `now`.
+
+    MeteoGalicia cierra el día en UTC (el nuevo aparece a las ~00:24Z): el día
+    local son las horas de la tarde UTC anterior que ya caen en él (`evening`) más
+    el día UTC. Entre la medianoche local y la llegada del día UTC, solo las horas.
+    `hours` es None si no se pudieron pedir: entonces solo el día UTC.
+    """
+    first, end = evening(start)
+    utc = day.values if day is not None and day.date == utc_day(start) else {}
+    own = [hour for hour in hours or () if first < hour.time <= min(end, now)]
+    values = {code: value for code, value in utc.items() if code not in HOURLY}
+    for code, combine in HOURLY.items():
+        parts = [hour.values[code] for hour in own if code in hour.values]
+        if code in utc:
+            parts.append(utc[code])
+        if parts:
+            values[code] = combine(parts)
+        elif code in SUMS and hours is not None:
+            values[code] = 0.0  # aún no hay ninguna hora entera del día
+    if hours is not None:
+        for code in NIGHT_SUMS:
+            values.setdefault(code, 0.0)
+    return values or None

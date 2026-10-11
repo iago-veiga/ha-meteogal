@@ -91,6 +91,8 @@ def _location(entry: MeteoGalConfigEntry, subentry_id: str) -> dict[str, Any]:
                 reading=dict(reading.values) if reading else None,
                 day=str(day.date) if day else None,
                 day_values=dict(day.values) if day else None,
+                today=str(station.data.today_date),
+                today_values=station.data.today,
             )
     if data.meteosix and data.meteosix.data is not None:
         hours = data.meteosix.data.get(subentry_id, [])

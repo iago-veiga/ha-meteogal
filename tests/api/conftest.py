@@ -36,6 +36,7 @@ OBSERVATION = f"{BASE_URL}/observacion/observacionConcellos.action"
 CAMERAS = f"{BASE_URL}/observacion/jsonCamaras.action"
 STATION_NOW = f"{BASE_URL}/observacion/ultimos10minEstacionsMeteo.action"
 STATION_DAY = f"{BASE_URL}/observacion/datosDiariosEstacionsMeteo.action"
+STATION_HOURS = f"{BASE_URL}/observacion/ultimosHorariosEstacions.action"
 WARNINGS = f"{BASE_URL}/predicion/adversos/jsonAvisosConcellos.action"
 WARNING_TEXTS = f"{BASE_URL}/predicion/rssAdversos.action"
 AIR_STATIONS = f"{BASE_URL}/caire/jsonEstacionesCaire.action"
@@ -137,6 +138,12 @@ def mock_meteogalicia(
             text=(FIXTURES / f"rssAdversos_{locale}.xml").read_text(encoding="utf-8"),
         )
     aioclient_mock.get(STATION_DAY, json=load("datosDiariosEstacionsMeteo_14000.json"))
+    # Horas reales de Coruña-Dique (2026-10-06 03:00Z a 2026-10-07 08:00Z): llovió
+    # de 01:30Z a 03:40Z.
+    aioclient_mock.get(
+        re.compile(re.escape(STATION_HOURS) + r"\?"),
+        json=load("ultimosHorariosEstacions_14000.json"),
+    )
 
 
 @pytest.fixture

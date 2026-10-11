@@ -17,7 +17,8 @@ Base `https://servizos.meteogalicia.gal/mgrss`.
 | `get_warnings(id)` | `jsonAvisosConcellos?dia=-1` | Avisos de hoy, mañana y pasado ([avisos.md](avisos.md)) |
 | `get_station_reading(id)` | `ultimos10minEstacionsMeteo?idEst=` | Última lectura de 10 minutos de una estación ([estaciones.md](estaciones.md)) |
 | `get_station_readings()` | `ultimos10minEstacionsMeteo` | Última lectura de las 166 estaciones, en una petición (~320 KB) |
-| `get_station_day(id)` | `datosDiariosEstacionsMeteo?idEst=` | Acumulados y extremos de hoy de una estación |
+| `get_station_day(id)` | `datosDiariosEstacionsMeteo?idEst=` | Acumulados y extremos del día UTC de una estación |
+| `get_station_hours(id, n)` | `ultimosHorariosEstacions?idEst=&numHoras=` | Las últimas `n` horas de una estación (hora del final, en UTC) |
 | `get_cameras()` | `jsonCamaras` | Las 33 cámaras con coordenadas, concello y su última foto |
 | `get_air_stations()` | `caire/jsonEstacionesCaire` | Estaciones de la Rede de Calidade do Aire: coordenadas, concello, tipo (tráfico, industrial, fondo) ([calidad-aire.md](calidad-aire.md)) |
 | `get_air_indexes()` | `caire/jsonICAActual` | ICA actual de todas las estaciones, en una petición |

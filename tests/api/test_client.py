@@ -75,6 +75,18 @@ async def test_station_readings(client: MeteoGalClient) -> None:
     assert "VV_AVG_10m" not in by_id[10157].values
 
 
+async def test_station_hours(client: MeteoGalClient) -> None:
+    """Horas reales de Coruña-Dique, de la más antigua a la más nueva; cada una
+    con la hora de su final en UTC."""
+    hours = await client.get_station_hours(14000, 30)
+
+    assert len(hours) == 30
+    assert hours[0].time == datetime(2026, 10, 6, 3, tzinfo=UTC)
+    assert hours[-1].time == datetime(2026, 10, 7, 8, tzinfo=UTC)
+    rain = {hour.time.hour: hour.values["PP_SUM_1.5m"] for hour in hours[-7:]}
+    assert rain == {2: 10.0, 3: 6.8, 4: 0.2, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0}
+
+
 async def test_daily_forecast(client: MeteoGalClient) -> None:
     days = await client.get_daily_forecast(SANTIAGO)
 

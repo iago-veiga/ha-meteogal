@@ -188,6 +188,17 @@ class StationDay:
 
 
 @dataclass(frozen=True, slots=True)
+class StationHour:
+    """Una hora de una estación (`ultimosHorariosEstacions`).
+
+    `time`: final de la hora, en UTC (la de las 02:00 va de 01:00 a 02:00).
+    """
+
+    time: datetime
+    values: dict[str, float]
+
+
+@dataclass(frozen=True, slots=True)
 class Camera:
     """Cámara de MeteoGalicia (`jsonCamaras`). Muchas están en una estación y
     comparten su identificador.

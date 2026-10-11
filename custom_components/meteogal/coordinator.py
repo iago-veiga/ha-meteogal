@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import logging
 from typing import TYPE_CHECKING
 
@@ -37,6 +37,7 @@ from .api import (
     MeteoSixHour,
     Station,
     StationDay,
+    StationHour,
     StationReading,
     WarningText,
     WeatherWarning,
@@ -57,7 +58,7 @@ from .const import (
 from .geo import load_polygons
 from .radar import Marker, RadarRenderer, animation, area_around, galicia_area, still
 from .repairs import async_check_station
-from .station import MAX_AGE
+from .station import MAX_AGE, SUMS, evening, local_day
 from .warnings import concello_zones, describe, load_zones
 
 if TYPE_CHECKING:
@@ -408,12 +409,23 @@ class RadarCoordinator(TimestampDataUpdateCoordinator[dict[str, RadarImages]]):
 STATION_UPDATE_INTERVAL = timedelta(minutes=10)
 
 
+# Las horas se publican con ~30 min de retraso: si a esta hora falta alguna de la
+# tarde UTC, a la estación le falta ese dato y no se vuelven a pedir ese día.
+EVENING_PATIENCE = timedelta(hours=2)
+
+
 @dataclass(frozen=True, slots=True)
 class StationData:
-    """Lo medido en la estación: la última lectura y lo de hoy."""
+    """Lo medido en la estación: la última lectura y lo de hoy.
+
+    `day` es el día UTC tal como lo da MeteoGalicia; `today`, el día local
+    (`station.local_day`), del que salen los sensores de hoy.
+    """
 
     reading: StationReading | None
     day: StationDay | None
+    today: dict[str, float] | None = None
+    today_date: date | None = None
 
     def fresh_reading(self, now: datetime) -> StationReading | None:
         reading = self.reading
@@ -446,6 +458,9 @@ class StationCoordinator(TimestampDataUpdateCoordinator[StationData]):
         # Nombre y coordenadas de la estación (una vez; para el diagnóstico).
         self.station: Station | None = None
         self._client = client
+        # Horas de la tarde UTC que ya son del día local, por día local; se dejan
+        # de pedir cuando están todas.
+        self._evening: tuple[date, list[StationHour]] | None = None
 
     @property
     def station_name(self) -> str:
@@ -482,15 +497,55 @@ class StationCoordinator(TimestampDataUpdateCoordinator[StationData]):
             day = self.data.day if self.data else None
         elif isinstance(day, BaseException):
             raise day
+        now = dt_util.utcnow()
         async_check_station(
             self.hass,
             self.config_entry,
             self.subentry,
             self.station_name,
             reading,
-            dt_util.utcnow(),
+            now,
         )
-        return StationData(reading=reading, day=day)
+        start = dt_util.start_of_local_day()
+        today = local_day(day, await self._evening_hours(start, now), start, now)
+        previous = self.data
+        if (
+            today
+            and previous
+            and previous.today
+            and previous.today_date == start.date()
+        ):
+            # Los acumulados no bajan dentro del día (si falta una fuente un rato,
+            # las estadísticas de HA lo tomarían como un reinicio).
+            for code in SUMS & today.keys() & previous.today.keys():
+                today[code] = max(today[code], previous.today[code])
+        return StationData(
+            reading=reading, day=day, today=today, today_date=start.date()
+        )
+
+    async def _evening_hours(
+        self, start: datetime, now: datetime
+    ) -> list[StationHour] | None:
+        """Las horas de la tarde UTC anterior que ya son del día local (`evening`),
+        o None si no se pudieron pedir."""
+        first, end = evening(start)
+        if first >= end:
+            return []  # el día local empieza a medianoche UTC
+        cached = self._evening
+        if cached and cached[0] == start.date():
+            hours = cached[1]
+            if (hours and hours[-1].time >= end) or now > end + EVENING_PATIENCE:
+                return hours  # ya están todas, o ya no van a llegar
+        # Desde un poco antes del principio de la tarde hasta ahora.
+        count = min(48, int((now - first).total_seconds() // 3600) + 2)
+        try:
+            fetched = await self._client.get_station_hours(self.station_id, count)
+        except MeteoGalError as err:
+            _LOGGER.debug("Sin las horas de %s: %s", self.station_id, err)
+            return cached[1] if cached and cached[0] == start.date() else None
+        hours = [hour for hour in fetched if first < hour.time <= end]
+        self._evening = (start.date(), hours)
+        return hours
 
 
 # Las cámaras cambian de imagen cada ~5 min.

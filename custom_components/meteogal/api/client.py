@@ -31,6 +31,7 @@ from .models import (
     SkyProbability,
     Station,
     StationDay,
+    StationHour,
     StationReading,
     WarningText,
     WeatherWarning,
@@ -155,6 +156,15 @@ class MeteoGalClient:
             "observacion/datosDiariosEstacionsMeteo.action", idEst=station_id
         )
         return _parse(data, _parse_station_day)
+
+    async def get_station_hours(self, station_id: int, hours: int) -> list[StationHour]:
+        """Las últimas `hours` horas de la estación, de la más antigua a la nueva."""
+        data = await self._get(
+            "observacion/ultimosHorariosEstacions.action",
+            idEst=station_id,
+            numHoras=hours,
+        )
+        return _parse(data, _parse_station_hours)
 
     async def get_cameras(self) -> list[Camera]:
         """Las cámaras de MeteoGalicia con su última imagen (`jsonCamaras`)."""
@@ -417,6 +427,25 @@ def _parse_station_day(data: Any) -> StationDay | None:
         station_id=int(station["idEstacion"]),
         date=_local_date(days[0]["data"]),
         values=_measures(station["listaMedidas"]),
+    )
+
+
+def _parse_station_hours(data: Any) -> list[StationHour]:
+    stations = data["listHorarios"]
+    if not stations:
+        return []
+    return sorted(
+        (
+            StationHour(
+                # En UTC, aunque sin zona.
+                time=datetime.fromisoformat(item["instanteLecturaUTC"]).replace(
+                    tzinfo=UTC
+                ),
+                values=_measures(item["listaMedidas"]),
+            )
+            for item in stations[0]["listaInstantes"]
+        ),
+        key=lambda hour: hour.time,
     )
 
 
