@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Problemas frecuentes y preguntas
+    url: https://github.com/iago-veiga/ha-meteogal#problemas-frecuentes
+    about: Muchas dudas están ya contestadas en el README.
+  - name: Seguridad
+    url: https://github.com/iago-veiga/ha-meteogal/security/advisories/new
+    about: Si crees que algo expone tu clave o tus coordenadas, avisa en privado.

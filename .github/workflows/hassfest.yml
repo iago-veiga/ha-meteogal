@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "0 3 * * *"  # a diario: avisa si HACS u Home Assistant cambian sus reglas
+  workflow_dispatch:
 
 jobs:
   validate:

@@ -1,0 +1,20 @@
+name: Idea o mejora
+description: Algo que te gustaría que hiciera MeteoGal.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        MeteoGal usa los servicios de MeteoGalicia; mira antes si lo que quieres está en su [catálogo](https://www.meteogalicia.gal/web/rss-georss-json). Cada idea se estudia con datos antes de decidir.
+  - type: textarea
+    id: que
+    attributes:
+      label: Qué te gustaría
+      description: Qué quieres ver o hacer en Home Assistant, y para qué (una automatización, una tarjeta…).
+    validations:
+      required: true
+  - type: textarea
+    id: servicio
+    attributes:
+      label: ¿De dónde saldría el dato?
+      description: Si sabes qué servicio de MeteoGalicia lo da, enlázalo.

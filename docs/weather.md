@@ -72,7 +72,7 @@ Home Assistant (como met.no) espera en cada hora lo de la hora que empieza, así
 
 **Estados del cielo de MeteoSIX** → los mismos criterios que el código público equivalente (el nombre del icono lo dice: `nubes75` → x04, `cuberto` → x05…), en `codes.py`. Día o noche, del icono (`.../night/...`). `STORM_THEN_CLOUDY` → `lightning`, como "tormenta con pocas nubes".
 
-**Pendiente de validar con más días de capturas:** coherencia entre MeteoSIX y la pública en temperatura y cielo, y si conviene que la condición actual con clave siga siendo la medida.
+**Validado el 2026-10-11** con 15 días de capturas y 6 estaciones: la temperatura de MeteoSIX tiene un error medio de ~1,7 °C y casi no tiene sesgo, y la lluvia total del día se queda un 8 % corta; por horas acierta poco la hora exacta de la lluvia (de las horas con lluvia, detecta el 41 %). La horaria pública se queda ~1,4 °C por encima de las estaciones (5 °C más en O Cebreiro). Por eso, con clave, la previsión por horas sale entera de MeteoSIX. **Pendiente:** repetir en invierno y validar el viento, que las estaciones casi no miden como media.
 
 ## Identificadores
 

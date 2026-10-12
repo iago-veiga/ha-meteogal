@@ -62,4 +62,4 @@ response_variable: avisos
 ## Pendiente
 
 - Avisos por zona marítima, para quien navega o pesca.
-- Adaptador `meteogal` para `weather_alerts_card` cuando MeteoGal esté publicado.
+- Adaptador `meteogal` para `weather_alerts_card`.

@@ -1,0 +1,57 @@
+name: Algo no funciona
+description: Un dato sale mal, una entidad no aparece o la integración da errores.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por avisar. Antes de nada, mira [Problemas frecuentes](https://github.com/iago-veiga/ha-meteogal#problemas-frecuentes): muchas cosas tienen explicación (por ejemplo, la estación no mide viento).
+  - type: textarea
+    id: que-pasa
+    attributes:
+      label: Qué ocurre
+      description: Qué ves y qué esperabas ver. Si es un dato, de qué entidad y a qué hora.
+    validations:
+      required: true
+  - type: input
+    id: concello
+    attributes:
+      label: Concello o ubicación
+      description: Solo el nombre del concello, no tus coordenadas.
+      placeholder: A Coruña
+  - type: input
+    id: version
+    attributes:
+      label: Versión de MeteoGal
+      description: En HACS, o en Ajustes → Dispositivos y servicios → MeteoGal.
+      placeholder: "2026.10.0"
+    validations:
+      required: true
+  - type: input
+    id: ha
+    attributes:
+      label: Versión de Home Assistant
+      placeholder: "2026.10.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: clave
+    attributes:
+      label: ¿Usas clave de MeteoSIX?
+      options: ["No", "Sí"]
+    validations:
+      required: true
+  - type: textarea
+    id: diagnosticos
+    attributes:
+      label: Diagnósticos
+      description: |
+        Ajustes → Dispositivos y servicios → MeteoGal → ⋮ → **Descargar diagnósticos**, y arrastra aquí el fichero. No lleva tu clave ni tus coordenadas.
+    validations:
+      required: true
+  - type: textarea
+    id: registro
+    attributes:
+      label: Registro (opcional)
+      description: Si hay errores de `meteogal` en Ajustes → Sistema → Registros, pégalos. Ayuda si primero activas el registro de depuración (MeteoGal → ⋮ → Habilitar el registro de depuración).
+      render: text

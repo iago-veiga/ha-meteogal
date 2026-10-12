@@ -45,7 +45,7 @@ Cada 5 min se mira la lista de pasadas. Si hay una nueva, se piden solo las que 
 
 ## Cobertura y umbral (validado con pluviómetros)
 
-Comprobado el 2026-10-11 con las 154 estaciones de MeteoGalicia durante 41 días (2026-09-01 a 10-11; 148.784 horas, 7.260 con lluvia): la reflectividad máxima de las pasadas de cada hora, en el punto de la estación, frente a la lluvia medida esa hora (análisis completo en `docs/analysis/validacion-radar.md` del workspace).
+Comprobado el 2026-10-11 con las 154 estaciones de MeteoGalicia durante 41 días (2026-09-01 a 10-11; 148.784 horas, 7.260 con lluvia): la reflectividad máxima de las pasadas de cada hora, en el punto de la estación, frente a la lluvia medida esa hora .
 
 - **El fichero no distingue «sin lluvia» de «sin cobertura»**: ambos son `NaN`. Casi toda la rejilla de 390 km (toda Galicia) da algún valor en algún momento, así que no hay un contorno de cobertura que sacar de los datos. Lo que cambia con la distancia es cuánta lluvia ve.
 - **Alcance:** de la lluvia de **≥1 mm/h** con 20 dBZ, el radar detecta el 91 % a menos de 50 km de Xesteiras, el 84–87 % de 50 a 100 km, el **71 % de 100 a 120 km y el 58–64 % de 120 a 150 km**. Por eso la imagen marca como «ve peor la lluvia» lo que queda a más de **100 km**: rayas diagonales tenues sobre el radar, círculo discontinuo y una línea más en la leyenda (solo si la imagen llega a esa zona). La posición del radar es la de la estación de Xesteiras (Cuntis); no está confirmada en el fichero.

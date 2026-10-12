@@ -39,7 +39,7 @@ Previsión de la pasada de las 00 UTC del día anterior (24–47 h de plazo), 1.
 | Temperatura, humedad y presión frente a las medidas | Casi igual que MeteoSIX: error de 1,69 °C, 8,7 % y 0,80 hPa (MeteoSIX: 1,62 °C, 8,8 % y 0,79 hPa) |
 | Viento medio frente a MeteoSIX | 10,7 frente a 10,5 km/h, error de 3,5 km/h, correlación 0,77 |
 
-Son 13 días de otoño en 6 estaciones; MeteoSIX se consultó en el centro del concello y el WRF en la estación. Análisis completo, en el workspace del proyecto (`docs/analysis/wrf.md`).
+Son 13 días de otoño en 6 estaciones; MeteoSIX se consultó en el centro del concello y el WRF en la estación. 
 
 ## Límites
 

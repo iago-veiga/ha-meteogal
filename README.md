@@ -7,30 +7,50 @@
 [![Hassfest](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hassfest.yml/badge.svg)](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hassfest.yml)
 [![Licencia](https://img.shields.io/github/license/iago-veiga/ha-meteogal)](LICENSE)
 
-Integración personalizada de Home Assistant con los datos de [MeteoGalicia](https://www.meteogalicia.gal) para cualquier concello de Galicia: previsión, avisos, radar, estaciones y cámaras.
+Integración personalizada de Home Assistant con los datos de [MeteoGalicia](https://www.meteogalicia.gal) para cualquier concello de Galicia: **previsión, avisos, radar, estaciones, cámaras y calidad del aire**.
 
 Funciona **sin clave**, con los servicios públicos de MeteoGalicia. Si quieres más detalle, como la lluvia y el viento por hora, puedes añadir una [clave de MeteoSIX](#clave-de-meteosix-opcional), gratuita y opcional.
 
-[![Abrir MeteoGal en HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iago-veiga&repository=ha-meteogal&category=integration)
+[![Abrir MeteoGal en HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iago-veiga&repository=ha-meteogal&category=integration) [![Añadir MeteoGal a Home Assistant](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=meteogal)
 
 ![Radar de MeteoGalicia en MeteoGal: las últimas 2 horas alrededor de A Coruña](docs/images/radar.webp)
 
-## Para qué sirve
+<details>
+<summary><b>English summary</b></summary>
 
-- Ver el tiempo de tu concello con la previsión oficial de MeteoGalicia, hecha concello a concello.
-- Enterarte de los avisos de MeteoGalicia (amarillo, naranja, rojo) en cuanto se emiten y automatizar con ellos: cerrar toldos con viento, avisar al móvil.
-- Ver llegar la lluvia en el radar, sin salir de Home Assistant.
-- Usar lo medido en la estación más cercana: no regar si ya llovió, temperatura del agua en el puerto, heladas.
-- Con clave de MeteoSIX, saber cuántos litros van a caer esta hora y cuándo empieza a llover.
+MeteoGal is a custom Home Assistant integration (HACS) for **MeteoGalicia**, the Galician (Spain) weather service. For any place in Galicia it gives you the official forecast (daily and hourly, with wind gusts), weather warnings, an animated rain radar, the nearest weather station's measurements, MeteoGalicia webcams and air quality. It works **without any API key**; an optional free MeteoSIX key adds hourly rain, wind, humidity and pressure. Everything is configured from a map, and texts are available in Galician, Spanish and English. Data © MeteoGalicia (Xunta de Galicia), CC BY-SA 4.0. The documentation is in Spanish; install it from HACS (custom repository `iago-veiga/ha-meteogal`) and add it from *Settings → Devices & services*.
+
+</details>
+
+## Qué obtienes
+
+| Quieres… | MeteoGal te da | Necesita |
+|---|---|---|
+| Ver el tiempo de tu concello | Entidad `weather` con el estado actual, previsión de 8–9 días y por horas, con rachas de viento | Nada |
+| Enterarte de los avisos | Nivel de aviso vigente y próximo (amarillo, naranja, rojo) con la descripción de MeteoGalicia, y una acción con todos | Nada |
+| Ver llegar la lluvia | Radar animado de las últimas horas, centrado en tu casa | Nada |
+| Usar lo que se mide cerca | Sensores de la estación más cercana: temperatura, lluvia, viento, humedad, presión, radiación, agua del puerto… | Nada |
+| Saber cómo está el aire | Calidad del aire ahora y sensores de PM2,5, PM10, NO₂ y ozono | Nada |
+| Mirar una cámara | Última foto de una cámara de MeteoGalicia | Nada |
+| Saber cuánto va a llover y cuándo | Lluvia por horas, «Lluvia esta hora» y «Próxima lluvia» | [Clave de MeteoSIX](#clave-de-meteosix-opcional) (gratuita) |
+
+## Inicio rápido
+
+1. **Instala** MeteoGal con HACS (botón de arriba) y **reinicia** Home Assistant.
+2. Ve a **Ajustes → Dispositivos y servicios → Añadir integración → MeteoGal** (o usa el botón de arriba).
+3. **Elige un punto en el mapa** y acepta lo que propone (concello, estación, cámara). Ya tienes `weather.<tu concello>` y el resto de entidades.
+
+Después, [pon el radar y los avisos en tu panel](#ejemplos) y, si quieres, añade la [clave de MeteoSIX](#clave-de-meteosix-opcional).
 
 ## Contenido
 
+- [Qué obtienes](#qué-obtienes) e [inicio rápido](#inicio-rápido)
 - [Requisitos](#requisitos), [instalación](#instalación) y [configuración](#configuración), con [todas las opciones](#todas-las-opciones)
-- [Qué ofrece](#qué-ofrece): [el tiempo](#el-tiempo), [avisos](#avisos), [radar](#radar), [estación](#estación), [cámara](#cámara), [MeteoSIX](#clave-de-meteosix-opcional) y [acciones](#acciones)
-- [Ejemplos](#ejemplos) y [cada cuánto se actualiza](#cada-cuánto-se-actualiza)
-- [Limitaciones](#limitaciones), [problemas frecuentes](#problemas-frecuentes) e [informar de un problema](#informar-de-un-problema)
+- [Qué ofrece](#qué-ofrece): [el tiempo](#el-tiempo), [avisos](#avisos), [radar](#radar), [estación](#estación), [cámara](#cámara), [calidad del aire](#calidad-del-aire), [MeteoSIX](#clave-de-meteosix-opcional) y [acciones](#acciones)
+- [Ejemplos](#ejemplos) (y un [panel completo](docs/panel.md)) y [cada cuánto se actualiza](#cada-cuánto-se-actualiza)
+- [Privacidad](#privacidad), [limitaciones](#limitaciones), [problemas frecuentes](#problemas-frecuentes) y [ayuda](#ayuda-y-comunidad)
 - [Quitar MeteoGal](#quitar-meteogal)
-- [Documentación técnica](#documentación-técnica)
+- [Documentación técnica](#documentación-técnica), [cambios](CHANGELOG.md) y [licencia](#licencia)
 
 ## Requisitos
 
@@ -153,14 +173,14 @@ La estación solo se usa si has marcado **Usar la estación para el tiempo actua
 
 La previsión diaria sale de MeteoGalicia (corto y medio plazo); la previsión por horas, de la previsión horaria de MeteoGalicia o, con clave, de MeteoSIX. Detalle en [docs/weather.md](docs/weather.md).
 
-**Rachas y respaldo con el modelo WRF (sin clave).** MeteoGal también consulta el modelo meteorológico **WRF de 4 km** de MeteoGalicia (el mismo sistema que MeteoSIX, que lo da en malla de 1 km y con clave). Con él:
+**Rachas y respaldo con el modelo WRF (sin clave).** MeteoGal también consulta el modelo meteorológico **WRF de 4 km** de MeteoGalicia (el mismo sistema que MeteoSIX, que lo da en malla de 1 km y con clave):
 
-- **La previsión por horas y por días gana la racha de viento** (`wind_gust_speed`), que ni la previsión pública ni MeteoSIX dan. La racha nunca sale por debajo del viento medio de esa hora. En la diaria, la racha máxima del día, en los días que el modelo cubre enteros (hoy y los tres siguientes).
+- **La previsión por horas y por días incluye la racha de viento** (`wind_gust_speed`), que ni la previsión pública ni MeteoSIX dan. Nunca sale por debajo del viento medio de esa hora; en la diaria, es la racha máxima del día, en los días que el modelo cubre enteros (hoy y los tres siguientes).
 - **El estado actual usa su racha si no hay estación** (o si la estación no mide racha).
-- **Sin clave de MeteoSIX, la previsión por horas gana además la velocidad del viento, la humedad y la presión**, que antes solo tenía con clave; el cielo, la temperatura y el rumbo siguen siendo los de la previsión pública. **No aporta lluvia ni cielo**: sus lluvias no coinciden con los iconos de la previsión pública (en casi la mitad de las horas de lluvia del modelo, el icono público no es de lluvia), y MeteoGal no mezcla fuentes dentro de una misma hora.
+- **Sin clave de MeteoSIX, la previsión por horas gana además velocidad del viento, humedad y presión.** El cielo, la temperatura y el rumbo siguen siendo los de la previsión pública. **No aporta lluvia ni cielo**: sus lluvias no coinciden con los iconos de la previsión pública y MeteoGal no mezcla fuentes dentro de una misma hora.
 - **Es respaldo, no sustituto:** donde hay estación o MeteoSIX, mandan ellos. Si el servidor del modelo no responde, todo queda como antes.
 
-Validado con 6 estaciones durante 13 días: la racha prevista con 24–47 horas de antelación tiene un error medio de 8 km/h y un sesgo de +0,9 km/h, y acierta mejor el día que la hora; en la costa se queda algo corta y en el interior algo larga. Detalle en [docs/wrf.md](docs/wrf.md).
+La racha prevista con 24–47 horas de antelación tiene un error medio de 8 km/h (validada con 6 estaciones durante 13 días): acierta mejor el día que la hora; en la costa se queda algo corta y en el interior algo larga. [Detalle y validación](docs/wrf.md).
 
 ## Avisos
 
@@ -261,7 +281,7 @@ Detalle en [docs/calidad-aire.md](docs/calidad-aire.md).
 - **Tiempo actual:** humedad, presión, nubosidad y velocidad del viento (si no hay estación que lo mida).
 - **Previsión diaria:** lluvia total (mm) y viento máximo de hoy y los tres días siguientes.
 - **Lluvia esta hora:** mm previstos para la hora en curso.
-- **Próxima lluvia:** la hora a la que empieza la primera hora con lluvia prevista (0,1 mm o más), empezando por la hora en curso, como el sensor equivalente de Météo-France en Home Assistant, pero por horas:
+- **Próxima lluvia:** la hora a la que empieza la primera hora con lluvia prevista (0,1 mm o más), empezando por la hora en curso:
 
   | Situación | Qué muestra |
   |---|---|
@@ -302,6 +322,8 @@ Home Assistant te avisa arriba del todo en **Ajustes**, como una reparación: «
 | `meteogal.get_air_quality` | Devuelve la calidad del aire de una ubicación: ahora, cada hora prevista por el modelo y cada día previsto para el concello. Se usa sobre el sensor de calidad del aire ([ejemplo](#ejemplos), [detalle](docs/calidad-aire.md#acción-meteogalget_air_quality)) |
 
 ## Ejemplos
+
+Si prefieres empezar por un panel entero, hay uno completo con tarjetas del tiempo, radar, avisos, estación, calidad del aire y mapa en [docs/panel.md](docs/panel.md). Las `entity_id` de los ejemplos son las de una ubicación en A Coruña con Home Assistant en castellano: cámbialas por las tuyas.
 
 **Radar en el panel** (tarjeta Imagen):
 
@@ -430,6 +452,19 @@ MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
 
 Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguiente consulta. Al arrancar Home Assistant, si MeteoGalicia no responde, Home Assistant reintenta la configuración él solo.
 
+## Privacidad
+
+MeteoGal no usa ningún servidor intermedio, no pide cuenta y no envía datos a nadie más que a MeteoGalicia (Xunta de Galicia). Home Assistant se conecta directamente a sus servidores:
+
+| Qué | A qué servicio | Qué se envía |
+|---|---|---|
+| Previsión, avisos, estaciones, cámaras y calidad del aire | `servizos.meteogalicia.gal` (servicios públicos) | El código de tu concello y, a veces, el de una estación. **No tus coordenadas** |
+| Modelo WRF y modelo de calidad del aire | `thredds.meteogalicia.gal` | Las coordenadas de tu ubicación, con 4 decimales |
+| Radar | `thredds.meteogalicia.gal` | Un recuadro de 50 km o 100 km **centrado en tu ubicación** (con el encuadre de toda Galicia, siempre el mismo) |
+| MeteoSIX (solo con clave) | `servizos.meteogalicia.gal/apiv5` | Las coordenadas de tus ubicaciones y tu clave |
+
+La clave de MeteoSIX se guarda en la configuración de Home Assistant, como cualquier integración, y no sale en los diagnósticos ni en los mensajes de error. Los diagnósticos tampoco llevan las coordenadas de tus ubicaciones. Si alguna vez encuentras tu clave o tus coordenadas donde no deberían estar, avisa en [privado](SECURITY.md).
+
 ## Limitaciones
 
 - **Solo Galicia:** MeteoGalicia no da datos de otros lugares.
@@ -451,16 +486,22 @@ Los avisos cambian de estado justo al empezar o acabar, sin esperar a la siguien
 | «Autenticación caducada para MeteoGal» en Ajustes | MeteoSIX ya no acepta tu clave | [Cambia la clave o quítala](#si-la-clave-deja-de-valer) |
 | El radar está «No disponible» | El servidor del radar de MeteoGalicia no responde | Nada: vuelve solo; el resto de MeteoGal funciona |
 | En el radar no se ve la lluvia en el este de Ourense o Lugo | Está lejos del radar y la lluvia débil no llega a verse | Es una [limitación](#limitaciones) del radar |
+| La calidad del aire no cambia en todo el día | Sin estación de aire, el nivel sale de la predicción del concello, que es el máximo de hoy | Elige una [estación de aire](#calidad-del-aire) si hay una cerca |
+| La racha de la previsión no coincide con la de mi estación | La previsión sale de un modelo de 4 km; la estación mide un punto concreto | Normal: el error medio es de ~8 km/h. La racha **actual** sí es la de tu estación |
+| El radar sale con rayas | Esa zona está a más de 100 km del radar y ve peor la lluvia | Es una [limitación](#limitaciones): no significa que no llueva |
 | La entidad del tiempo está «No disponible» | MeteoGalicia no responde | Nada: se reintenta cada 30 minutos |
 | No tengo sensores de PM2,5, ozono… | Solo existen con una estación de calidad del aire, y por defecto solo se propone si hay una a menos de 10 km | Reconfigura la ubicación y elige una. Si está lejos o es de tráfico, desmarca **Usar la estación para la calidad del aire actual** |
 
 Para ver qué pasa por dentro, activa el registro de depuración: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Habilitar el registro de depuración**. Al desactivarlo, Home Assistant te descarga el registro.
 
-## Informar de un problema
+## Ayuda y comunidad
 
-Abre una incidencia en [GitHub](https://github.com/iago-veiga/ha-meteogal/issues) y adjunta los **diagnósticos**: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Descargar diagnósticos**.
+- **¿Algo no funciona?** Mira primero [Problemas frecuentes](#problemas-frecuentes). Si sigue igual, abre una [incidencia](https://github.com/iago-veiga/ha-meteogal/issues/new/choose) y adjunta los **diagnósticos**: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Descargar diagnósticos**.
+- **¿Una idea o un dato que echas en falta?** También por [incidencia](https://github.com/iago-veiga/ha-meteogal/issues/new/choose), con la plantilla «Idea o mejora». Cada idea se estudia con datos de MeteoGalicia antes de decidir.
+- **¿Quieres colaborar?** Lee [CONTRIBUTING.md](CONTRIBUTING.md): se agradecen datos de otros concellos y traducciones.
+- **¿Un problema de seguridad?** Avisa en privado, como explica [SECURITY.md](SECURITY.md).
 
-El fichero dice, para cada fuente (previsión y avisos, estación, MeteoSIX, radar y cámara), si su última actualización fue bien, cuándo y con qué datos está trabajando (por ejemplo, la última lectura de la estación o cuántas horas da MeteoSIX). **No incluye tu clave de MeteoSIX ni las coordenadas de tus ubicaciones**, que suelen ser tu casa: aparecen como `**REDACTED**`. Tampoco lleva imágenes.
+Los diagnósticos dicen, para cada fuente (previsión y avisos, estación, MeteoSIX, WRF, radar y cámara), si su última actualización fue bien, cuándo y con qué datos está trabajando (por ejemplo, la última lectura de la estación o cuántas horas da MeteoSIX). **No incluyen tu clave de MeteoSIX ni las coordenadas de tus ubicaciones**, que suelen ser tu casa: aparecen como `**REDACTED**`. Tampoco llevan imágenes.
 
 ## Quitar MeteoGal
 
@@ -474,12 +515,13 @@ Las automatizaciones y tarjetas que usaban entidades de MeteoGal no se borran so
 
 Cómo funciona cada parte, con las decisiones tomadas y los datos con que se validaron:
 
-- [Diseño](docs/diseno.md): principios, estructura y decisiones.
+- [Índice de la documentación](docs/README.md) y [diseño](docs/diseno.md): principios, estructura y decisiones.
+- [Panel de ejemplo](docs/panel.md) con todas las tarjetas.
 - [El tiempo](docs/weather.md), [modelo WRF](docs/wrf.md), [avisos](docs/avisos.md), [radar](docs/radar.md), [estación y cámara](docs/estaciones.md), [calidad del aire](docs/calidad-aire.md).
 - [Servicios de MeteoGalicia](docs/api.md) que usa MeteoGal.
 - [Concello a partir de coordenadas](docs/concello-por-coordenadas.md) y [nombres de concello](docs/toponimos.md).
 
-Para trabajar en el código (Python 3.14; la CI también pasa los tests con la versión mínima, HA 2025.11 y Python 3.13):
+Para colaborar con código, mira [CONTRIBUTING.md](CONTRIBUTING.md). Resumen (Python 3.14; la CI también pasa los tests con la versión mínima, HA 2025.11 y Python 3.13):
 
 ```sh
 python -m venv .venv && . .venv/bin/activate
@@ -493,7 +535,7 @@ Los tests usan respuestas reales de MeteoGalicia guardadas en `tests/api/fixture
 
 ## Versiones
 
-Se numeran por año y mes de publicación, como Home Assistant: `2026.10.0` es la primera versión de octubre de 2026 y `2026.10.1`, una corrección de esa versión.
+Se numeran por año y mes de publicación, como Home Assistant: `2026.10.0` es la primera versión de octubre de 2026 y `2026.10.1`, una corrección de esa versión. Qué trae cada una, en el [registro de cambios](CHANGELOG.md).
 
 ## Aviso
 
