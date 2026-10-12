@@ -2,6 +2,7 @@
 
 Gracias por querer ayudar. MeteoGal es una integración pequeña y se mantiene a ratos, así que lo más útil es:
 
+- **Preguntas y ejemplos en [Discussions](https://github.com/iago-veiga/ha-meteogal/discussions).** Si algo no es un error, ahí es el sitio.
 - **Una incidencia bien descrita.** Mira [Problemas frecuentes](README.md#problemas-frecuentes) y adjunta los **diagnósticos** (Ajustes → Dispositivos y servicios → MeteoGal → ⋮ → Descargar diagnósticos). No llevan tu clave ni tus coordenadas.
 - **Datos de otro sitio de Galicia.** Si algo sale mal en tu concello (una estación que mide algo raro, un nombre, un aviso), dime cuál: la integración se prueba con unos pocos concellos.
 - **Traducciones.** Los textos están en gallego, castellano e inglés (`custom_components/meteogal/translations/`). Si ves una errata o una forma mejor de decirlo, un cambio pequeño es bienvenido.

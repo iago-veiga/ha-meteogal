@@ -497,6 +497,7 @@ Para ver qué pasa por dentro, activa el registro de depuración: Ajustes → Di
 ## Ayuda y comunidad
 
 - **¿Algo no funciona?** Mira primero [Problemas frecuentes](#problemas-frecuentes). Si sigue igual, abre una [incidencia](https://github.com/iago-veiga/ha-meteogal/issues/new/choose) y adjunta los **diagnósticos**: Ajustes → Dispositivos y servicios → **MeteoGal** → menú ⋮ → **Descargar diagnósticos**.
+- **¿Una pregunta, o quieres contar cómo lo usas?** En [Discussions](https://github.com/iago-veiga/ha-meteogal/discussions): hay un apartado de preguntas y respuestas (Q&A) y otro para enseñar tus paneles y automatizaciones.
 - **¿Una idea o un dato que echas en falta?** También por [incidencia](https://github.com/iago-veiga/ha-meteogal/issues/new/choose), con la plantilla «Idea o mejora». Cada idea se estudia con datos de MeteoGalicia antes de decidir.
 - **¿Quieres colaborar?** Lee [CONTRIBUTING.md](CONTRIBUTING.md): se agradecen datos de otros concellos y traducciones.
 - **¿Un problema de seguridad?** Avisa en privado, como explica [SECURITY.md](SECURITY.md).
