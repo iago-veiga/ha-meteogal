@@ -2,6 +2,12 @@
 
 Un panel completo con lo que ofrece MeteoGal, listo para copiar. Usa tarjetas estándar de Home Assistant: no necesita tarjetas personalizadas.
 
+![El panel, en escritorio](images/panel-escritorio.png)
+
+En el móvil, las tres columnas pasan a una sola:
+
+<img src="images/panel-movil.png" width="320" alt="El panel, en el móvil">
+
 Las `entity_id` son las de una ubicación en **A Coruña** con Home Assistant en castellano; **cámbialas por las tuyas** (Ajustes → Entidades, busca «MeteoGal»). Las entidades que no tengas (por ejemplo, sin estación de calidad del aire) simplemente salen como «Entidad no disponible»: borra esas tarjetas.
 
 ## Cómo ponerlo
@@ -12,7 +18,7 @@ Las `entity_id` son las de una ubicación en **A Coruña** con Home Assistant en
 
 ## El panel
 
-Está hecho con una vista de **secciones** (el formato actual de Home Assistant), con un encabezado por tema:
+Está hecho con una vista de **secciones** (el formato actual de Home Assistant), en tres columnas y con un encabezado por tema:
 
 ```yaml
 title: Tiempo en Galicia
@@ -23,30 +29,48 @@ views:
     max_columns: 3
     icon: mdi:weather-partly-rainy
     sections:
-      # El tiempo ahora y los próximos días
+      # Columna 1: el tiempo, la calidad del aire y la cámara
       - type: grid
         cards:
           - type: heading
             heading: Tiempo
             icon: mdi:weather-partly-cloudy
+          # El tiempo ahora y los próximos días
           - type: weather-forecast
             entity: weather.a_coruna
             forecast_type: daily
             show_current: true
             show_forecast: true
-          # Por horas, con la racha de viento
+          # Por horas
           - type: weather-forecast
             entity: weather.a_coruna
             forecast_type: hourly
             show_current: false
             show_forecast: true
+          - type: heading
+            heading: Aire y cámara
+            icon: mdi:air-filter
+          - type: tile
+            entity: sensor.a_coruna_calidad_del_aire
+            name: Calidad del aire
+          - type: entities
+            entities:
+              - sensor.a_coruna_pm2_5
+              - sensor.a_coruna_pm10
+              - sensor.a_coruna_dioxido_de_nitrogeno
+              - sensor.a_coruna_ozono
+          - type: picture-entity
+            entity: image.a_coruna_camara
+            show_name: false
+            show_state: true
 
-      # Radar de las últimas horas (se anima solo) y avisos
+      # Columna 2: el radar, los avisos y el mapa de estaciones
       - type: grid
         cards:
           - type: heading
             heading: Radar y avisos
             icon: mdi:radar
+          # Se anima solo con las últimas horas
           - type: picture-entity
             entity: image.a_coruna_radar
             show_name: false
@@ -80,8 +104,19 @@ views:
                 {{ state_attr(e, 'description') or '' }}
                 {% endif %}
                 {% endfor %}
+          - type: heading
+            heading: Mapa de estaciones
+            icon: mdi:map-marker
+          # Cada estación aparece donde está la estación, no donde está tu casa
+          - type: map
+            default_zoom: 9
+            entities:
+              - entity: sensor.a_coruna_temperatura
+                label_mode: state
+              - entity: sensor.a_coruna_pm2_5
+                label_mode: state
 
-      # Lo que se mide en la estación
+      # Columna 3: lo que se mide en la estación
       - type: grid
         cards:
           - type: heading
@@ -103,40 +138,6 @@ views:
             entities:
               - sensor.a_coruna_temperatura
               - sensor.a_coruna_temperatura_del_agua
-
-      # Calidad del aire y cámara
-      - type: grid
-        cards:
-          - type: heading
-            heading: Aire y cámara
-            icon: mdi:air-filter
-          - type: tile
-            entity: sensor.a_coruna_calidad_del_aire
-            name: Calidad del aire
-          - type: entities
-            entities:
-              - sensor.a_coruna_pm2_5
-              - sensor.a_coruna_pm10
-              - sensor.a_coruna_dioxido_de_nitrogeno
-              - sensor.a_coruna_ozono
-          - type: picture-entity
-            entity: image.a_coruna_camara
-            show_name: false
-            show_state: true
-
-      # Dónde están las estaciones (cada una aparece donde está la estación)
-      - type: grid
-        cards:
-          - type: heading
-            heading: Mapa
-            icon: mdi:map-marker
-          - type: map
-            default_zoom: 9
-            entities:
-              - entity: sensor.a_coruna_temperatura
-                label_mode: state
-              - entity: sensor.a_coruna_pm2_5
-                label_mode: state
 ```
 
 ## Con clave de MeteoSIX
@@ -151,7 +152,7 @@ Si has añadido la [clave de MeteoSIX](../README.md#clave-de-meteosix-opcional),
               - sensor.a_coruna_proxima_lluvia
 ```
 
-Va dentro de la sección «Radar y avisos» (o de cualquier otra).
+Va en cualquiera de las columnas.
 
 ## Qué es cada tarjeta
 
@@ -165,4 +166,4 @@ Va dentro de la sección «Radar y avisos» (o de cualquier otra).
 | Cámara | `image.<ubicación>_camara` | [Cámara](../README.md#cámara) |
 | Mapa | Sensores de estación (llevan `latitude` y `longitude`) | [Estación](../README.md#estación) |
 
-En el panel por horas, la racha de viento sale como `wind_gust_speed` en cada hora (modelo WRF de 4 km, sin clave).
+**La racha prevista** (`wind_gust_speed`, del modelo WRF de 4 km, sin clave) no la muestra la tarjeta estándar del tiempo, pero está en la previsión por horas y por días de la entidad: se usa en plantillas, automatizaciones y tarjetas del tiempo personalizadas. Hay un [ejemplo](../README.md#ejemplos). La racha **medida** en la estación sí sale en la tarjeta «Estación».

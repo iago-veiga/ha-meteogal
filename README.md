@@ -34,6 +34,10 @@ MeteoGal is a custom Home Assistant integration (HACS) for **MeteoGalicia**, the
 | Mirar una cámara | Última foto de una cámara de MeteoGalicia | Nada |
 | Saber cuánto va a llover y cuándo | Lluvia por horas, «Lluvia esta hora» y «Próxima lluvia» | [Clave de MeteoSIX](#clave-de-meteosix-opcional) (gratuita) |
 
+Así se ve el [panel de ejemplo](docs/panel.md), en Home Assistant con una ubicación en A Coruña (tiempo, aire y cámara; radar y mapa de estaciones; lo medido en la estación):
+
+![Panel de ejemplo de MeteoGal en Home Assistant, en escritorio](docs/images/panel-escritorio.png)
+
 ## Inicio rápido
 
 1. **Instala** MeteoGal con HACS (botón de arriba) y **reinicia** Home Assistant.
@@ -381,6 +385,29 @@ triggers:
     entity_id: sensor.a_coruna_nivel_de_aviso
     to: [orange, red]
 ```
+
+**Viento fuerte mañana** (la racha prevista está en la previsión por días y por horas, `wind_gust_speed`, en km/h):
+
+```yaml
+actions:
+  - action: weather.get_forecasts
+    target:
+      entity_id: weather.a_coruna
+    data:
+      type: daily
+    response_variable: prevision
+  - if:
+      - condition: template
+        value_template: "{{ (prevision['weather.a_coruna'].forecast[1].wind_gust_speed | default(0)) >= 60 }}"
+    then:
+      - action: notify.mobile_app_mi_movil
+        data:
+          message: >
+            Mañana, rachas de hasta
+            {{ prevision['weather.a_coruna'].forecast[1].wind_gust_speed }} km/h.
+```
+
+La racha prevista llega a hoy y los tres días siguientes (los días que el modelo cubre enteros); más allá, el campo no existe, por eso el `default(0)`.
 
 **Riego: no regar si hoy ya llovió** (sensor de la estación):
 
