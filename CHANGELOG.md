@@ -2,6 +2,12 @@
 
 Todos los cambios importantes de MeteoGal. Las versiones se numeran por año y mes de publicación (`2026.10.0` es la primera de octubre de 2026). Cada versión está en la página de [versiones](https://github.com/iago-veiga/ha-meteogal/releases).
 
+## Sin publicar
+
+### Cambios
+
+- **Calidad del aire:** el cuarto nivel se llama «Mala» (en gallego también «Mala»), como lo escribe MeteoGalicia, en lugar de «Desfavorable». El estado interno (`poor`) no cambia.
+
 ## 2026.10.0
 
 ### Novedades

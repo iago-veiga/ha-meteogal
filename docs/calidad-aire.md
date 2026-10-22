@@ -20,7 +20,7 @@ El ICA es un número de 0 a 6: 0–1 `good`, 1–2 `fair`, 2–3 `moderate`, 3�
 
 - **Estación:** el nivel que da MeteoGalicia (`icaEn`), porque el número llega redondeado: el mismo 2,0 sale unas veces «Fair» y otras «Moderate» (visto el 2026-09-29). Si el texto no es uno conocido, del número.
 - **Modelo y predicción:** del número (no traen texto).
-- Textos propios en gl, es y en. En castellano, los de MeteoGalicia para los tres primeros (Buena, Adecuada, Moderada) y los del ICA de MITECO para los otros tres, que MeteoGalicia no mostraba ese día (Desfavorable, Muy desfavorable, Extremadamente desfavorable). En gallego, los de MeteoGalicia (Boa, Favorable, Regular…).
+- Textos propios en gl, es y en. En castellano, los de MeteoGalicia para los cuatro primeros (Buena, Adecuada, Moderada, Mala; el cuarto confirmado en 13 lecturas reales entre el 29 de septiembre y el 22 de octubre de 2026) y los del ICA de MITECO para los otros dos, que MeteoGalicia aún no ha mostrado (Muy desfavorable, Extremadamente desfavorable). En gallego, los de MeteoGalicia (Boa, Favorable, Regular, Mala…).
 
 ## Entidades por ubicación
 
