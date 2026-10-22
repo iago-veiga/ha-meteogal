@@ -86,4 +86,4 @@ Regla: **nunca mostrar un nombre de concello que venga de la API**. Todo va por 
 
 ## Pendiente de validar
 
-- Cambio de hora (2026-10-25): cómo vienen las horas repetidas de 02:00 a 03:00 en la previsión horaria. Hoy se toma la primera.
+- Cambio de hora (2026-10-25): cómo vienen las horas repetidas de 02:00 a 03:00 en la previsión horaria. Si la API repite las 02:00, la segunda se marca como hora de invierno (`fold=1`, +01:00); si no las repite, la hora que falta no se inventa. Comprobar con datos reales el 25 de octubre.

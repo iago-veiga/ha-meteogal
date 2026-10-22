@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping
+from dataclasses import replace
 from datetime import UTC, date, datetime
 import logging
 from typing import Any
@@ -317,7 +318,7 @@ def _parse_daily(data: Any) -> list[DailyForecast]:
 
 
 def _parse_hourly(data: Any) -> list[HourlyForecast]:
-    return [
+    hours = [
         HourlyForecast(
             time=_local_datetime(hour["dataPredicion"]),
             sky=_value(hour["icoCeo"]),
@@ -327,6 +328,20 @@ def _parse_hourly(data: Any) -> list[HourlyForecast]:
         for day in data["predHoraria"]["listaPredDiaHoraria"]
         for hour in day["listaPredHora"]
     ]
+    return _mark_repeated_hours(hours)
+
+
+def _mark_repeated_hours(hours: list[HourlyForecast]) -> list[HourlyForecast]:
+    """Hora local repetida (cambio de octubre): la segunda es de invierno."""
+    seen: set[datetime] = set()
+    result: list[HourlyForecast] = []
+    for hour in hours:
+        naive = hour.time.replace(tzinfo=None)
+        if naive in seen:
+            hour = replace(hour, time=hour.time.replace(fold=1))
+        seen.add(naive)
+        result.append(hour)
+    return result
 
 
 def _parse_medium_term(data: Any) -> list[MediumTermForecast]:

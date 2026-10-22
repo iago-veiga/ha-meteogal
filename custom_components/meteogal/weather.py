@@ -165,7 +165,14 @@ class MeteoGalWeather(SingleCoordinatorWeatherEntity[LocationCoordinator]):
     @property
     def _current_hour(self) -> HourlyForecast | None:
         now = dt_util.now()
-        return next((h for h in reversed(self._data.hourly) if h.time <= now), None)
+        return next(
+            (
+                h
+                for h in reversed(self._data.hourly)
+                if h.time.astimezone(UTC) <= now.astimezone(UTC)
+            ),
+            None,
+        )
 
     @property
     def condition(self) -> str | None:
@@ -338,7 +345,8 @@ def hourly_forecast(
             wind_bearing=wind_bearing(hour.wind),
         )
         for hour in data.hourly
-        if hour.time >= start and (first is None or hour.time < first)
+        if hour.time.astimezone(UTC) >= start.astimezone(UTC)
+        and (first is None or hour.time.astimezone(UTC) < first.astimezone(UTC))
     ]
     forecast = public + enriched
     if wrf:

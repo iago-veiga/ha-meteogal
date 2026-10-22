@@ -377,3 +377,52 @@ def test_daily_rain_on_clock_change(day: date, hours: int) -> None:
     )
 
     assert first["native_precipitation"] == hours
+
+
+def _public_hours(hours: list[int]) -> LocationData:
+    raw = {
+        "predHoraria": {
+            "listaPredDiaHoraria": [
+                {
+                    "listaPredHora": [
+                        {
+                            "dataPredicion": f"2026-10-25T{hour:02d}:00:00",
+                            "icoCeo": 101,
+                            "icoVento": 1,
+                            "tMedia": 15,
+                        }
+                        for hour in hours
+                    ]
+                }
+            ]
+        }
+    }
+    return LocationData(
+        observation=None, daily=[], hourly=_parse_hourly(raw), medium_term=[]
+    )
+
+
+def test_hourly_with_repeated_hour_on_clock_change() -> None:
+    """Si la API repite las 02:00, la segunda es la de invierno (+01:00)."""
+    data = _public_hours([*range(3), 2, *range(3, 24)])
+    now = datetime(2026, 10, 25, 0, 30, tzinfo=TIMEZONE)
+
+    stamps = [h["datetime"] for h in hourly_forecast(data, now)]
+
+    assert len(stamps) == len(set(stamps)) == 25
+    assert stamps[2:5] == [
+        "2026-10-25T02:00:00+02:00",
+        "2026-10-25T02:00:00+01:00",
+        "2026-10-25T03:00:00+01:00",
+    ]
+
+
+def test_hourly_during_repeated_hour_skips_the_past_one() -> None:
+    """A las 02:30 de invierno ya no queda la 02:00 de verano."""
+    data = _public_hours([*range(3), 2, *range(3, 24)])
+    now = datetime(2026, 10, 25, 2, 30, fold=1, tzinfo=TIMEZONE)
+
+    stamps = [h["datetime"] for h in hourly_forecast(data, now)]
+
+    assert stamps[0] == "2026-10-25T02:00:00+01:00"
+    assert len(stamps) == 22
