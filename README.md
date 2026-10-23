@@ -254,7 +254,7 @@ Detalle en [docs/estaciones.md](docs/estaciones.md).
 
 ## Calidad del aire
 
-`sensor.<ubicación>_calidad_del_aire`: cómo está el aire **ahora**, con los niveles del índice de calidad del aire: **buena, adecuada, moderada, mala, muy desfavorable y extremadamente desfavorable**. Como el tiempo, sale de la mejor fuente disponible:
+`sensor.<ubicación>_calidad_del_aire`: cómo está el aire **ahora**, con los niveles del índice de calidad del aire: **buena, razonablemente buena, regular, desfavorable, muy desfavorable y extremadamente desfavorable** (los del Índice Nacional de Calidad del Aire del Ministerio para la Transición Ecológica). Como el tiempo, sale de la mejor fuente disponible:
 
 | Orden | Fuente | Cuándo |
 |---|---|---|

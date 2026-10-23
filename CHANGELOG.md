@@ -6,7 +6,7 @@ Todos los cambios importantes de MeteoGal. Las versiones se numeran por año y m
 
 ### Cambios
 
-- **Calidad del aire:** el cuarto nivel se llama «Mala» (en gallego también «Mala»), como lo escribe MeteoGalicia, en lugar de «Desfavorable». El estado interno (`poor`) no cambia.
+- **Calidad del aire:** los seis niveles usan ahora los nombres oficiales del Índice Nacional de Calidad del Aire (MITECO): buena, razonablemente buena (antes «adecuada»), regular (antes «moderada»), desfavorable, muy desfavorable y extremadamente desfavorable. El estado interno (`good`, `fair`, `moderate`…) no cambia.
 
 ## 2026.10.0
 

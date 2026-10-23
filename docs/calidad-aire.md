@@ -20,7 +20,7 @@ El ICA es un número de 0 a 6: 0–1 `good`, 1–2 `fair`, 2–3 `moderate`, 3�
 
 - **Estación:** el nivel que da MeteoGalicia (`icaEn`), porque el número llega redondeado: el mismo 2,0 sale unas veces «Fair» y otras «Moderate» (visto el 2026-09-29). Si el texto no es uno conocido, del número.
 - **Modelo y predicción:** del número (no traen texto).
-- Textos propios en gl, es y en. En castellano, los de MeteoGalicia para los cuatro primeros (Buena, Adecuada, Moderada, Mala; el cuarto confirmado en 13 lecturas reales entre el 29 de septiembre y el 22 de octubre de 2026) y los del ICA de MITECO para los otros dos, que MeteoGalicia aún no ha mostrado (Muy desfavorable, Extremadamente desfavorable). En gallego, los de MeteoGalicia (Boa, Favorable, Regular, Mala…).
+- Textos propios en gl, es y en, **los del Índice Nacional de Calidad del Aire de MITECO** (el estándar oficial español, equivalente al índice europeo de la EEA), y no los de MeteoGalicia, que usa otros («Adecuada» y «Mala» en castellano; visto en 13 lecturas reales entre el 29 de septiembre y el 22 de octubre de 2026): Buena, Razonablemente buena, Regular, Desfavorable, Muy desfavorable y Extremadamente desfavorable. En gallego, Boa, Razoablemente boa, Regular, Desfavorable, Moi desfavorable y Extremadamente desfavorable. Los niveles 5 y 6 de MeteoGalicia aún no se han visto.
 
 ## Entidades por ubicación
 
@@ -44,7 +44,7 @@ Como la entidad del tiempo, **lo medido primero**:
 
 El modelo va el último porque, validado con 2 semanas de estaciones (del 29 de septiembre al 11 de octubre de 2026), da el mismo nivel que la estación en el 49 % de las horas (más alto en el 46 %) y casi igual en todas partes (1,3–1,5 de media, cuando lo medido va de 0,15 a 1,74); la predicción del concello acierta el nivel en el 65–67 % (hoy y los tres días siguientes), con un sesgo de +0,2, porque el máximo del día es más fácil de acertar que cada hora. La contrapartida es que el nivel no cambia a lo largo del día. Si no hay ninguno, la entidad queda no disponible. Se recalcula en cada cambio de hora.
 
-**Del modelo solo se usa el nivel**, no las concentraciones: el 2026-09-29 a las 07:00Z acertaba el nivel en A Coruña («Adecuada») pero daba PM2,5 1,3 µg/m³ frente a los 10 medidos en Torre Hércules. Validado: NO₂ y O₃ siguen algo el ciclo del día (correlación ~0,5, el O₃ con +12 µg/m³ de sesgo); PM2,5, PM10 y SO₂ no (correlación 0–0,2, y las PM10 la mitad de lo medido).
+**Del modelo solo se usa el nivel**, no las concentraciones: el 2026-09-29 a las 07:00Z acertaba el nivel en A Coruña («Razonablemente buena») pero daba PM2,5 1,3 µg/m³ frente a los 10 medidos en Torre Hércules. Validado: NO₂ y O₃ siguen algo el ciclo del día (correlación ~0,5, el O₃ con +12 µg/m³ de sesgo); PM2,5, PM10 y SO₂ no (correlación 0–0,2, y las PM10 la mitad de lo medido).
 
 ## Configuración
 

@@ -312,9 +312,9 @@
         "name": "Calidade do aire",
         "state": {
           "good": "Boa",
-          "fair": "Favorable",
+          "fair": "Razoablemente boa",
           "moderate": "Regular",
-          "poor": "Mala",
+          "poor": "Desfavorable",
           "very_poor": "Moi desfavorable",
           "extremely_poor": "Extremadamente desfavorable"
         },
