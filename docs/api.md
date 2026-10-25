@@ -86,4 +86,4 @@ Regla: **nunca mostrar un nombre de concello que venga de la API**. Todo va por 
 
 ## Pendiente de validar
 
-- Cambio de hora (2026-10-25): cómo vienen las horas repetidas de 02:00 a 03:00 en la previsión horaria. Si la API repite las 02:00, la segunda se marca como hora de invierno (`fold=1`, +01:00); si no las repite, la hora que falta no se inventa. Comprobar con datos reales el 25 de octubre.
+- Cambio de hora: validado el 2026-10-25 con la respuesta real de `jsonPredHorariaConcellos` (concello 15030). **La API repite la hora local**: `…T02:00:00` aparece dos veces seguidas, sin offset, y el primer bloque tiene 24 entradas (de 00:00 a 22:00, con la 02:00 repetida); el siguiente empieza a las 23:00. La segunda 02:00 se marca como hora de invierno (`fold=1`, +01:00): con esa respuesta salen 96 horas, 96 instantes UTC distintos y ningún salto distinto de 1 h.
