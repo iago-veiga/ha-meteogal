@@ -78,6 +78,11 @@ _METEOSIX_SKY: dict[str, str] = {
     "RAIN_HAIL": ATTR_CONDITION_HAIL,
     "STORMS": ATTR_CONDITION_LIGHTNING_RAINY,
     "STORM_THEN_CLOUDY": ATTR_CONDITION_LIGHTNING,  # como "tormenta con pocas nubes"
+    # Nuevos en la API 5.1 (2026-10-29), como sus códigos públicos 22 a 25.
+    "MOSTLY_CLOUDY": ATTR_CONDITION_CLOUDY,  # moi nubrado
+    "CLOUDY_AND_WEAK_SHOWERS": ATTR_CONDITION_RAINY,  # nubrado con chuvascos débiles
+    "CLOUDY_AND_SNOW": ATTR_CONDITION_SNOWY,  # nubrado con neve
+    "HAZE": ATTR_CONDITION_FOG,  # calixe
 }
 
 PRECIPITATION_CONDITIONS = frozenset(

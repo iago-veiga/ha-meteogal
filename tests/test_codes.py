@@ -4,6 +4,7 @@ import pytest
 
 from custom_components.meteogal.codes import (
     condition,
+    meteosix_condition,
     wind_bearing,
     wind_intensity,
 )
@@ -37,6 +38,26 @@ def test_every_documented_sky_code_has_condition(code: int) -> None:
 )
 def test_condition(code: int, expected: str) -> None:
     assert condition(code) == expected
+
+
+@pytest.mark.parametrize(
+    ("sky", "expected"),
+    [
+        ("SUNNY", "sunny"),
+        ("OVERCAST", "cloudy"),
+        ("MOSTLY_CLOUDY", "cloudy"),
+        ("CLOUDY_AND_WEAK_SHOWERS", "rainy"),
+        ("CLOUDY_AND_SNOW", "snowy"),
+        ("HAZE", "fog"),
+    ],
+)
+def test_meteosix_condition(sky: str, expected: str) -> None:
+    assert meteosix_condition(sky, night=False) == expected
+
+
+def test_meteosix_unknown_sky() -> None:
+    assert meteosix_condition("NEW_SKY", night=False) is None
+    assert meteosix_condition(None, night=False) is None
 
 
 @pytest.mark.parametrize("code", [None, -9999, 0, 100, 126, 226, 301])

@@ -70,7 +70,7 @@ Home Assistant (como met.no) espera en cada hora lo de la hora que empieza, así
 
 **Velocidades con un decimal y nubosidad entera.** MeteoSIX da dos decimales en la velocidad, que no aportan nada, y la nubosidad con decimales (43,75 %); la previsión de HA la pide entera. En el estado actual se deja tal cual.
 
-**Estados del cielo de MeteoSIX** → los mismos criterios que el código público equivalente (el nombre del icono lo dice: `nubes75` → x04, `cuberto` → x05…), en `codes.py`. Día o noche, del icono (`.../night/...`). `STORM_THEN_CLOUDY` → `lightning`, como "tormenta con pocas nubes".
+**Estados del cielo de MeteoSIX** → los mismos criterios que el código público equivalente (el nombre del icono lo dice: `nubes75` → x04, `cuberto` → x05…), en `codes.py`. Día o noche, del icono (`.../night/...`). `STORM_THEN_CLOUDY` → `lightning`, como "tormenta con pocas nubes". Desde la API 5.1 (2026-10-29) hay cuatro más: `MOSTLY_CLOUDY` → `cloudy`, `CLOUDY_AND_WEAK_SHOWERS` → `rainy`, `CLOUDY_AND_SNOW` → `snowy` y `HAZE` → `fog`, como los códigos públicos 25, 22, 23 y 24.
 
 **Validado el 2026-10-11** con 15 días de capturas y 6 estaciones: la temperatura de MeteoSIX tiene un error medio de ~1,7 °C y casi no tiene sesgo, y la lluvia total del día se queda un 8 % corta; por horas acierta poco la hora exacta de la lluvia (de las horas con lluvia, detecta el 41 %). La horaria pública se queda ~1,4 °C por encima de las estaciones (5 °C más en O Cebreiro). Por eso, con clave, la previsión por horas sale entera de MeteoSIX. **Pendiente:** repetir en invierno y validar el viento, que las estaciones casi no miden como media.
 

@@ -6,6 +6,7 @@ Todos los cambios importantes de MeteoGal. Las versiones se numeran por año y m
 
 ### Cambios
 
+- **Nuevos estados del cielo de MeteoSIX (API 5.1).** «Moi nubrado», «nubrado con chuvascos débiles», «nubrado con neve» y «calixe» tienen ya su icono (nublado, lluvia, nieve y niebla) en vez de salir como «desconocido» con clave de MeteoSIX.
 - **Calidad del aire:** los seis niveles usan ahora los nombres oficiales del Índice Nacional de Calidad del Aire (MITECO): buena, razonablemente buena (antes «adecuada»), regular (antes «moderada»), desfavorable, muy desfavorable y extremadamente desfavorable. El estado interno (`good`, `fair`, `moderate`…) no cambia.
 
 ## 2026.10.0
