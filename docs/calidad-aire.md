@@ -59,7 +59,7 @@ El ICA es un número de 0 a 6: 0–1 `good`, 1–2 `fair`, 2–3 `moderate`, 3�
 | Entidad | Estado | Por defecto |
 |---|---|---|
 | `sensor.<ubicación>_calidad_del_aire` | `enum` con los seis niveles. Atributos: `source` (`station`, `forecast` o `model`) y `main_pollutant` (`no2`, `o3`, `pm25`, `pm10`, `so2`; sin él con el modelo) | Activada |
-| `sensor.<ubicación>_indice_de_calidad_del_aire` | El número (clase `aqi`) | Desactivada |
+| `sensor.<ubicación>_indice_de_calidad_del_aire` | El número de MeteoGalicia (clase `aqi`; no es un estándar, ver «Qué es el ICA»). Atributos: `level_number` (la categoría, de 1 a 6) y `source` | Desactivada |
 | Con estación de aire: PM2,5, PM10, NO₂, O₃ | µg/m³, con la clase de dispositivo de cada contaminante (así valen los disparadores y condiciones de calidad del aire de HA) | Activadas |
 | Con estación de aire: SO₂, CO (mg/m³), NO | Ídem | Desactivadas |
 | Con estación de aire: «Estación de aire: última medida» | Hora de la última medida; atributos `station_id`, `station_name`, `station_type` (`traffic`, `industrial`, `background`) y `distance` (km) | Activada (diagnóstico) |

@@ -346,3 +346,17 @@ async def test_air_station_position(hass: HomeAssistant, aioclient_mock) -> None
         assert attributes["longitude"] == -8.409211, entity_id
     # Lo que no es de la estación, no.
     assert "latitude" not in hass.states.get(AIR).attributes
+
+
+async def test_index_sensor_level_number(hass: HomeAssistant, aioclient_mock) -> None:
+    """El índice (desactivado por defecto) lleva la categoría 1-6 como atributo."""
+    entry = await setup(hass, aioclient_mock, air_station_id=None)
+    entity_id = "sensor.a_coruna_air_quality_index"
+    er.async_get(hass).async_update_entity(entity_id, disabled_by=None)
+    await hass.config_entries.async_reload(entry.entry_id)
+    await hass.async_block_till_done()
+
+    state = hass.states.get(entity_id)
+    assert state.state == "1.8"  # máximo del día en el concello
+    assert state.attributes["level_number"] == 2  # fair
+    assert state.attributes["source"] == "forecast"

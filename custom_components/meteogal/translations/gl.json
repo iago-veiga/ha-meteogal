@@ -340,7 +340,20 @@
         }
       },
       "air_quality_index": {
-        "name": "Índice de calidade do aire"
+        "name": "Índice de calidade do aire",
+        "state_attributes": {
+          "level_number": {
+            "name": "Nivel (1-6)"
+          },
+          "source": {
+            "name": "Orixe",
+            "state": {
+              "station": "Estación de aire",
+              "model": "Modelo de MeteoGalicia",
+              "forecast": "Predición do día"
+            }
+          }
+        }
       },
       "air_station_updated": {
         "name": "Estación de aire: última medida",

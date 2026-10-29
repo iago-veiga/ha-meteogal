@@ -472,7 +472,12 @@ class AirQualitySensor(AirEntity, EnumActions, SensorEntity):
 
 
 class AirQualityIndexSensor(AirEntity, SensorEntity):
-    """El número del ICA (0-6) del que sale el nivel. Desactivado por defecto."""
+    """El número del ICA (0-6) de MeteoGalicia, del que sale el nivel. Desactivado.
+
+    El número es de MeteoGalicia, no un estándar: el oficial (MITECO) son seis
+    categorías. `level_number` (1-6) es la categoría, comparable entre fuentes; el
+    modelo solo da 0,5, 1,5… (docs/calidad-aire.md).
+    """
 
     _attr_device_class = SensorDeviceClass.AQI
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -483,6 +488,16 @@ class AirQualityIndexSensor(AirEntity, SensorEntity):
     def native_value(self) -> float | None:
         current = self._current
         return current.index if current else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        current = self._current
+        if current is None or current.level is None:
+            return {}
+        return {
+            "level_number": LEVELS.index(current.level) + 1,
+            "source": current.source,
+        }
 
 
 class AirStationEntity(CoordinatorEntity[AirStationCoordinator]):

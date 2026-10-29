@@ -2,10 +2,12 @@
 
 Todos los cambios importantes de MeteoGal. Las versiones se numeran por año y mes de publicación (`2026.10.0` es la primera de octubre de 2026). Cada versión está en la página de [versiones](https://github.com/iago-veiga/ha-meteogal/releases).
 
-## Sin publicar
+## 2026.10.1
 
 ### Cambios
 
+- **Cambio de hora.** MeteoGalicia repite la hora local en la previsión horaria del día del cambio de octubre (la `02:00` sale dos veces). Ahora la segunda se toma como hora de invierno, así que no hay horas duplicadas ni saltos, y la hora en curso se calcula por instante real.
+- **Índice de calidad del aire.** Su número es el de MeteoGalicia, no un estándar; ahora lleva el atributo `level_number` (la categoría de 1 a 6) y `source`. Se explica en [Qué es el ICA](docs/calidad-aire.md#qué-es-el-ica-y-quién-lo-define).
 - **Nuevos estados del cielo de MeteoSIX (API 5.1).** «Moi nubrado», «nubrado con chuvascos débiles», «nubrado con neve» y «calixe» tienen ya su icono (nublado, lluvia, nieve y niebla) en vez de salir como «desconocido» con clave de MeteoSIX.
 - **Calidad del aire:** los seis niveles usan ahora los nombres oficiales del Índice Nacional de Calidad del Aire (MITECO): buena, razonablemente buena (antes «adecuada»), regular (antes «moderada»), desfavorable, muy desfavorable y extremadamente desfavorable. El estado interno (`good`, `fair`, `moderate`…) no cambia.
 

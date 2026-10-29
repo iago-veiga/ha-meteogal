@@ -271,7 +271,7 @@ Sin estación el nivel es aproximado y no cambia a lo largo del día: la predicc
 - **El tipo importa:** una estación de **tráfico** o **industrial** mide la calle o la fábrica, no el barrio. Si no representa tu punto, desmarca **Usar la estación para la calidad del aire actual**: sus sensores siguen y el nivel sale de la predicción del concello.
 - **Si la estación de aire deja de enviar datos durante más de un día**, Home Assistant lo avisa en **Ajustes → Reparaciones**: «La estación de aire de A Coruña no envía datos». Es un aviso distinto del de la estación meteorológica y se arregla igual: eliges otra estación de aire (de la más cercana a la más lejana, con su tipo y si tiene datos ahora) o la dejas vacía. Mientras tanto, sus sensores quedan en «Desconocido» y el nivel sale de la predicción del concello. Si prefieres esperar, el aviso desaparece solo cuando vuelve a enviar.
 - **Previsión:** la acción `meteogal.get_air_quality` devuelve el nivel de cada hora del modelo (2 o 3 días) y de cada día para tu concello (hoy y 2 o 3 más). Ver [ejemplos](#ejemplos).
-- `sensor.<ubicación>_indice_de_calidad_del_aire` (desactivado): el número del índice, de 0 a 6.
+- `sensor.<ubicación>_indice_de_calidad_del_aire` (desactivado): el número del índice de MeteoGalicia, de 0 a 6 (no es un estándar: el oficial son las seis categorías). Lleva como atributo `level_number`, la categoría de 1 a 6, que sí se puede comparar entre fuentes.
 
 Detalle en [docs/calidad-aire.md](docs/calidad-aire.md).
 
