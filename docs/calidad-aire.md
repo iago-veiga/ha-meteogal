@@ -14,6 +14,38 @@ Fecha: 2026-09-29. Calidad del aire de MeteoGalicia en cada ubicación, sin clav
 
 Documentación oficial: IT/052 «JSON» de MeteoGalicia (2021). Conjuntos 0055 (calidad del aire) y 0485 (THREDDS) de abertos.xunta.gal.
 
+## Qué es el ICA y quién lo define
+
+No hay un índice de calidad del aire mundial. Cada región define el suyo, pero todos hacen lo mismo: toman la concentración de unos pocos contaminantes, la comparan con unos tramos y le asignan una **categoría** («cómo de bueno o malo está el aire»). Lo que cambia entre ellos son los tramos, los nombres y el número de categorías.
+
+| Ámbito | Quién lo define | Qué es |
+|---|---|---|
+| Referencia sanitaria | OMS | Guías de concentración, no un índice. Los tramos europeos y españoles se apoyan en ellas. |
+| Europa | Agencia Europea de Medio Ambiente (EEA) | Índice europeo de calidad del aire: seis categorías, de *Good* a *Extremely poor* (la sexta se añadió en la revisión de noviembre de 2019). |
+| España | MITECO | Índice Nacional de Calidad del Aire ([Orden TEC/351/2019](https://www.miteco.gob.es/es/calidad-y-evaluacion-ambiental/temas/atmosfera-y-calidad-del-aire/visualizacion-datos-calidad-del-aire/ica.html) y su resolución modificativa): las mismas seis categorías, con nombres propios en castellano. |
+| Galicia | Xunta y MeteoGalicia | Su propio ICA, con otros nombres y un número de 0 a 6 (ver abajo). Un decreto de 2022 dice que se adaptó a los criterios de la EEA (sin comprobar en el texto del decreto). |
+
+**Cómo se calcula el índice español** (comprobado en el anexo de la resolución, 2026-10-24):
+
+- Cada contaminante (PM10, PM2,5, ozono, dióxido de nitrógeno y dióxido de azufre) tiene su tabla de tramos en µg/m³.
+- La estación se queda con la **peor categoría** de cualquiera de sus contaminantes.
+- Cada contaminante usa su promedio: última hora (NO₂, SO₂), media móvil de 8 horas (O₃) o de 24 horas (PM10, PM2,5).
+
+| Categoría | PM10 | PM2,5 | O₃ | NO₂ | SO₂ |
+|---|---|---|---|---|---|
+| Buena | 0–20 | 0–10 | 0–50 | 0–40 | 0–100 |
+| Razonablemente buena | 21–40 | 11–20 | 51–100 | 41–90 | 101–200 |
+| Regular | 41–50 | 21–25 | 101–130 | 91–120 | 201–350 |
+| Desfavorable | 51–100 | 26–50 | 131–240 | 121–230 | 351–500 |
+| Muy desfavorable | 101–150 | 51–75 | 241–380 | 231–340 | 501–750 |
+| Extremadamente desfavorable | 151–1200 | 76–800 | 381–800 | 341–1000 | 751–1250 |
+
+**El estándar español no tiene número**, solo categorías con nombre. «De 1 a 6» es solo el orden de las categorías.
+
+**El número de MeteoGalicia es suyo.** Su ICA es un valor continuo de 0 a 6 que construyen sobre esos mismos tramos: la parte entera dice la categoría y la decimal, en qué punto del tramo estás (un PM10 de 76 µg/m³ da 3,5, la mitad del tramo «desfavorable»; comprobado con sus datos). Sus nombres (bo, favorable, regular, malo, moi malo, pésimo) tampoco son los de MITECO. Por eso un 3,2 es «Mala» en la web de MeteoGalicia y «Desfavorable» para MITECO y en MeteoGal.
+
+**Qué hace MeteoGal:** el sensor principal usa las seis categorías de MITECO, calculadas igual venga el dato de la estación, de la predicción del concello o del modelo. El número de MeteoGalicia solo está en el sensor del índice (desactivado por defecto) y solo es comparable entre estación y predicción: el modelo CHIMERE da únicamente 0,5, 1,5, 2,5 y 3,5.
+
 ## Niveles
 
 El ICA es un número de 0 a 6: 0–1 `good`, 1–2 `fair`, 2–3 `moderate`, 3–4 `poor`, 4–5 `very_poor`, 5–6 `extremely_poor` (los niveles del índice europeo de la EEA, que sigue el ICA español). `-1` es «sin datos».
