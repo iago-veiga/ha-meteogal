@@ -385,6 +385,9 @@
       "radar_latest": {
         "name": "Radar (latest scan)"
       },
+      "rain_forecast": {
+        "name": "Rain forecast"
+      },
       "camera": {
         "name": "Camera",
         "state_attributes": {
@@ -477,6 +480,9 @@
     },
     "wrf_update_failed": {
       "message": "Could not update the WRF forecast."
+    },
+    "rain_forecast_no_frames": {
+      "message": "No rain forecast map could be downloaded."
     }
   },
   "issues": {

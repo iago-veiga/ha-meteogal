@@ -2,6 +2,12 @@
 
 Todos los cambios importantes de MeteoGal. Las versiones se numeran por año y mes de publicación (`2026.10.0` es la primera de octubre de 2026). Cada versión está en la página de [versiones](https://github.com/iago-veiga/ha-meteogal/releases).
 
+## Sin publicar
+
+### Novedades
+
+- **Previsión de lluvia.** Una imagen animada por ubicación (`image.<ubicación>_prevision_de_lluvia`) con la lluvia que prevé el modelo WRF de 4 km para las próximas 6 horas, con el mismo mapa y colores que el radar (mm en la hora). Sin clave. Es una previsión del modelo: avisa de en torno a la mitad de las horas de lluvia. Detalle en [docs/wrf.md](docs/wrf.md#imagen-de-previsión-de-lluvia).
+
 ## 2026.10.1
 
 ### Cambios

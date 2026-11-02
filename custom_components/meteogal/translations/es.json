@@ -385,6 +385,9 @@
       "radar_latest": {
         "name": "Radar (última pasada)"
       },
+      "rain_forecast": {
+        "name": "Previsión de lluvia"
+      },
       "camera": {
         "name": "Cámara",
         "state_attributes": {
@@ -477,6 +480,9 @@
     },
     "wrf_update_failed": {
       "message": "No se pudo actualizar la previsión del WRF."
+    },
+    "rain_forecast_no_frames": {
+      "message": "No se pudo descargar ningún mapa de la lluvia prevista."
     }
   },
   "issues": {

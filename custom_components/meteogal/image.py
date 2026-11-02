@@ -15,7 +15,13 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from . import MeteoGalConfigEntry
 from .api import Camera
 from .const import ATTRIBUTION, CONF_CAMERA_ID
-from .coordinator import CameraCoordinator, RadarCoordinator, RadarImages
+from .coordinator import (
+    CameraCoordinator,
+    RadarCoordinator,
+    RadarImages,
+    RainForecastCoordinator,
+    RainForecastImages,
+)
 from .entity import location_device
 
 # Todo llega de coordinadores: no hay actualizaciones por entidad que limitar.
@@ -36,6 +42,7 @@ async def async_setup_entry(
         entities: list[ImageEntity] = [
             RadarAnimation(radar, subentry),
             RadarLatest(radar, subentry),
+            RainForecastAnimation(entry.runtime_data.rain_forecast, subentry),
         ]
         if cameras and (camera_id := subentry.data.get(CONF_CAMERA_ID)):
             entities.append(CameraImage(cameras, subentry, camera_id))
@@ -105,6 +112,48 @@ class RadarLatest(RadarImage):
     async def async_image(self) -> bytes | None:
         images = self._images
         return images.latest if images else None
+
+
+class RainForecastAnimation(CoordinatorEntity[RainForecastCoordinator], ImageEntity):
+    """Lluvia prevista por el WRF de 4 km en las próximas horas, animada. El estado
+    es la hora en que se hizo."""
+
+    _attr_has_entity_name = True
+    _attr_attribution = ATTRIBUTION
+    _attr_translation_key = "rain_forecast"
+    _attr_content_type = "image/webp"
+
+    def __init__(
+        self, coordinator: RainForecastCoordinator, subentry: ConfigSubentry
+    ) -> None:
+        CoordinatorEntity.__init__(self, coordinator)
+        ImageEntity.__init__(self, coordinator.hass)
+        self._subentry_id = subentry.subentry_id
+        self._attr_unique_id = f"{subentry.subentry_id}_rain_forecast"
+        self._attr_device_info = location_device(subentry)
+        self._update_time()
+
+    @property
+    def _images(self) -> RainForecastImages | None:
+        return (self.coordinator.data or {}).get(self._subentry_id)
+
+    @property
+    def available(self) -> bool:
+        return super().available and self._images is not None
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        self._update_time()
+        super()._handle_coordinator_update()
+
+    @callback
+    def _update_time(self) -> None:
+        if images := self._images:
+            self._attr_image_last_updated = images.time
+
+    async def async_image(self) -> bytes | None:
+        images = self._images
+        return images.animation if images else None
 
 
 class CameraImage(CoordinatorEntity[CameraCoordinator], ImageEntity):

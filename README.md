@@ -28,7 +28,7 @@ MeteoGal is a custom Home Assistant integration (HACS) for **MeteoGalicia**, the
 |---|---|---|
 | Ver el tiempo de tu concello | Entidad `weather` con el estado actual, previsión de 8–9 días y por horas, con rachas de viento | Nada |
 | Enterarte de los avisos | Nivel de aviso vigente y próximo (amarillo, naranja, rojo) con la descripción de MeteoGalicia, y una acción con todos | Nada |
-| Ver llegar la lluvia | Radar animado de las últimas horas, centrado en tu casa | Nada |
+| Ver llegar la lluvia | Radar animado de las últimas horas y mapa animado de la lluvia prevista para las próximas 6, centrados en tu casa | Nada |
 | Usar lo que se mide cerca | Sensores de la estación más cercana: temperatura, lluvia, viento, humedad, presión, radiación, agua del puerto… | Nada |
 | Saber cómo está el aire | Calidad del aire ahora y sensores de PM2,5, PM10, NO₂ y ozono | Nada |
 | Mirar una cámara | Última foto de una cámara de MeteoGalicia | Nada |
@@ -139,6 +139,7 @@ Cada ubicación que configures es un dispositivo con el nombre oficial de su con
 | `sensor.a_coruna_avisos_vigentes`, `…_avisos_proximos` | Número de avisos | — | Desactivadas |
 | `image.a_coruna_radar` | Radar animado de las últimas horas | — | Activada |
 | `image.a_coruna_radar_ultima_pasada` | Última pasada del radar, fija | — | Desactivada |
+| `image.a_coruna_prevision_de_lluvia` | Lluvia prevista por el modelo WRF para las próximas 6 horas, animada | — | Activada |
 | `sensor.a_coruna_temperatura`, `…_lluvia_hoy`… | Lo medido en la estación elegida ([lista](#estación)) | Estación | Según el sensor |
 | `image.a_coruna_camara` | Última foto de la cámara elegida | Cámara | Activada |
 | `sensor.a_coruna_calidad_del_aire` | Calidad del aire ahora: de la estación de aire o, si no, de la predicción de MeteoGalicia ([detalle](#calidad-del-aire)) | — | Activada |
@@ -210,6 +211,15 @@ Detalle en [docs/avisos.md](docs/avisos.md).
 - Opciones (en **Configurar**): periodo de **1, 2, 3 o 6 horas** (2 por defecto; con más horas, un fotograma cada 20 o 30 minutos para que no pese) y encuadre de **50 km o 100 km alrededor** o **toda Galicia** (100 km por defecto).
 - **Lejos del radar:** el radar está en el monte Xesteiras (Cuntis, Pontevedra). A más de 100 km, sobre todo en el este de Ourense y de Lugo, ve peor la lluvia. Esa zona sale **rayada**, con un círculo discontinuo en el límite y una línea en la leyenda («A más de 100 km del radar ve peor la lluvia»). Si en esa zona no se ve lluvia, no significa que no llueva. Se ve solo si la imagen llega más allá de los 100 km, y desaparece si estás cerca del radar con el encuadre de 50 km.
 - `image.<ubicación>_radar_ultima_pasada` (desactivada por defecto): solo la última pasada, fija.
+
+### Previsión de lluvia
+
+`image.<ubicación>_prevision_de_lluvia`: animación de las **próximas 6 horas** con la lluvia que prevé el modelo WRF de 4 km de MeteoGalicia, sobre el mismo mapa y con la misma escala de colores que el radar (en mm en la hora: débil desde 0,1, moderada desde 1, fuerte desde 4, muy fuerte desde 10 e intensa desde 20). Cada fotograma lleva la hora a la que se refiere (por ejemplo, `13:00-14:00`).
+
+- Es **una previsión del modelo, no una promesa**: comparada con los pluviómetros, avisa de en torno a la mitad de las horas de lluvia y, de lo que avisa, acierta entre un tercio y la mitad. Sirve para ver por dónde y más o menos cuándo llega la lluvia, no para saber si lloverá en tu calle a una hora concreta.
+- Cada fotograma es un cuadrado de 4 km de lado (la malla del modelo). Usa el mismo encuadre que el radar.
+- Se rehace cada hora y el modelo se renueva dos veces al día (00 y 12 UTC). El estado de la entidad es la hora en que se hizo.
+- Sin clave. Si el servidor no responde, la imagen queda «No disponible» y el resto de MeteoGal sigue.
 
 ![Radar en el este de Ourense: la zona a más de 100 km del radar, rayada](docs/images/radar-lejos.png)
 
@@ -330,6 +340,15 @@ Si prefieres empezar por un panel entero, hay uno completo con tarjetas del tiem
 ```yaml
 type: picture-entity
 entity: image.a_coruna_radar
+show_name: false
+show_state: false
+```
+
+**Previsión de lluvia en el panel** (tarjeta Imagen, igual que el radar):
+
+```yaml
+type: picture-entity
+entity: image.a_coruna_prevision_de_lluvia
 show_name: false
 show_state: false
 ```
@@ -469,6 +488,7 @@ MeteoGal consulta a MeteoGalicia cada cierto tiempo; no hay nada que configurar.
 | MeteoSIX (con clave) | 1 hora (el modelo sale una o dos veces al día) | Previsión por horas de todas las ubicaciones, en una petición | Se sigue con los datos públicos |
 | Modelo WRF (racha y respaldo) | Mira el catálogo cada hora; hay dos pasadas al día (00 y 12 UTC) y solo descarga si hay una nueva | Racha, viento, humedad y presión de las próximas ~84 horas en tu punto | Se sigue con la última pasada; sin ninguna, la racha queda vacía y el resto como sin el modelo |
 | Radar | Mira cada 5 minutos; hay pasada nueva cada 10 | Solo descarga las pasadas nuevas | Las imágenes del radar quedan «No disponible»; el resto sigue |
+| Previsión de lluvia (WRF) | Cada hora | Un mapa por hora prevista (6) y ubicación; solo pide los nuevos al avanzar la hora | Se sigue con la última animación; sin ninguna, la imagen queda «No disponible» |
 | Cámaras | 5 minutos | Hora y dirección de la última foto | La imagen queda «No disponible» |
 | Calidad del aire: estaciones | 30 minutos (publican cada hora) | Índice de todas las estaciones y medidas de las elegidas | El nivel sale de la predicción del concello; los contaminantes quedan «No disponible» |
 | Calidad del aire: modelo y predicción | 1 hora (el modelo sale una vez al día; solo se descarga si hay pasada nueva) | Nivel de cada hora en tu punto y de cada día en tu concello | Se sigue con lo último bueno |
@@ -483,6 +503,7 @@ MeteoGal no usa ningún servidor intermedio, no pide cuenta y no envía datos a 
 |---|---|---|
 | Previsión, avisos, estaciones, cámaras y calidad del aire | `servizos.meteogalicia.gal` (servicios públicos) | El código de tu concello y, a veces, el de una estación. **No tus coordenadas** |
 | Modelo WRF y modelo de calidad del aire | `thredds.meteogalicia.gal` | Las coordenadas de tu ubicación, con 4 decimales |
+| Previsión de lluvia | `thredds.meteogalicia.gal` | El mismo recuadro que el radar |
 | Radar | `thredds.meteogalicia.gal` | Un recuadro de 50 km o 100 km **centrado en tu ubicación** (con el encuadre de toda Galicia, siempre el mismo) |
 | MeteoSIX (solo con clave) | `servizos.meteogalicia.gal/apiv5` | Las coordenadas de tus ubicaciones y tu clave |
 
@@ -495,6 +516,7 @@ La clave de MeteoSIX se guarda en la configuración de Home Assistant, como cual
 - **Sin probabilidad de lluvia por hora:** no la da ni la previsión pública ni MeteoSIX. Con clave, tienes la cantidad prevista (mm).
 - **Con clave, la previsión diaria solo gana lluvia y viento:** MeteoSIX llega a 4 días y no trae probabilidad de lluvia ni índice UV.
 - **La estación no está en tu casa:** mide donde está (a 6 km de mediana del centro de cada concello, hasta 18 km). Por eso su uso en el tiempo actual es opcional.
+- **Previsión de lluvia:** es del modelo WRF de 4 km. Avisa de en torno a la mitad de las horas de lluvia y acierta entre un tercio y la mitad de lo que avisa (2 semanas de otoño, 6 estaciones); no se ha medido en invierno.
 - **Radar:** muestra lo observado, no lo que va a llover. A más de 100 km del radar (el este de Ourense y Lugo) se le escapa en torno a una de cada tres lluvias moderadas, y la lluvia débil (el orballo) la ve poco en cualquier sitio: de la lluvia de 0,1 a 0,5 mm/h detecta una de cada cinco.
 - **Calidad del aire sin estación cerca:** el nivel sale de una predicción, no de una medida, y es el máximo de hoy. Acierta el nivel en el 65 % de los casos; el modelo en tu punto, en el 49 %. No se usan sus concentraciones: las partículas y el SO₂ no se parecen a lo medido.
 
@@ -507,6 +529,7 @@ La clave de MeteoSIX se guarda en la configuración de Home Assistant, como cual
 | La máxima y la mínima de hoy están en «Desconocido» justo después de medianoche | Aún no ha acabado ninguna hora del día | Nada: se rellenan al acabar la primera hora |
 | No tengo «Lluvia esta hora» ni «Próxima lluvia» | Necesitan la clave de MeteoSIX | [Añade la clave](#clave-de-meteosix-opcional) |
 | «Autenticación caducada para MeteoGal» en Ajustes | MeteoSIX ya no acepta tu clave | [Cambia la clave o quítala](#si-la-clave-deja-de-valer) |
+| La previsión de lluvia está «No disponible» | El servidor del modelo de MeteoGalicia no responde | Nada: vuelve solo en la siguiente hora; el resto de MeteoGal funciona |
 | El radar está «No disponible» | El servidor del radar de MeteoGalicia no responde | Nada: vuelve solo; el resto de MeteoGal funciona |
 | En el radar no se ve la lluvia en el este de Ourense o Lugo | Está lejos del radar y la lluvia débil no llega a verse | Es una [limitación](#limitaciones) del radar |
 | La calidad del aire no cambia en todo el día | Sin estación de aire, el nivel sale de la predicción del concello, que es el máximo de hoy | Elige una [estación de aire](#calidad-del-aire) si hay una cerca |

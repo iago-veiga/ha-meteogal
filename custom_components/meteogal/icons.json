@@ -118,6 +118,9 @@
       },
       "radar_latest": {
         "default": "mdi:radar"
+      },
+      "rain_forecast": {
+        "default": "mdi:weather-pouring"
       }
     }
   },

@@ -27,6 +27,7 @@ from .coordinator import (
     LocationCoordinator,
     MeteoSixCoordinator,
     RadarCoordinator,
+    RainForecastCoordinator,
     StationCoordinator,
     WrfCoordinator,
 )
@@ -58,6 +59,8 @@ class MeteoGalData:
     air_stations: AirStationCoordinator | None
     # Previsión del WRF de 4 km (racha y respaldo de viento, humedad y presión).
     wrf: WrfCoordinator
+    # Lluvia prevista por el WRF, en imagen.
+    rain_forecast: RainForecastCoordinator
 
 
 type MeteoGalConfigEntry = ConfigEntry[MeteoGalData]
@@ -119,6 +122,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
     # WRF de 4 km, complemento como el radar y el CHIMERE.
     wrf = WrfCoordinator(hass, entry, locations, WrfClient(session))
     await wrf.async_refresh()
+    rain_forecast = RainForecastCoordinator(hass, entry, locations, WrfClient(session))
+    await rain_forecast.async_refresh()
     async_clean_issues(hass, entry)
     entry.runtime_data = MeteoGalData(
         locations=coordinators,
@@ -129,6 +134,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MeteoGalConfigEntry) -> 
         air_model=air_model,
         air_stations=air_stations,
         wrf=wrf,
+        rain_forecast=rain_forecast,
     )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
