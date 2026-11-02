@@ -1,6 +1,6 @@
 # MeteoGal
 
-[![HACS personalizado](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz)
+[![HACS Default](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://hacs.xyz)
 [![Versión](https://img.shields.io/github/v/release/iago-veiga/ha-meteogal)](https://github.com/iago-veiga/ha-meteogal/releases)
 [![Tests](https://github.com/iago-veiga/ha-meteogal/actions/workflows/tests.yml/badge.svg)](https://github.com/iago-veiga/ha-meteogal/actions/workflows/tests.yml)
 [![Validación HACS](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hacs.yml/badge.svg)](https://github.com/iago-veiga/ha-meteogal/actions/workflows/hacs.yml)
@@ -18,7 +18,7 @@ Funciona **sin clave**, con los servicios públicos de MeteoGalicia. Si quieres 
 <details>
 <summary><b>English summary</b></summary>
 
-MeteoGal is a custom Home Assistant integration (HACS) for **MeteoGalicia**, the Galician (Spain) weather service. For any place in Galicia it gives you the official forecast (daily and hourly, with wind gusts), weather warnings, an animated rain radar, the nearest weather station's measurements, MeteoGalicia webcams and air quality. It works **without any API key**; an optional free MeteoSIX key adds hourly rain, wind, humidity and pressure. Everything is configured from a map, and texts are available in Galician, Spanish and English. Data © MeteoGalicia (Xunta de Galicia), CC BY-SA 4.0. The documentation is in Spanish; install it from HACS (custom repository `iago-veiga/ha-meteogal`) and add it from *Settings → Devices & services*.
+MeteoGal is a custom Home Assistant integration (HACS) for **MeteoGalicia**, the Galician (Spain) weather service. For any place in Galicia it gives you the official forecast (daily and hourly, with wind gusts), weather warnings, an animated rain radar, the nearest weather station's measurements, MeteoGalicia webcams and air quality. It works **without any API key**; an optional free MeteoSIX key adds hourly rain, wind, humidity and pressure. Everything is configured from a map, and texts are available in Galician, Spanish and English. Data © MeteoGalicia (Xunta de Galicia), CC BY-SA 4.0. The documentation is in Spanish; install it from HACS (it is in the default list) and add it from *Settings → Devices & services*.
 
 </details>
 
@@ -71,11 +71,7 @@ Pulsa este botón para abrir MeteoGal en el HACS de tu Home Assistant:
 
 [![Abrir MeteoGal en HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iago-veiga&repository=ha-meteogal&category=integration)
 
-MeteoGal aún no está en la lista por defecto de HACS. Si el botón no lo encuentra, añádelo como repositorio personalizado:
-
-1. En HACS, menú ⋮ → **Repositorios personalizados**.
-2. Añade `https://github.com/iago-veiga/ha-meteogal` con el tipo **Integración**.
-3. Busca **MeteoGal**, descárgalo y reinicia Home Assistant.
+Busca **MeteoGal** en HACS, descárgalo y reinicia Home Assistant.
 
 ### A mano
 
