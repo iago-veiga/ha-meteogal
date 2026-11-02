@@ -21,6 +21,7 @@ from typing import Final
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 from .api.radar import DBZ_MAX, DBZ_MIN, BBox
+from .api.wrf import RAIN_MAX, RAIN_MIN
 
 FONT_FILE: Final = Path(__file__).parent / "data" / "DejaVuSans-latin.ttf"
 
@@ -42,12 +43,18 @@ LEVELS: Final = (
 )
 RADAR_ALPHA: Final = 180  # ~70 % de opacidad
 
+# Escala de la lluvia prevista (mm en la hora): desde cuántos mm empieza cada nivel,
+# con los colores de los cinco primeros del radar (débil, moderada, fuerte, muy fuerte
+# e intensa); por debajo de 0,1 mm, nada.
+RAIN_STARTS: Final = (0.1, 1.0, 4.0, 10.0, 20.0)
+
 LABELS: Final = {
     "gl": ("feble", "moderada", "forte", "moi forte", "intensa", "torrencial"),
     "es": ("débil", "moderada", "fuerte", "muy fuerte", "intensa", "torrencial"),
     "en": ("light", "moderate", "heavy", "very heavy", "intense", "torrential"),
 }
 ATTRIBUTION: Final = "MeteoGalicia · CC BY-SA 4.0"
+FORECAST_ATTRIBUTION: Final = "MeteoGalicia WRF 4 km · CC BY-SA 4.0"
 
 # El radar está en el monte Xesteiras (Cuntis, Pontevedra), donde está la estación de
 # ese nombre. A más de 100 km deja de ver bien la lluvia: con los pluviómetros de
@@ -119,6 +126,8 @@ class RadarRenderer:
         polygons: Iterable[Sequence[Sequence[tuple[float, float]]]],
         markers: Iterable[Marker],
         language: str,
+        *,
+        far_zone: bool = True,
     ) -> None:
         self.area = area
         rings = [
@@ -131,7 +140,8 @@ class RadarRenderer:
         for ring in rings:
             draw.polygon(ring, fill=LAND)
         self._overlay = Image.new("RGBA", (area.width, area.height), (0, 0, 0, 0))
-        self.far = _has_far_zone(area)
+        # La zona lejana es del radar: la previsión del modelo no depende de él.
+        self.far = far_zone and _has_far_zone(area)
         if self.far:
             _draw_far_zone(self._overlay, area)
         draw = ImageDraw.Draw(self._overlay)
@@ -155,25 +165,53 @@ class RadarRenderer:
         image = self._base.copy()
         image.alpha_composite(radar)
         image.alpha_composite(self._overlay)
-        return self._with_footer(image, local_time).convert("RGB")
+        return self._with_footer(image, local_time.strftime("%H:%M")).convert("RGB")
 
-    def _with_footer(self, image: Image.Image, local_time: datetime) -> Image.Image:
+    def rain_frame(
+        self, gray_png: bytes, start: datetime, end: datetime
+    ) -> Image.Image:
+        """La lluvia prevista para la hora de `start` a `end` (hora local), con la
+        escala de la previsión (mm en la hora) y la fuente del modelo."""
+        rain = _colorize_rain(Image.open(io.BytesIO(gray_png)))
+        if rain.size != self._base.size:
+            rain = rain.resize(self._base.size)
+        image = self._base.copy()
+        image.alpha_composite(rain)
+        image.alpha_composite(self._overlay)
+        caption = f"{start:%H:%M}-{end:%H:%M}"
+        return self._with_footer(
+            image,
+            caption,
+            levels=len(RAIN_STARTS),
+            legend_x=92.0,
+            attribution=FORECAST_ATTRIBUTION,
+        ).convert("RGB")
+
+    def _with_footer(
+        self,
+        image: Image.Image,
+        caption: str,
+        *,
+        levels: int = len(LEVELS),
+        legend_x: float = 50.0,
+        attribution: str = ATTRIBUTION,
+    ) -> Image.Image:
         width, height = image.size
         out = Image.new("RGBA", (width, height + self.footer_height), FOOTER)
         out.paste(image, (0, 0))
         draw = ImageDraw.Draw(out)
         font = _font(11)
         y = height + 5
-        draw.text((6, y - 1), local_time.strftime("%H:%M"), fill=TEXT, font=_font(12))
-        x = 50.0
-        for (_, _, color), label in zip(LEVELS, self._labels, strict=True):
+        draw.text((6, y - 1), caption, fill=TEXT, font=_font(12))
+        x = legend_x
+        for (_, _, color), label in zip(LEVELS[:levels], self._labels, strict=False):
             draw.rectangle((x, y + 1, x + 9, y + 10), fill=color)
             draw.text((x + 12, y), label, fill=TEXT, font=font)
             x += 12 + draw.textlength(label, font=font) + 7
         small = _font(9)
         draw.text(
-            (width - 4 - draw.textlength(ATTRIBUTION, font=small), 3),
-            ATTRIBUTION,
+            (width - 4 - draw.textlength(attribution, font=small), 3),
+            attribution,
             fill=TEXT,
             font=small,
             stroke_width=2,
@@ -275,6 +313,33 @@ def _lookup() -> tuple[list[int], list[int], list[int], list[int]]:
 def _colorize(gray: Image.Image) -> Image.Image:
     luminance, transparency = gray.convert("LA").split()
     red, green, blue, alpha = _lookup()
+    opacity = ImageChops.multiply(luminance.point(alpha), transparency)
+    return Image.merge(
+        "RGBA",
+        (luminance.point(red), luminance.point(green), luminance.point(blue), opacity),
+    )
+
+
+@cache
+def _rain_lookup() -> tuple[list[int], list[int], list[int], list[int]]:
+    """Gris del WMS de la lluvia (0-255) → color de nuestra escala y opacidad."""
+    red, green, blue, alpha = [], [], [], []
+    for gray in range(256):
+        mm = RAIN_MIN + gray / 255 * (RAIN_MAX - RAIN_MIN)
+        level = max(
+            (i for i, start in enumerate(RAIN_STARTS) if mm >= start), default=None
+        )
+        color = LEVELS[level][2] if level is not None else (0, 0, 0)
+        red.append(color[0])
+        green.append(color[1])
+        blue.append(color[2])
+        alpha.append(RADAR_ALPHA if level is not None else 0)
+    return red, green, blue, alpha
+
+
+def _colorize_rain(gray: Image.Image) -> Image.Image:
+    luminance, transparency = gray.convert("LA").split()
+    red, green, blue, alpha = _rain_lookup()
     opacity = ImageChops.multiply(luminance.point(alpha), transparency)
     return Image.merge(
         "RGBA",

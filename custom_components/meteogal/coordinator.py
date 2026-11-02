@@ -59,7 +59,15 @@ from .const import (
     ZOOM_GALICIA,
 )
 from .geo import load_polygons
-from .radar import Marker, RadarRenderer, animation, area_around, galicia_area, still
+from .radar import (
+    Area,
+    Marker,
+    RadarRenderer,
+    animation,
+    area_around,
+    galicia_area,
+    still,
+)
 from .repairs import async_check_air_station, async_check_station
 from .station import MAX_AGE, SUMS, evening, local_day
 from .warnings import concello_zones, describe, load_zones
@@ -264,6 +272,13 @@ RADAR_UPDATE_INTERVAL = timedelta(minutes=5)
 RADAR_STEP_MINUTES = {1: 10, 2: 10, 3: 20, 6: 30}
 
 
+def zoom_area(zoom: str, lat: float, lon: float) -> Area:
+    """Recuadro de las imágenes de una ubicación según el encuadre elegido."""
+    if zoom == ZOOM_GALICIA:
+        return galicia_area()
+    return area_around(lat, lon, float(zoom))
+
+
 @dataclass(frozen=True, slots=True)
 class RadarImages:
     """Imágenes del radar de una ubicación."""
@@ -372,12 +387,8 @@ class RadarCoordinator(TimestampDataUpdateCoordinator[dict[str, RadarImages]]):
         }
         renderers = {}
         for subentry_id, (lat, lon) in markers.items():
-            if self.zoom == ZOOM_GALICIA:
-                area = galicia_area()
-            else:
-                area = area_around(lat, lon, float(self.zoom))
             renderers[subentry_id] = RadarRenderer(
-                area,
+                zoom_area(self.zoom, lat, lon),
                 polygons,
                 [
                     Marker(mlat, mlon, main=other == subentry_id)
@@ -793,6 +804,133 @@ class WrfCoordinator(TimestampDataUpdateCoordinator[WrfData]):
             )
         # Si falló o está a medias algún punto, se vuelve a pedir la próxima vez.
         return WrfData(run if complete else previous.run, hours)
+
+
+# Horas por delante que muestra la imagen de lluvia prevista.
+RAIN_FORECAST_HOURS = 6
+
+
+@dataclass(frozen=True, slots=True)
+class RainForecastImages:
+    """Animación de la lluvia prevista de una ubicación."""
+
+    animation: bytes
+    time: datetime
+
+
+class RainForecastCoordinator(
+    TimestampDataUpdateCoordinator[dict[str, RainForecastImages]]
+):
+    """Lluvia prevista por el WRF de 4 km en las próximas horas, por ubicación.
+
+    Complemento como el radar: si el THREDDS falla se sigue con la última animación
+    buena. Cada hora se rehace con la ventana que avanza; los mapas de la pasada ya
+    descargados se guardan y solo se piden los nuevos.
+    """
+
+    config_entry: MeteoGalConfigEntry
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: MeteoGalConfigEntry,
+        subentries: list[ConfigSubentry],
+        client: WrfClient,
+    ) -> None:
+        super().__init__(
+            hass,
+            _LOGGER,
+            config_entry=entry,
+            name=f"{DOMAIN} rain forecast",
+            update_interval=WRF_UPDATE_INTERVAL,
+        )
+        self._subentries = subentries
+        self._client = client
+        self.zoom = entry.options.get(CONF_RADAR_ZOOM, DEFAULT_RADAR_ZOOM)
+        self._renderers: dict[str, RadarRenderer] = {}
+        self._frames: dict[tuple[str, str, datetime], bytes] = {}
+        self._key: tuple[str, datetime] | None = None
+
+    async def _async_update_data(self) -> dict[str, RainForecastImages]:
+        try:
+            run = await self._client.get_latest_run()
+        except MeteoGalError as err:
+            _LOGGER.debug("Sin catálogo del WRF para la lluvia prevista: %s", err)
+            if self.data:
+                return self.data
+            raise UpdateFailed(
+                translation_domain=DOMAIN, translation_key="wrf_update_failed"
+            ) from err
+        now = dt_util.utcnow().replace(minute=0, second=0, microsecond=0)
+        if self.data and self._key == (run, now):
+            return self.data
+        hours = [now + timedelta(hours=h) for h in range(1, RAIN_FORECAST_HOURS + 1)]
+        if not self._renderers:
+            self._renderers = await self.hass.async_add_executor_job(
+                self._make_renderers
+            )
+
+        wanted = {(s.subentry_id, run, t) for s in self._subentries for t in hours}
+        for key in [key for key in self._frames if key not in wanted]:
+            del self._frames[key]
+        for subentry_id, _, when in sorted(wanted - self._frames.keys()):
+            area = self._renderers[subentry_id].area
+            try:
+                self._frames[
+                    subentry_id, run, when
+                ] = await self._client.get_rain_frame(
+                    run, when, area.bbox, area.width, area.height
+                )
+            except MeteoGalError as err:
+                _LOGGER.debug("Sin la lluvia prevista de %s: %s", when, err)
+
+        result = await self.hass.async_add_executor_job(self._render, run, hours, now)
+        self._key = (run, now)
+        return result
+
+    def _make_renderers(self) -> dict[str, RadarRenderer]:
+        polygons = load_polygons()
+        markers = {
+            s.subentry_id: (s.data[CONF_LATITUDE], s.data[CONF_LONGITUDE])
+            for s in self._subentries
+        }
+        return {
+            subentry_id: RadarRenderer(
+                zoom_area(self.zoom, lat, lon),
+                polygons,
+                [
+                    Marker(mlat, mlon, main=other == subentry_id)
+                    for other, (mlat, mlon) in markers.items()
+                ],
+                self.hass.config.language,
+                far_zone=False,
+            )
+            for subentry_id, (lat, lon) in markers.items()
+        }
+
+    def _render(
+        self, run: str, hours: list[datetime], now: datetime
+    ) -> dict[str, RainForecastImages]:
+        result = {}
+        for subentry_id, renderer in self._renderers.items():
+            frames = [
+                renderer.rain_frame(
+                    self._frames[subentry_id, run, t],
+                    dt_util.as_local(t - timedelta(hours=1)),
+                    dt_util.as_local(t),
+                )
+                for t in hours
+                if (subentry_id, run, t) in self._frames
+            ]
+            if frames:
+                result[subentry_id] = RainForecastImages(
+                    animation=animation(frames, frame_ms=800), time=now
+                )
+        if not result:
+            raise UpdateFailed(
+                translation_domain=DOMAIN, translation_key="rain_forecast_no_frames"
+            )
+        return result
 
 
 # Las estaciones de aire publican cada hora, con retraso variable.

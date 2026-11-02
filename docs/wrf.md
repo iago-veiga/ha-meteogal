@@ -23,6 +23,15 @@ Una petición NCSS por ubicación y pasada (`temporal=all`), 0,3 s y unos 10 KB.
 - **La racha nunca queda por debajo del viento medio** de la misma hora: el WRF de 4 km se queda por debajo del viento de MeteoSIX en el 13 % de las horas.
 - **No da lluvia ni cielo**: aunque acierta la lluvia tan bien como MeteoSIX, sus horas de lluvia no coinciden con los iconos de la previsión pública (en el 42 % de las horas de lluvia del WRF, el icono no es de lluvia), y MeteoGal no mezcla fuentes en una misma hora.
 
+## Imagen de previsión de lluvia
+
+`image.<ubicación>_prevision_de_lluvia` usa el **WMS** del mismo THREDDS (capa `prec`, estilo de grises como el radar, `colorscalerange` 0,1–30 mm) y el mismo dibujo que el radar (`radar.py`): mapa de concellos, colores de la escala del radar con otros umbrales (mm en la hora: 0,1 · 1 · 4 · 10 · 20; sin «torrencial») y una franja inferior con la hora y la fuente (`MeteoGalicia WRF 4 km`).
+
+- **`RainForecastCoordinator`**: cada hora mira el catálogo y rehace la animación con las **6 horas siguientes** a la hora en curso. Guarda los mapas ya descargados y solo pide el de la hora nueva; si cambia la pasada, los pide de nuevo. Si el servidor falla, sigue con la última animación.
+- **Cada fotograma es la lluvia de la hora que acaba** en el instante pedido (`prec` es acumulada entre salidas, ver arriba), y por eso lleva el rótulo `13:00-14:00`.
+- **Sin zona rayada del radar**: la previsión del modelo no depende de dónde está el radar.
+- **Fiabilidad** (misma validación que arriba, lluvia por hora ≥ 0,1 mm, 2 semanas de otoño): detección del 48 % y precisión del 35 % con 24–47 h de plazo (45–53 % con plazos cortos). La estructura general (por dónde viene el frente) es mejor que la hora exacta en un punto. Falta validar en invierno. Análisis en `docs/analysis/wrf.md` del workspace.
+
 ## A qué hora corresponde cada valor
 
 Con la hora de las estaciones (el final de la hora) y 13 días, la racha casa mejor con la medida de su misma hora (correlación 0,72; con la hora siguiente, 0,71), la radiación con la hora que empieza en ese instante y la lluvia con la que acaba. Por eso la racha, el viento, la humedad y la presión van como **valores instantáneos de la hora de la entrada**, igual que la temperatura y el viento de MeteoSIX.

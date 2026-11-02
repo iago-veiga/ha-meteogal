@@ -48,6 +48,8 @@ CHIMERE_CATALOG = f"{CHIMERE_URL}/catalog/chimere_2d_gal/fmrc/files/catalog.xml"
 CHIMERE_POINT = re.compile(re.escape(f"{CHIMERE_URL}/ncss/grid/chimere_2d_gal/") + ".*")
 WRF_CATALOG = f"{WRF_URL}/catalog/wrf_2d_04km/fmrc/files/catalog.xml"
 WRF_POINT = re.compile(re.escape(f"{WRF_URL}/ncss/grid/wrf_2d_04km/") + ".*")
+WRF_RAIN = re.compile(re.escape(f"{WRF_URL}/wms/wrf_2d_04km/") + ".*")
+WRF_RAIN_FRAME = FIXTURES / "wrf_rain_frame_20261102.png"
 
 
 def mock_air(aioclient_mock: AiohttpClientMocker) -> None:
@@ -78,6 +80,19 @@ def mock_wrf(aioclient_mock: AiohttpClientMocker) -> None:
     aioclient_mock.get(WRF_CATALOG, text=(FIXTURES / "wrf_catalog.xml").read_text())
     aioclient_mock.get(
         WRF_POINT, text=(FIXTURES / "wrf_point_santiago.csv").read_text()
+    )
+
+
+def mock_wrf_rain(aioclient_mock: AiohttpClientMocker, status: int = 200) -> None:
+    """Mapa de la lluvia prevista del WRF (WMS): para cualquier hora, una imagen real
+    en grises (100 km alrededor de Santiago, 2026-11-02) o un código de error."""
+    if status != 200:
+        aioclient_mock.get(WRF_RAIN, status=status, text="<html>Error</html>")
+        return
+    aioclient_mock.get(
+        WRF_RAIN,
+        content=WRF_RAIN_FRAME.read_bytes(),
+        headers={"Content-Type": "image/png"},
     )
 
 

@@ -385,6 +385,9 @@
       "radar_latest": {
         "name": "Radar (última pasada)"
       },
+      "rain_forecast": {
+        "name": "Previsión de choiva"
+      },
       "camera": {
         "name": "Cámara",
         "state_attributes": {
@@ -477,6 +480,9 @@
     },
     "wrf_update_failed": {
       "message": "Non se puido actualizar a predición do WRF."
+    },
+    "rain_forecast_no_frames": {
+      "message": "Non se puido descargar ningún mapa da choiva prevista."
     }
   },
   "issues": {

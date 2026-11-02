@@ -12,7 +12,7 @@ Unidades de entrada: viento y racha en m/s, humedad como fracción y presión en
 from __future__ import annotations
 
 import csv
-from datetime import datetime
+from datetime import UTC, datetime
 import io
 import re
 from typing import Final
@@ -21,6 +21,7 @@ import aiohttp
 
 from .exceptions import MeteoGalConnectionError, MeteoGalResponseError
 from .models import WrfHour
+from .radar import BBox
 
 BASE_URL: Final = "https://thredds.meteogalicia.gal/thredds"
 CATALOG: Final = "catalog/wrf_2d_04km/fmrc/files/catalog.xml"
@@ -28,6 +29,11 @@ VARIABLES: Final = "wind_gust,mod,dir,rh,mslp"
 DEFAULT_TIMEOUT = 30
 
 MS_TO_KMH: Final = 3.6
+
+# Lluvia de la hora (`prec`, mm) que codifica el gris del WMS: 0 = RAIN_MIN, 255 =
+# RAIN_MAX (lineal); lo que queda por debajo sale transparente.
+RAIN_MIN: Final = 0.1
+RAIN_MAX: Final = 30.0
 
 _FILE = re.compile(
     r'urlPath="(wrf_2d_04km/fmrc/files/\d{8}/wrf_arw_det_history_d03_\d{8}_\d{4}\.nc4)"'
@@ -78,6 +84,53 @@ class WrfClient:
             return _parse_point(text)
         except (IndexError, KeyError, ValueError) as err:
             raise MeteoGalResponseError(f"WRF: formato inesperado: {err!r}") from err
+
+    async def get_rain_frame(
+        self, run: str, when: datetime, bbox: BBox, width: int, height: int
+    ) -> bytes:
+        """PNG en grises y con transparencia de la lluvia de la hora que acaba en
+        `when`, para el recuadro (como el radar; los colores, de la integración)."""
+        when = when.astimezone(UTC)
+        return await self._get_png(
+            f"{self._base_url}/wms/{run}",
+            {
+                "service": "WMS",
+                "version": "1.3.0",
+                "request": "GetMap",
+                "layers": "prec",
+                "styles": "default-scalar/seq-GreysRev",
+                "crs": "EPSG:4326",
+                # En WMS 1.3.0 con EPSG:4326 el orden es latitud, longitud.
+                "bbox": f"{bbox.south},{bbox.west},{bbox.north},{bbox.east}",
+                "width": str(width),
+                "height": str(height),
+                "format": "image/png",
+                "transparent": "true",
+                "time": when.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "colorscalerange": f"{RAIN_MIN:g},{RAIN_MAX:g}",
+                "numcolorbands": "250",
+                "belowmincolor": "transparent",
+                "abovemaxcolor": "extend",
+            },
+        )
+
+    async def _get_png(self, url: str, params: dict[str, str]) -> bytes:
+        try:
+            async with self._session.get(
+                url, params=params, timeout=self._timeout
+            ) as response:
+                if response.status != 200:
+                    raise MeteoGalResponseError(
+                        f"WRF: respuesta HTTP {response.status}"
+                    )
+                content_type = response.headers.get("Content-Type", "")
+                if not content_type.startswith("image/png"):
+                    raise MeteoGalResponseError(f"WRF: no es PNG ({content_type})")
+                return bytes(await response.read())
+        except (TimeoutError, aiohttp.ClientConnectionError) as err:
+            raise MeteoGalConnectionError(f"WRF: {err!r}") from err
+        except aiohttp.ClientError as err:
+            raise MeteoGalResponseError(f"WRF: {err!r}") from err
 
     async def _get(self, url: str, params: dict[str, str]) -> str:
         try:
